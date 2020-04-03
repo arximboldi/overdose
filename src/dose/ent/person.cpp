@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-15 22:41:18 raskolnikov>
+ *  Time-stamp:  <2020-04-03 16:02:31 raskolnikov>
  *
  *  @file        person.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -39,7 +39,6 @@
 
 using namespace yage;
 using namespace yage::base;
-using namespace boost;
 
 namespace dose
 {
@@ -54,12 +53,12 @@ person::load_model (const std::string& tris,
     core::graphic_system& graph = core::system::self ().graphic ();
 
     geo::md2_model_impl_ptr impl =
-	dynamic_pointer_cast<geo::md2_model_impl> (graph.geometries ().find (tris)); 
+	boost::dynamic_pointer_cast<geo::md2_model_impl> (graph.geometries ().find (tris));
     impl->set_inverse_normals (inverse_normals);
 
     geo::md2_model_ptr model (new geo::md2_model (impl));
     model->set_texture (graph.textures ().find (tex));
-    
+
     try {
 	model->set_material (graph.materials ().find ("person"));
     } catch (base::yage_error& err) {
@@ -88,12 +87,12 @@ person::person (const std::string& model,
     , m_action (0)
 {
     m_real_model = m_model = load_model (model, texture, inverse_normals);
-    
-    gra::scene_node& node = get_node ().get_child ("model"); 
+
+    gra::scene_node& node = get_node ().get_child ("model");
     node.add_drawable (m_model);
     node.set_position (get_node ().get_position () +
-		       base::point3f (0, 25, 0)); 
-    
+		       base::point3f (0, 25, 0));
+
 #if 0
     std::cout << "-- " << model << "--------------\n";
     std::copy (m_model->get_impl ()->anims_begin (),
@@ -165,7 +164,7 @@ void person::update (int delta)
 	if (m_action & RUN_R)
 	    move (base::point3f () - m_dir.normal (base::point3f (0, 1, 0)) * delta * m_walk_speed);
     }
-    
+
     if (m_action & ROTATE_L) {
 	m_angle -= delta * m_rotate_speed;
 	get_node ().set_rotate (base::point4f (-m_angle * DEG, 0, 1, 0));
@@ -190,7 +189,7 @@ void person::set_look_angle (float angle)
 
     m_angle = angle;
     get_node ().set_rotate (base::point4f (-m_angle * DEG, 0, 1, 0));
-    m_dir = base::point3f (std::cos (m_angle), 0, std::sin (m_angle));    
+    m_dir = base::point3f (std::cos (m_angle), 0, std::sin (m_angle));
 }
 
 void person::handle_collision (yage::game::entity& ent,
@@ -198,12 +197,12 @@ void person::handle_collision (yage::game::entity& ent,
 			       yage::game::dynamic_collision& col)
 {
     const float NEAR_ONE = 0.999;
-    
+
     point3f dest_col = get_movement () * col.get_time () * NEAR_ONE;
     point3f perp = col.get_normal ().cross (point3f (0, 1, 0)).normalize ();
 
     float dist = game::sq_dist_point_line (dest_col, dest_col + perp, get_movement ());
-    
+
     move (col.get_normal () * std::sqrt (dist));
 }
 
@@ -224,7 +223,7 @@ void person::set_animation (const std::string& anim, float speed, bool force)
 	m_anim = t;
 	get_task_parent ()->add (t);
     }
-    
+
     if (force ||
 	(get_animation_task ()->get_loop () &&
 	 m_model->get_animation () != anim)) {
@@ -247,7 +246,7 @@ void person::alternate_model (geo::md2_model_ptr m)
     m->set_animation (m_model->get_animation ());
     if (!m_anim.expired ())
 	get_animation_task ()->set_animation (m);
-    
+
     m_model = m;
 
     gra::scene_node& node = get_node ().get_child ("model");

@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-12 18:10:03 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:57:00 raskolnikov>
  *
  *  @file        dealer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -42,10 +42,10 @@ namespace ent
 class dealer : public pedestrian
 {
 public:
-    static const float PLAYER_DISTANCE = 100.0f;
-    
+    static constexpr float PLAYER_DISTANCE = 100.0f;
+
     typedef boost::shared_ptr<drug::dope> dope_ptr;
-    
+
     dealer (const std::string& model,
 	    const std::string& texture,
 	    bool inverse_normals = false,
@@ -53,17 +53,17 @@ public:
 	    float rotate_speed = DEFAULT_ROTATE_SPEED);
 
     void update (int delta);
-    
+
     void add_drug (dope_ptr d);
 
     dope_ptr current_offer ();
     dope_ptr take_shit ();
     bool has_shit () const;
-    
+
 private:
     bool player_near ();
     void salute_state (int delta);
-    
+
     std::list<dope_ptr> m_drugs;
 };
 

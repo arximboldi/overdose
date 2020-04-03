@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-23 15:58:01 raskolnikov>
+ *  Time-stamp:  <2020-04-03 16:00:47 raskolnikov>
  *
  *  @file        pointer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -12,7 +12,7 @@
  *  Copyright (C) 2008, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -69,7 +69,7 @@ public:
     {
 	m_deleter (m_ptr);
     }
-    
+
     T* get ()
     {
 	return m_ptr;
@@ -100,7 +100,7 @@ public:
     {
 	return *m_ptr;
     }
-    
+
 private:
     D  m_deleter;
     T* m_ptr;
@@ -123,23 +123,15 @@ template <class T>
 class null_ptr
 {
 public:
-    null_ptr ()
-	: m_ptr (0)
+    template <class Y>
+    null_ptr (const null_ptr<Y>& p)
+	: m_ptr (p.m_ptr)
     {}
 
-    null_ptr (null_ptr& p)
-	: m_ptr (p.m_ptr)
-    {}
-    
-    template <class Y>
-    null_ptr (null_ptr<Y>& p)
-	: m_ptr (p.m_ptr)
-    {}
-    
-    null_ptr (T* ptr)
+    null_ptr (T* ptr = 0)
 	: m_ptr (ptr)
     {}
-    
+
     template <class Y>
     null_ptr (Y* ptr)
 	: m_ptr (ptr)
@@ -149,7 +141,7 @@ public:
     {
 	return m_ptr;
     }
-    
+
     T& operator* () const
     {
 	return *m_ptr;
@@ -180,7 +172,7 @@ class manage_me_ptr
 {
     template <class Y> friend class mgr_ptr;
     template <class Y> friend class mgr_auto_ptr;
-    
+
     T* m_ptr;
 public:
 
@@ -194,10 +186,10 @@ class mgr_ptr
 {
     T* m_ptr;
     bool m_managed;
-    
+
 public:
     ~mgr_ptr () { }
-    
+
     mgr_ptr ()
 	: m_ptr (0)
 	, m_managed (false) {}
@@ -206,24 +198,24 @@ public:
 	: m_ptr (p.m_ptr)
 	, m_managed (p.m_managed)
     {}
-    
+
     template <class Y>
     mgr_ptr (const mgr_ptr<Y>& p)
 	: m_ptr (p.m_ptr)
 	, m_managed (p.m_managed)
     {}
-    
+
     mgr_ptr (T* ptr)
 	: m_ptr (ptr)
 	, m_managed (false)
     {}
-    
+
     template <class Y>
     mgr_ptr (Y* ptr)
 	: m_ptr (ptr)
 	, m_managed (false)
     {}
-    
+
     template <class Y>
     mgr_ptr (const manage_me_ptr<Y>& p)
 	: m_ptr (p.m_ptr)
@@ -236,7 +228,7 @@ public:
 	m_managed = p.m_managed;
 	return *this;
     }
-    
+
     template <class Y>
     mgr_ptr& operator= (const mgr_ptr<Y>& p)
     {
@@ -251,7 +243,7 @@ public:
 	m_managed = false;
 	return *this;
     }
-    
+
     template <class Y>
     mgr_ptr& operator= (Y* p)
     {
@@ -272,7 +264,7 @@ public:
     {
 	return m_ptr;
     }
-    
+
     T& operator* () const
     {
 	return *m_ptr;
@@ -287,7 +279,7 @@ public:
     {
 	return m_ptr != 0;
     }
-    
+
     T* get () const
     {
 	return m_ptr;
@@ -297,17 +289,17 @@ public:
     {
 	return m_managed;
     }
-    
+
     void manage ()
     {
 	m_managed = true;
     }
-    
+
     void unmanage ()
     {
 	m_managed = false;
     }
-    
+
     void clean ()
     {
 	if (m_managed) {
@@ -322,13 +314,13 @@ class mgr_auto_ptr
 {
     T* m_ptr;
     bool m_managed;
-    
+
 public:
     ~mgr_auto_ptr ()
     {
 	clean ();
     }
-    
+
     mgr_auto_ptr ()
 	: m_ptr (0)
 	, m_managed (false)
@@ -340,7 +332,7 @@ public:
     {
 	p.unmanage ();
     }
-    
+
     template <class Y>
     mgr_auto_ptr (mgr_auto_ptr<Y>& p)
 	: m_ptr (p.m_ptr)
@@ -348,18 +340,18 @@ public:
     {
 	p.unmanage ();
     }
-    
+
     mgr_auto_ptr (T* ptr)
 	: m_ptr (ptr)
 	, m_managed (false)
     {}
-    
+
     template <class Y>
     mgr_auto_ptr (Y* ptr)
 	: m_ptr (ptr)
 	, m_managed (false)
     {}
-    
+
     template <class Y>
     mgr_auto_ptr (const manage_me_ptr<Y>& p)
 	: m_ptr (p.m_ptr)
@@ -367,11 +359,11 @@ public:
     {}
 
     template <class Y>
-    mgr_auto_ptr (std::auto_ptr<Y>& p)
+    mgr_auto_ptr (std::unique_ptr<Y>&& p)
 	: m_ptr (p.release ())
 	, m_managed (true)
     {}
-    
+
     mgr_auto_ptr& operator= (mgr_auto_ptr& p)
     {
 	if (&p != this) {
@@ -380,10 +372,10 @@ public:
 	    m_managed = p.m_managed;
 	    p.unmanage ();
 	}
-	
+
 	return *this;
     }
-    
+
     template <class Y>
     mgr_auto_ptr& operator= (mgr_auto_ptr<Y>& p)
     {
@@ -395,7 +387,7 @@ public:
 	}
 	return *this;
     }
-    
+
     mgr_auto_ptr& operator= (T* p)
     {
 	if (p != m_ptr) {
@@ -403,10 +395,10 @@ public:
 	    m_ptr = p;
 	    m_managed = false;
 	}
-	
+
 	return *this;
     }
-    
+
     template <class Y>
     mgr_auto_ptr& operator= (Y* p)
     {
@@ -426,19 +418,19 @@ public:
     }
 
     template <class Y>
-    mgr_auto_ptr& operator= (std::auto_ptr<Y>& p)
+    mgr_auto_ptr& operator= (std::unique_ptr<Y>&& p)
     {
 	clean ();
 	m_ptr = p.release ();
 	m_managed = true;
 	return *this;
     }
-    
+
     T* operator-> () const
     {
 	return m_ptr;
     }
-    
+
     T& operator* () const
     {
 	return *m_ptr;
@@ -453,7 +445,7 @@ public:
     {
 	return m_ptr != 0;
     }
-    
+
     T* get () const
     {
 	return m_ptr;
@@ -463,17 +455,17 @@ public:
     {
 	return m_managed;
     }
-    
+
     void manage ()
     {
 	m_managed = true;
     }
-    
+
     void unmanage ()
     {
 	m_managed = false;
     }
-    
+
     void clean ()
     {
 	if (m_managed) {

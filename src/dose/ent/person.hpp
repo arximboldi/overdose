@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-15 17:11:02 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:55:55 raskolnikov>
  *
  *  @file        person.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -45,7 +45,7 @@ class person : public yage::game::entity
 {
 public:
     typedef boost::shared_ptr<st::level> level_ptr;
-    
+
     enum action
     {
 	RUN_FW   = 1,
@@ -56,27 +56,27 @@ public:
 	ROTATE_R = 1 << 5
     };
 
-#if 1    
-    static const float DEFAULT_WALK_SPEED = 0.2;
-    static const float DEFAULT_ROTATE_SPEED = 0.003;
+#if 1
+    static constexpr float DEFAULT_WALK_SPEED = 0.2;
+    static constexpr float DEFAULT_ROTATE_SPEED = 0.003;
 #else
-    static const float DEFAULT_WALK_SPEED = 0.4;
-    static const float DEFAULT_ROTATE_SPEED = 0.004;
+    static constexpr float DEFAULT_WALK_SPEED = 0.4;
+    static constexpr float DEFAULT_ROTATE_SPEED = 0.004;
 #endif
-    
+
     static yage::geo::md2_model_ptr
     load_model (const std::string& tris,
 		const std::string& tex,
 		bool inverse_normals = false);
-    
+
     person (const std::string& model,
 	    const std::string& texture,
 	    const bool inverse_normals = false,
 	    float walk_speed = DEFAULT_WALK_SPEED,
 	    float rotate_speed = DEFAULT_ROTATE_SPEED);
-    
+
     ~person ();
-    
+
     void update (int);
     void handle_collision (yage::game::entity& ent,
 			   yage::game::collidable& box,
@@ -91,7 +91,7 @@ public:
     void jump ();
     void finish_animation ();
     bool is_blocked ();
-    
+
     void alternate_model (yage::geo::md2_model_ptr m);
     void restore_model ();
 
@@ -101,17 +101,17 @@ public:
     {
 	return m_action & action;
     }
-    
+
     yage::base::point3f get_orientation ()
     {
 	return m_dir;
     }
-    
+
     int get_action ()
     {
 	return m_action;
     }
-    
+
     float get_look_angle () const
     {
 	return m_angle;
@@ -154,19 +154,19 @@ public:
 
 protected:
     void set_animation (const std::string& name, float speed = 1.0f, bool force = false);
-    
+
 private:
     boost::weak_ptr<st::level> m_level;
-    
+
     float m_walk_speed;
     float m_rotate_speed;
     bool  m_wait;
-    
+
     boost::weak_ptr<yage::gra::animation_task> m_anim;
 
     yage::geo::md2_model_ptr m_real_model;
     yage::geo::md2_model_ptr m_model;
-    
+
     yage::base::point3f m_dir;
     float m_angle;
 

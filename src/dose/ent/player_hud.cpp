@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-15 16:58:14 raskolnikov>
+ *  Time-stamp:  <2020-04-03 16:05:55 raskolnikov>
  *
  *  @file        player_hud.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -12,7 +12,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -38,7 +38,6 @@
 #include "dose/drug/dope.hpp"
 #include "player_hud.hpp"
 
-using namespace boost;
 using namespace yage;
 using namespace yage::base;
 
@@ -49,7 +48,7 @@ namespace ent
 
 gra::scene_node& player_hud::get_slot (int i)
 {
-    return m_node.get_path (std::string ("slot_") + lexical_cast<std::string> (i));
+    return m_node.get_path (std::string ("slot_") + boost::lexical_cast<std::string> (i));
 }
 
 player_hud::player_hud ()
@@ -64,7 +63,7 @@ player_hud::player_hud ()
     m_node.set_position (point3f (0, 0, 0));
     m_node.set_scale (point3f (1, 1, 0));
     m_node.set_rotate (point4f (0, 0, 0, 0));
-    
+
     /* Establecemos el fondo de los indicadores */
     {
 	gra::texture_ptr t (graphic.textures ().find ("level-bg.png"));
@@ -90,7 +89,7 @@ player_hud::player_hud ()
 	    n.set_rotate (point4f (180, 0, 0, 1));
 	}
     }
-    
+
     /* Establecemos los indicadores */
     {
 	gra::texture_ptr t (graphic.textures ().find ("level-psychodelia.png"));
@@ -156,7 +155,7 @@ void player_hud::set_player_message (const std::string& str)
 {
     if (str != m_player_msg->get_text ()) {
 	core::graphic_system& graphic = core::system::self ().graphic ();
-	
+
 	m_player_msg->set_text (str);
 	float center = graphic.get_width () / 2 - m_player_msg->get_width () / 2;
 	m_node.get_child ("player-message").set_position (point3f (center, 20, 0));
@@ -167,7 +166,7 @@ void player_hud::set_player_alert (const std::string& str, int duration)
 {
     if (str != m_player_alert->get_text ()) {
 	core::graphic_system& graphic = core::system::self ().graphic ();
-	
+
 	m_player_alert->set_text (str);
 	float center = graphic.get_width () / 2 - m_player_alert->get_width () / 2;
 	m_node.get_child ("player-alert").set_position (point3f (center, 40, 0));
@@ -222,7 +221,7 @@ void player_hud::add_drug (dope_ptr p)
     get_slot (m_drugs.size ()).get_child ("fg").add_drawable (
 	gra::drawable_ptr (new geo::textured_plane_2d (p->get_texture ())));
     m_drugs.push_back (p);
-    
+
     if (m_selected < 0)
 	change_selected (0);
 }
@@ -268,7 +267,7 @@ drug::dope_ptr player_hud::take_drug ()
     /* Eliminamos la droga de la lista */
     drug::dope_ptr ret = m_drugs [m_selected];
     m_drugs.erase (m_drugs.begin () + m_selected);
-    
+
     get_slot (m_selected).get_child ("fg").clear_drawables ();
     for (size_t i = m_selected; i < m_drugs.size (); ++i) {
 	gra::scene_node& curr = get_slot (i).get_child ("fg");
@@ -295,7 +294,7 @@ void player_hud::finish_drugs ()
 void player_hud::clean_effects ()
 {
     point3f pos (0, core::system::self ().graphic ().get_height () - 30, 0);
-    
+
     for (effect_list::iterator it = m_effects.begin ();
 	 it != m_effects.end ();)
     {

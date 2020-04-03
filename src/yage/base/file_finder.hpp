@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-19 23:26:34 raskolnikov>
+ *  Time-stamp:  <2020-04-03 17:57:44 raskolnikov>
  *
  *  @file        file_finder.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -12,7 +12,7 @@
  *  Copyright (C) 2008 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,6 +49,7 @@ namespace base
 class path_predicate
 {
 public:
+    virtual ~path_predicate() = default;
     virtual bool operator () (const boost::filesystem::path& str) = 0;
 };
 
@@ -63,7 +64,7 @@ public:
 	m_first(first),
 	m_last(last)
 	{};
-    
+
     bool operator () (const boost::filesystem::path& path) {
 	for (IterType i = m_first; i != m_last; ++i)
 	    if (extension (path) != *i)
@@ -89,7 +90,7 @@ public:
 	: m_cache_updated (false)
 	, m_cache_auto (false)
     {}
-    
+
     void add_path (const boost::filesystem::path& path);
     void del_path (const boost::filesystem::path& path);
     void build_cache (bool autoupdate);
@@ -100,12 +101,12 @@ public:
     find (const boost::filesystem::path& file) const;
 
     template <class PathPredicate>
-    void find_if (PathPredicate pred, path_list & res) const; 
+    void find_if (PathPredicate pred, path_list & res) const;
 
 private:
     path_list m_paths;
     path_map m_cache;
-    
+
     bool m_cache_updated;
     bool m_cache_auto;
 
@@ -128,7 +129,7 @@ int file_finder::get_file_list (const boost::filesystem::path& folder,
 				path_predicate pred) const
 {
     int n = 0;
-    
+
     if (!boost::filesystem::exists (folder))
 	return n;
 
@@ -141,7 +142,7 @@ int file_finder::get_file_list (const boost::filesystem::path& folder,
 	    ++n;
 	}
     }
-    
+
     return n;
 }
 

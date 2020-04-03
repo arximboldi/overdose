@@ -85,10 +85,10 @@ int _file_ply::read_line()
       fgets(Buffer,MAX_LENGTH_LINE,File);
       if (strlen(Buffer)==0) return(-1);
       Num_lines++;
-      //printf("%d:%s",Num_lines,Buffer);	
+      //printf("%d:%s",Num_lines,Buffer);
       return(0);
-    }	
-  return(-1);	
+    }
+  return(-1);
 }
 
 //******************************************************************************
@@ -103,7 +103,7 @@ int _file_ply::next_token()
 
   do
     {
-      if (strlen(Buffer)==0) 
+      if (strlen(Buffer)==0)
 	{
 	  if (read_line()==-1) return(-1);
 	  while (Buffer[0]=='#') if (read_line()==-1) return(-1);
@@ -111,9 +111,9 @@ int _file_ply::next_token()
       p1=Buffer;
       while ((*p1==' ' || *p1=='\t') && *p1!='\n') p1++;
       p2=p1;
-      while (*p2!=' ' && *p2!='\t' && *p2!='\n') p2++;	
+      while (*p2!=' ' && *p2!='\t' && *p2!='\n') p2++;
       Num_char=p2-p1;
-      if (Num_char>99) 
+      if (Num_char>99)
 	{
 	  error("number of characters for token is too long\n");
 	  return(-1);
@@ -150,7 +150,7 @@ int _file_ply::
 read(vector<float> &Vertices,vector<int> &Faces)
 {
   int Next_token,i,j;
-  int Num_vertices,Num_faces;
+  int Num_vertices{},Num_faces{};
 
   if (File!=NULL)
     {
@@ -280,7 +280,7 @@ int _file_ply::close()
 void _file_ply::error(const char *Error)
 {
 
-  printf("Error: %s. Stop in line %d\n",Error,Num_lines);         
+  printf("Error: %s. Stop in line %d\n",Error,Num_lines);
   exit(-1);
 }
 
@@ -313,6 +313,6 @@ int _file_ply::search_token(const char *Aux_token)
       if (Token_table[i].Text==Aux_token) break;
       i++;
     }
-  //getchar();	
+  //getchar();
   return(i);
 }

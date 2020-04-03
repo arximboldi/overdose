@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-22 12:51:20 raskolnikov>
+ *  Time-stamp:  <2020-04-03 17:02:58 raskolnikov>
  *
  *  @file        file_resource_manager.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -44,7 +44,7 @@ template <class Key, class Resource>
 class default_file_resource_policy
 {
 public:
-    std::string file_name (const Key& k);   
+    std::string file_name (const Key& k);
 
     boost::shared_ptr<Resource>
     load_resource (const std::string& path, const Key& key);
@@ -64,7 +64,7 @@ public:
     {
 	return m_policy;
     }
-    
+
 protected:
     typedef resource_manager<Key, Resource> super;
 
@@ -79,6 +79,7 @@ template <class Resource>
 class file_resource_factory
 {
 public:
+    virtual ~file_resource_factory() = default;
     virtual Resource* create (const std::string& path) = 0;
 };
 
@@ -99,16 +100,16 @@ public:
     }
 
     ~factory_file_resource_policy ();
-    
+
     void attach_resource_factory (const std::string& ext,
 				  file_resource_factory<Resource>* factory);
 
     template <class Concrete>
     void attach_default_factory (const std::string& ext);
-    
+
     boost::shared_ptr<Resource>
     load_resource (const std::string& path, const std::string& key);
-    
+
 private:
     typedef std::map <std::string, file_resource_factory<Resource>*> factory_map;
     factory_map m_factory;

@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-13 19:49:27 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:55:20 raskolnikov>
  *
  *  @file        camera.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -40,14 +40,14 @@ namespace gra
 class camera
 {
 public:
-    static const float DEFAULT_RATIO = 1.0f;
-    static const float DEFAULT_FOV = 45.0f;
-    
+    static constexpr float DEFAULT_RATIO = 1.0f;
+    static constexpr float DEFAULT_FOV = 45.0f;
+
     camera (const base::point3f& pos = base::point3f (0, 0, 0));
 
     void apply_projection (size_t viewport_width,
 			   size_t viewport_height);
-    
+
     void apply_model_rotation ();
     void apply_model_translation ();
 
@@ -60,7 +60,7 @@ public:
     {
 	return m_ratio;
     }
-    
+
     void set_fov (float angle)
     {
 	m_fov = angle;
@@ -84,30 +84,30 @@ public:
     void set_position (const base::point3f& pos);
     void set_plane_normal (const base::point3f& pos);
     void set_up_vector (const base::point3f& pos);
-    
+
     void look_at (const base::point3f& pos);
 
     const base::point3f& get_position () const
     {
 	return m_vrp;
     }
-    
+
     const base::point3f& get_plane_normal () const
     {
 	return m_vpn;
     }
-    
+
     const base::point3f& get_up_vector () const
     {
 	return m_vup;
     }
-    
+
 private:
     float m_fov;
     float m_ratio;
     float m_near;
     float m_far;
-    
+
     base::point3f m_vrp;
     base::point3f m_vpn;
     base::point3f m_vup;

@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2010-01-14 19:49:04 raskolnikov>
+ *  Time-stamp:  <2020-04-03 16:01:33 raskolnikov>
  *
  *  @file        level_one.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -41,7 +41,6 @@
 using namespace yage;
 using namespace yage::base;
 using namespace yage::game;
-using namespace boost;
 
 namespace dose
 {
@@ -67,18 +66,18 @@ void level_one::setup_buildings ()
 {
     add_object ("excavator_b.md2", "excavator.png",
 		aabb (point3f (-80, 0, -50), point3f (150, 200, 50)),
-		point3f (500, 0, 200)); 
+		point3f (500, 0, 200));
     add_object ("excavator_t.md2", "excavator.png",
 		aabb (),
 		point3f (500, 0, 200));
 
     add_object ("excavator_b.md2", "excavator.png",
 		aabb (point3f (-80, 0, -50), point3f (150, 200, 50)),
-		point3f (-1100, 0, 250)); 
+		point3f (-1100, 0, 250));
     add_object ("excavator_t.md2", "excavator.png",
 		aabb (),
 		point3f (-1100, 0, 250));
-    
+
     add_object ("forktruck.md2", "forktruck.png",
 		aabb (point3f (-25, 0, -60), point3f (25, 200, 70)),
 		point3f (500, 0, -200));
@@ -127,7 +126,7 @@ void level_one::setup_buildings ()
     add_object ("crane_e.md2", "crane.tga",
 		aabb (point3f (-10, 0, -10), point3f (10, 10, 10)),
 		point3f (2000, 0, -1300), point3f (1.5, 1.5, 1.5));
-    
+
     add_object ("skelet.md2", "skeleton.png",
 		sphere (point3f (0, 30, -10), 30),
 		point3f (-150, 0, 430));
@@ -137,7 +136,7 @@ void level_one::setup_buildings ()
     add_object ("motor.md2", "motor.tga",
 		aabb (point3f (-40, 0, -10), point3f (30, 200, 10)),
 		point3f (-1480, 0, 40));
-	
+
     add_building ("industrial.png", "indus_s.png", "indus_t.png",
 		  700, 100, 150, point3f (2000, 0, 0));
     add_building ("indus_s.png", "industrial2.png", "indus_t.png",
@@ -164,7 +163,7 @@ void level_one::setup_buildings ()
 		  200, 10, 80, point3f (2500, 0, 525), 1, 1, 0.02);
     add_building ("barrier.png", "barrier.png", "barrier.png",
 		  1100, 10, 80, point3f (-1700, 0, 80), 5, 1, 0.02);
-    
+
     /* Zona de salida */
     add_building ("build1_f.png", "build1_s.png", "build1_t.png",
 		  800, 200, 500, point3f (200, 0, 0));
@@ -189,7 +188,7 @@ void level_one::setup_buildings ()
 
     add_building ("rooftile.png", "rooftile.png", "rooftile.png",
 		  2, 600, 60, point3f (-1100, 0, -450), 0.05, 3, 1);
-	
+
     /* Calle principal y zona pija */
     add_building ("azulejo.png", "white.png", "build1_t.png", 150, 400, 450, point3f (190, 0, -900));
 
@@ -208,7 +207,7 @@ void level_one::setup_buildings ()
 		  3, 0.05, 1);
     add_building ("rooftile.png", "rooftile.png", "rooftile.png", 2, 600, 60, point3f (1330, 0, -840),
 		  0.05, 3, 1);
-    
+
     add_building ("build1_s.png", "apartment.png", "build1_t.png", 200, 2400, 500, point3f (300, 0, -1750),
 		  1, 4, 1);
     add_building ("build1_s.png", "derelic.png", "build1_t.png", 200, 500, 500, point3f (640, 0, -900));
@@ -243,7 +242,7 @@ void level_one::setup_people ()
 	  {"vicar.md2", "vicar.png", true},
 	  {"faust.md2", "faust.png", true},
 	};
-    
+
     const int num_dealer_models = 5;
     const md2_id dealer_models [] =
 	{ {"tigger.md2", "tigger.pcx", false},
@@ -254,7 +253,7 @@ void level_one::setup_people ()
 	};
 
     const int max_drug = 5;
-    
+
     const int NUM_PEDESTRIANS = 30;
     const int NUM_DEALERS = 10;
     const int NUM_POLICEMAN = 5;

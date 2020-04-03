@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-14 13:42:49 raskolnikov>
+ *  Time-stamp:  <2020-04-03 17:58:27 raskolnikov>
  *
  *  @file        tree.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -11,7 +11,7 @@
 
 /*
  *  Copyright (C) 2008, 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -97,7 +97,7 @@ template <class Node,
 	  class Traits = tree_node_traits<Key>,
 	  class ThreadingPolicy = YAGE_DEFAULT_THREADING <Node> >
 class tree_node
-{   
+{
 public:
     /**
      * Iterator to check the childs of this node.
@@ -114,7 +114,7 @@ public:
      * Traits being used in this instanciation.
      */
     typedef Traits traits;
-    
+
     /** Constuctor. */
     tree_node () :
 	m_parent(NULL), m_isinit(false)
@@ -122,7 +122,7 @@ public:
     };
 
     /** Destructor */
-    ~tree_node ();
+    virtual ~tree_node ();
 
     /**
      * Returns an iterator to the first child of this node.
@@ -141,7 +141,7 @@ public:
     {
 	return m_childs.begin ();
     }
-    
+
     /**
      * Returns an iterator to the end of this node childs.
      * @note Using iterators is not thread safe with any threading model.
@@ -159,7 +159,7 @@ public:
     {
 	return m_childs.end ();
     }
-    
+
     /**
      * Returns a pointer to the parent of this node or @c null if this is a root
      * node.
@@ -179,7 +179,7 @@ public:
 	tree_lock lock (this);
 	return m_parent;
     }
-    
+
     /**
      * Returns the name of this node.
      */
@@ -188,7 +188,7 @@ public:
 	tree_lock lock (this);
 	return m_name;
     }
-   
+
     /**
      * Returns an iterator to a child given by its key or end () otherwise.
      * @param name The key name of the child.
@@ -198,7 +198,7 @@ public:
 	tree_lock lock (this);
 	return m_childs.find (name);
     }
- 
+
     /**
      * Returns an iterator to a child given by its key or end () otherwise.
      * @param name The key name of the child.
@@ -214,7 +214,7 @@ public:
      * of freeing the node memory. If the key does not refer to a node
      * it throws an exception.
      *
-     * @return A pointer to the detached node. 
+     * @return A pointer to the detached node.
      */
     Node& detach (const Key& name)
     {
@@ -240,7 +240,7 @@ public:
      * @return true If the node was successfully attached and false otherwise.
      */
     bool attach (const Key& name, Node& node);
-    
+
     /**
      * Detaches a node from the tree. Once detached you are responsible
      * of freeing the node memory. If the iterator points to end ()
@@ -250,12 +250,12 @@ public:
      * @note This version of detach is not thread-safe.
      */
     Node& detach (iterator iter);
-    
+
     /**
      * Returns the path of this node from the root to the node.
      */
     Key get_path_name () const;
-    
+
     /**
      * Deletes a child of this node.
      * @return An iterator to the next child.
@@ -267,7 +267,7 @@ public:
      * Removes all childs.
      */
     void clear_childs ();
-    
+
     /**
      * Returns a reference to the child of this node mathing a name. The child
      * is created if it does not exist yet.
@@ -289,13 +289,13 @@ public:
      * @param name The name of the child.
      */
     const Node& get_existing_child (const Key& name) const;
-    
+
     /**
      * Returns a reference to the child matching a path. All nodes
      * in the path are created if they do not exist.
      */
     Node& get_path (const Key& name);
-    
+
     /**
      * Returns a reference to the child matching a path, an
      * exception is thrown if the path does not exist.
@@ -310,12 +310,12 @@ public:
      */
     const Node& get_existing_path (const Key& name) const;
 
-protected:    
+protected:
     virtual void on_new_child (Node& node) {}
     virtual void on_remove_child (Node& node) {}
     virtual void on_init () {}
     virtual void on_uninit () {}
-    
+
 private:
     std::map<Key, null_ptr<Node> > m_childs;
     Node* m_parent;
@@ -335,7 +335,7 @@ private:
 
     Node& get_path (typename Key::const_iterator begin,
 		    typename Key::const_iterator end);
-    
+
     void get_path_name (Key& prefix) const;
 
     bool is_init() const

@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2011-08-22 23:22:09 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:56:47 raskolnikov>
  *
  *  @file        level.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -55,7 +55,6 @@
 
 using namespace yage;
 using namespace yage::base;
-using namespace boost;
 
 namespace dose
 {
@@ -74,19 +73,19 @@ level::level ()
     , m_can_finish (false)
 {
     get_keys ().add_listener (*this);
-    
+
     get_tasks ().add (m_entities);
 
     add_entity ("player", m_player_ent);
     get_scene ()->get_hud_root ().attach ("player_hud", m_player_ent->get_hud ().get_node ());
-    
+
     get_scene ()->set_camera (m_player_cam);
     get_keys ().add_listener (m_player_ctl);
     get_mouse ().add_listener (m_player_cam_ctl);
 
     m_fly_cam->set_position (base::point3f (-100, 1000, 0));
-    m_fly_cam->look_at (base::point3f (0, 0, 0)); 
-    
+    m_fly_cam->look_at (base::point3f (0, 0, 0));
+
     const float static_cam_pos [STATIC_CAMERAS][3] =
 	{{1000, 1000, 1000},
 	 {-1000, 1000, 1000},
@@ -186,7 +185,7 @@ bool level::handle_key_press (SDL_Event& ev)
 	get_scene ()->set_camera (m_static_cam [ev.key.keysym.sym - SDLK_F3]);
 	m_old_cam = ev.key.keysym.sym;
     }
-	
+
     return false;
 }
 
@@ -206,14 +205,14 @@ void level::add_dealer (const std::string& name, dealer_ptr ent)
 {
     add_entity (name, ent);
     m_dealers.push_back (ent);
-    ent->set_level (dynamic_pointer_cast<level> (shared_from_this ()));
+    ent->set_level (boost::dynamic_pointer_cast<level> (shared_from_this ()));
 }
 
 
 void level::add_person (const std::string& name, person_ptr ent)
 {
     add_entity (name, ent);
-    ent->set_level (dynamic_pointer_cast<level> (shared_from_this ()));
+    ent->set_level (boost::dynamic_pointer_cast<level> (shared_from_this ()));
 }
 
 void level::add_static (boost::shared_ptr<gra::drawable> draw)
@@ -227,14 +226,14 @@ void level::finish_setup ()
     get_scene ()->get_root ().get_child ("static").add_drawable (sd);
     m_static.clear_childs ();
     m_player_cam_ctl.recalculate ();
-    m_player_ent->set_level (dynamic_pointer_cast<level> (shared_from_this ()));
+    m_player_ent->set_level (boost::dynamic_pointer_cast<level> (shared_from_this ()));
 }
 
 void level::set_random_position (person_ptr p, const play_area& area)
 {
     game::sphere box;
     box.rad = 20;
-    
+
     while (true) {
 	box.center = base::point3f (base::ranged_random (area.min_x, area.max_x), 0,
 				    base::ranged_random (area.min_z, area.max_z));
@@ -258,7 +257,7 @@ void level::add_random_pedestrian (int num_models,
     set_random_position (p, area);
 
     add_entity (std::string ("pedestrian_") +
-		lexical_cast<std::string> (m_unique_count), p);
+		boost::lexical_cast<std::string> (m_unique_count), p);
     m_unique_count ++;
 }
 
@@ -272,10 +271,10 @@ void level::add_random_dealer (int num_models,
 			   models[model].tris, models[model].tex, models[model].normals,
 			   base::ranged_random (0.05, 0.25),
 			   base::ranged_random (0.001, 0.005)));
-    set_random_position (p, area);  
+    set_random_position (p, area);
 
     add_dealer (std::string ("pedestrian_") +
-		lexical_cast<std::string> (m_unique_count), p);
+		boost::lexical_cast<std::string> (m_unique_count), p);
     m_unique_count ++;
 
     int drugs = base::ranged_random (1, max_drugs);
@@ -288,14 +287,14 @@ void level::add_random_policeman (const play_area& area)
     ent::policeman_ptr p (new ent::policeman ());
     set_random_position (p, area);
     add_person (std::string ("policeman_") +
-		lexical_cast<std::string> (m_unique_count), p);
+		boost::lexical_cast<std::string> (m_unique_count), p);
     m_unique_count ++;
 }
 
 void level::set_sky (const std::string& tex)
 {
     core::graphic_system& graphic = core::system::self ().graphic ();
-    
+
     boost::shared_ptr<geo::mesh> sky (new geo::textured_hemisphere);
     sky->set_texture (graphic.textures().find (tex));
     get_scene ()->set_sky (sky);
@@ -308,7 +307,7 @@ void level::add_floor (const std::string& tex,
 			   const yage::base::point3f& pos)
 {
     core::graphic_system& graphic = core::system::self ().graphic ();
-    
+
     gra::geometry_ptr road (new geo::textured_plane (htile, vtile));
     road->set_material (boost::shared_ptr<gra::material> (new gra::material ()));
     road->set_texture (graphic.textures ().find (tex));
@@ -329,18 +328,18 @@ void level::add_building (const std::string& ftex,
 			      float wide, float deep, float high,
 			      const yage::base::point3f& pos,
 			      float tile_f, float tile_s, float tile_t)
-{    
+{
     boost::shared_ptr<ent::building> build (
 	new ent::building (wide, deep, high, ftex, stex, ttex, tile_f, tile_s, tile_t));
     build->get_node ().set_position (pos);
     entities ()->add_entity (build);
 
     std::string objname = std::string ("building_") +
-	lexical_cast<std::string> (m_unique_count++);
+	boost::lexical_cast<std::string> (m_unique_count++);
     gra::scene_node& node = get_static ().get_child (objname);
     gra::scene_node& dra_node = node.get_child ("dra");
     gra::scene_node& ent_node = build->get_node ().get_child ("building");
-    
+
     dra_node.add_drawable (ent_node.drawable_begin (), ent_node.drawable_end());
     dra_node.set_position (ent_node.get_position ());
     dra_node.set_scale (ent_node.get_scale ());
@@ -355,13 +354,13 @@ void level::add_object (const std::string& tris,
 {
     /* todo: add_static_entity () ?? */
     std::string objname = std::string ("object_") +
-	lexical_cast<std::string> (m_unique_count++);
+	boost::lexical_cast<std::string> (m_unique_count++);
     gra::scene_node& node = get_static ().get_child (objname);
 
     node.add_drawable (ent::person::load_model (tris, tex, true));
     node.set_position (pos);
     node.set_scale (scale);
-    
+
     game::entity_ptr ent (new ent::empty);
     ent->set_bounds (col);
     ent->get_node ().set_position (pos);

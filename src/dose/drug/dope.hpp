@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-13 19:52:07 raskolnikov>
+ *  Time-stamp:  <2020-04-03 16:03:15 raskolnikov>
  *
  *  @file        dope.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -44,8 +44,8 @@ namespace drug
 class dope
 {
 public:
-    static const float DEFAULT_DOPE_SPEED = 0.00003;
-    
+    static constexpr float DEFAULT_DOPE_SPEED = 0.00003;
+
     typedef boost::shared_ptr<st::level> level_ptr;
     typedef boost::shared_ptr<dope> dope_ptr;
 
@@ -56,7 +56,7 @@ public:
 	  float euphoria,
 	  float progress = 1.0f,
 	  float speed = DEFAULT_DOPE_SPEED);
-    
+
     virtual ~dope () {}
 
     virtual void take () = 0;
@@ -64,7 +64,7 @@ public:
     virtual void handle_finish () = 0;
 
     void update (int delta);
-    
+
     float get_progress () const
     {
 	return m_progress;
@@ -74,17 +74,17 @@ public:
     {
 	m_progress = progress;
     }
-    
+
     const std::string& get_name () const
     {
 	return m_name;
     }
-    
+
     yage::gra::texture_ptr get_texture ()
     {
 	return m_texture;
     }
-    
+
     float get_psychodelia () const
     {
 	return m_psychodelia;
@@ -109,7 +109,7 @@ public:
     {
 	m_level = level;
     }
-    
+
 private:
     boost::weak_ptr<st::level> m_level;
     std::string m_name;

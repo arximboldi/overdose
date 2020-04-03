@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-24 20:49:12 raskolnikov>
+ *  Time-stamp:  <2020-04-03 17:05:18 raskolnikov>
  *
  *  @file        game_app.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -55,10 +55,10 @@ int game_app::execute ()
 {
     register_states (m_game_states);
     m_game_states->enter_state (initial_state ());
-    
+
     core::system::self ().tasks ().add (m_game_states);
     core::system::self ().main_loop ();
-	
+
     return 0;
 }
 

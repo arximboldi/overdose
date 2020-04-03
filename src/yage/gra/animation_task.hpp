@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-15 19:53:51 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:55:36 raskolnikov>
  *
  *  @file        animation_task.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -45,8 +45,8 @@ class animation_task : public core::task
 		     , public animation
 {
 public:
-    static const float DEFAULT_SPEED = 1;
-    
+    static constexpr float DEFAULT_SPEED = 1;
+
     animation_task (boost::shared_ptr<animation> anim,
 		    float speed = DEFAULT_SPEED,
 		    bool loop = false);
@@ -57,7 +57,7 @@ public:
     {
 	m_pos = base::clamp (pos, 0.0f, 1.0f);
     }
-    
+
     void set_speed (float speed)
     {
 	m_speed = speed;
@@ -67,7 +67,7 @@ public:
     {
 	return m_speed;
     }
-    
+
     void set_animation (animation_ptr anim)
     {
 	m_anim = anim;
@@ -77,7 +77,7 @@ public:
     {
 	return m_anim;
     }
-    
+
     void animate (float position)
     {
 	m_pos = position;
@@ -102,7 +102,7 @@ public:
     {
 	m_len = len;
     }
-    
+
 private:
     animation_ptr m_anim;
     float m_len;

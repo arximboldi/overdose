@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-15 19:48:02 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:55:30 raskolnikov>
  *
  *  @file        md2_model.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -51,29 +51,29 @@ class md2_model : public gra::geometry
 		, public gra::animation
 {
 public:
-    static const float FRAME_TICKS = 100;
-    
+    static constexpr float FRAME_TICKS = 100;
+
     enum render_mode
     {
 	TRIANGLES,
 	COMMANDS
     };
-    
+
     md2_model (boost::shared_ptr<md2_model_impl> impl,
 	       render_mode mode = COMMANDS);
 
     void draw ();
     void draw_raw ();
-    
+
     void animate (float percent);
     void set_animation (const std::string& name);
     float get_loop_offset ();
-    
+
     const std::string& get_animation () const
     {
 	return m_anim;
     }
-    
+
     void set_material (boost::shared_ptr<gra::material> material)
     {
 	m_material = material;
@@ -93,7 +93,7 @@ public:
     {
 	return m_impl;
     }
-    
+
 private:
     boost::shared_ptr<md2_model_impl> m_impl;
     render_mode m_mode;
@@ -102,11 +102,11 @@ private:
     int m_next_frame;
     float m_interp;
     float m_new_interp;
-    
+
     int m_anim_start;
     int m_anim_end;
     int m_anim_fps;
-    
+
     boost::shared_ptr<gra::material> m_material;
     boost::shared_ptr<gra::texture> m_texture;
 

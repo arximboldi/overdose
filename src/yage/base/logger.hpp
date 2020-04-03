@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-14 13:42:59 raskolnikov>
+ *  Time-stamp:  <2020-04-03 17:55:44 raskolnikov>
  *
  *  @file        logger.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -13,7 +13,7 @@
  *  Copyright (C) 2007, 2008, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -54,7 +54,8 @@ class log;
 class log_sink
 {
 public:
-    
+    virtual ~log_sink() = default;
+
     /**
      * Deliver a message to the user.
      * @param log The log node that originated the message.
@@ -113,9 +114,9 @@ public:
 
     /** Constructor. */
     log () {}
-    
+
     /** Destructor. */
-    ~log ();
+    virtual ~log ();
 
     /**
      * Attachs a sink to this node.
@@ -234,7 +235,7 @@ public:
     log_stream_sink (std::ostream& os)
 	: _output (&os)
     {}
-    
+
     /**
      * Dums a message to a stream.
      * @param log The log that originated the message.
@@ -259,7 +260,7 @@ protected:
     {
 	_output = &os;
     }
-    
+
 private:
     std::ostream* _output;
 };

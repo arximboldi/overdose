@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-05-14 12:33:27 raskolnikov>
+ *  Time-stamp:  <2020-04-03 16:07:04 raskolnikov>
  *
  *  @file        arg_parser.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -12,7 +12,7 @@
  *  Copyright (C) 2007, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -57,7 +57,7 @@ void arg_parser::add (unsigned char flag, const char* str, option* op)
 {
     if (op == 0)
 	op = new option;
-    
+
     if (flag != NULL_FLAG)
 	m_short[flag].push_back (op);
 
@@ -70,7 +70,7 @@ void arg_parser::add (unsigned char flag, const char* str, option* op)
 void arg_parser::parse (int argc, const char *argv[])
 {
     const char** argv_end = argv++ + argc;
-    
+
     m_free.clear ();
 
     try {
@@ -90,7 +90,7 @@ void arg_parser::parse (int argc, const char *argv[])
 		break;
 	    }
 	}
-    } catch (parse_error)
+    } catch (const parse_error&)
     {
 	throw parse_option_error (std::string ("Error while parsing option: ")
 				  + *argv);
@@ -107,7 +107,7 @@ const char** arg_parser::parse_short (const char** argv, const char** argv_end)
 	option_iterator iter = m_short [(size_t) *s].begin ();
 	if (iter == m_short [(size_t) *s].end ())
 	    throw unknown_option_error (std::string ("Unknown option: ") + *s);
-	
+
 	for (; iter != m_short [(size_t) *s].end (); ++iter)
 	{
 	    if (argv_next >= argv_end ||
@@ -131,7 +131,7 @@ const char** arg_parser::parse_long (const char** argv, const char** argv_end)
     if (opt == m_long.end ())
 	throw unknown_option_error (std::string ("Unknown option: ") +
 				    (*argv + 2));
-    
+
     for (option_iterator iter = opt->second.begin ();
 	 iter != opt->second.end ();
 	 ++iter)
@@ -148,4 +148,3 @@ const char** arg_parser::parse_long (const char** argv, const char** argv_end)
 
 } /* namespace base */
 } /* namespace yage */
-

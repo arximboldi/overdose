@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-10 22:45:44 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:56:27 raskolnikov>
  *
  *  @file        fly_camera_controller.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -44,34 +44,34 @@ class fly_camera_controller : public yage::core::key_listener
 			    , public yage::core::task
 {
 public:
-    static const float DEFAULT_MOVE_SPEED = 0.5;
-    static const float DEFAULT_ROTATE_SPEED = 0.005;
-    
+    static constexpr float DEFAULT_MOVE_SPEED = 0.5;
+    static constexpr float DEFAULT_ROTATE_SPEED = 0.005;
+
     fly_camera_controller (yage::gra::camera_ptr cam = yage::gra::camera_ptr (),
 			   float move_speed   = DEFAULT_MOVE_SPEED,
 			   float rotate_speed = DEFAULT_ROTATE_SPEED);
-    
+
     void update (int delta);
-    
+
     bool handle_key_press (SDL_Event& ev);
     bool handle_key_release (SDL_Event& ev);
     bool handle_mouse_move (SDL_Event& ev);
-    
+
     bool handle_mouse_button_press (SDL_Event& ev)
     {
 	return false;
     }
-    
+
     bool handle_mouse_button_release (SDL_Event& ev)
     {
 	return false;
     }
-    
+
     void set_camera (yage::gra::camera_ptr cam)
     {
 	m_camera = cam;
     }
-    
+
 private:
     enum movement
     {

@@ -1,5 +1,5 @@
 /**
- *  Time-stamp:  <2009-06-15 16:50:17 raskolnikov>
+ *  Time-stamp:  <2020-04-03 15:56:18 raskolnikov>
  *
  *  @file        player_hud.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
@@ -10,7 +10,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,13 +46,13 @@ namespace ent
 class player_hud
 {
 public:
-    static const int MAX_DRUG = 6;
-    static const int ALERT_DURATION = 3000;
-    static const float DRUG_SCALE = 10;
-    
+    static constexpr int MAX_DRUG = 6;
+    static constexpr int ALERT_DURATION = 3000;
+    static constexpr float DRUG_SCALE = 10;
+
     typedef boost::shared_ptr<drug::dope> dope_ptr;
     typedef boost::shared_ptr<st::level> level_ptr;
-    
+
     player_hud ();
     virtual ~player_hud ();
 
@@ -63,18 +63,18 @@ public:
     void apply_drug (dope_ptr dope);
     dope_ptr take_drug ();
     void finish_drugs ();
-    
+
     void add_drug (dope_ptr p);
     void select_prev ();
     void select_next ();
     void change_selected (int new_sel);
     void clear_drugs ();
-    
+
     void set_player_message (const std::string& str);
     void set_player_alert (const std::string& str, int duration = ALERT_DURATION);
 
     void update (int delta);
-    
+
     float get_psychodelia () const
     {
 	return m_psychodelia;
@@ -84,12 +84,12 @@ public:
     {
 	return m_ecstasy;
     }
-    
+
     float get_euphoria () const
     {
 	return m_euphoria;
     }
-    
+
     yage::gra::scene_node& get_node ()
     {
 	return m_node;
@@ -108,10 +108,10 @@ public:
 private:
     typedef std::vector<dope_ptr> dope_list;
     typedef std::list<boost::weak_ptr<drug::dope_effect> > effect_list;
-	
+
     yage::gra::scene_node& get_slot (int i);
     void clean_effects ();
-    
+
     float m_psychodelia;
     float m_ecstasy;
     float m_euphoria;
@@ -122,7 +122,7 @@ private:
     int m_alert_count;
 
     effect_list m_effects;
-    
+
     dope_list m_drugs;
     int m_selected;
     yage::gra::scene_node m_node;
