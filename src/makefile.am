@@ -1,0 +1,238 @@
+
+
+lib_LTLIBRARIES = libyage.la
+bin_PROGRAMS = overdose
+
+libyage_la_CXXFLAGS = -Wall $(SIGC_CFLAGS) -DYAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(LIBXML_CFLAGS)
+libyage_la_LIBADD = $(BOOST_FILESYSTEM_LIB) -lboost_system-mt $(SIGC_LIBS)\
+	$(SDL_MIXER_LIBS) $(SDL_IMAGE_LIBS) $(GLU_LIBS) $(GL_LIBS) $(SDL_LIBS)\
+	$(SDL_TTF_LIBS) $(LIBXML_LIBS)
+
+overdose_CXXFLAGS = -Wall $(SIGC_CFLAGS) 
+overdose_LDADD = $(SIGC_LIBS) $(BOOST_FILESYSTEM_LIB) -lboost_system-mt libyage.la
+
+libyage_la_SOURCES = \
+	$(yage_headers) \
+	$(yage_sources) \
+	$(lib_headers) \
+	$(lib_sources)
+
+overdose_SOURCES = \
+	dose/st/tester.hpp\
+	dose/st/tester.cpp\
+	dose/st/level.hpp\
+	dose/st/level.cpp\
+	dose/st/level_one.hpp\
+	dose/st/level_one.cpp\
+	dose/st/hell.hpp\
+	dose/st/hell.cpp\
+	dose/ent/building.hpp\
+	dose/ent/building.cpp\
+	dose/ent/person.hpp\
+	dose/ent/person.cpp\
+	dose/ent/pedestrian.hpp\
+	dose/ent/pedestrian.cpp\
+	dose/ent/dealer.hpp\
+	dose/ent/dealer.cpp\
+	dose/ent/policeman.hpp\
+	dose/ent/policeman.cpp\
+	dose/ent/empty.hpp\
+	dose/ent/invisible.hpp\
+	dose/ent/invisible.cpp\
+	dose/ent/player.hpp\
+	dose/ent/player.cpp\
+	dose/ent/player_controller.hpp\
+	dose/ent/player_controller.cpp\
+	dose/ent/player_hud.hpp\
+	dose/ent/player_hud.cpp\
+	dose/tool/fly_camera_controller.hpp\
+	dose/tool/fly_camera_controller.cpp\
+	dose/tool/follow_camera_controller.hpp\
+	dose/tool/follow_camera_controller.cpp\
+	dose/drug/dope.hpp\
+	dose/drug/dope.cpp\
+	dose/drug/dope_effect.hpp\
+	dose/drug/dope_effect.cpp\
+	dose/drug/dope_factory.hpp\
+	dose/drug/dope_factory.cpp\
+	dose/drug/bubbly_camera.hpp\
+	dose/drug/bubbly_camera.cpp\
+	dose/drug/marihuana.hpp\
+	dose/drug/marihuana.cpp\
+	dose/drug/cocaine.hpp\
+	dose/drug/cocaine.cpp\
+	dose/drug/lsd.hpp\
+	dose/drug/lsd.cpp\
+	dose/drug/alcohol.hpp\
+	dose/drug/alcohol.cpp\
+	dose/drug/adrenaline.hpp\
+	dose/drug/adrenaline.cpp\
+	dose/overdose.hpp\
+	dose/overdose.cpp\
+	dose/main.cpp
+
+lib_headers = \
+	lib/file_ply_stl.h\
+	lib/vertex.h\
+	lib/matrix.h
+
+lib_sources = \
+	lib/file_ply_stl.cc
+
+yage_headers = \
+	yage/base/arg_parser.hpp \
+	yage/base/singleton.hpp \
+	yage/base/singleton.tpp \
+        yage/base/iterator.hpp \
+	yage/base/misc.hpp \
+	yage/base/logger.hpp \
+	yage/base/config.hpp \
+	yage/base/conf_backend_xml.hpp \
+	yage/base/option_conf.hpp \
+	yage/base/file_finder.hpp\
+	yage/base/file_manager.hpp\
+	yage/base/tree.hpp\
+	yage/base/tree.tpp\
+	yage/base/observer.hpp\
+	yage/base/pointer.hpp\
+	yage/base/type_traits.hpp\
+	yage/base/exception.hpp\
+	yage/base/type_value.hpp\
+	yage/base/threads.hpp\
+	yage/base/util.hpp\
+	yage/base/point2.hpp\
+	yage/base/point2.tpp\
+	yage/base/point3.hpp\
+	yage/base/point3.tpp\
+	yage/base/point4.hpp\
+	yage/base/point4.tpp\
+	yage/base/handle_allocator.hpp\
+	yage/base/factory.hpp\
+	yage/base/factory_manager.hpp\
+	yage/base/factory_manager.tpp\
+	yage/core/timer.hpp\
+	yage/core/sdl_wrapper.hpp\
+	yage/core/system.hpp\
+	yage/core/graphic_system.hpp\
+	yage/core/sound_system.hpp\
+	yage/core/input_system.hpp\
+	yage/core/key_observer.hpp\
+	yage/core/mouse_observer.hpp\
+	yage/core/video_observer.hpp\
+	yage/core/task.hpp\
+	yage/core/task_manager.hpp\
+	yage/core/state_task.hpp\
+	yage/core/trigger_task.hpp\
+	yage/core/resource_manager.hpp\
+	yage/core/resource_manager.tpp\
+	yage/core/file_resource_manager.hpp\
+	yage/core/file_resource_manager.tpp\
+	yage/core/font_manager.hpp\
+	yage/gra/scene.hpp\
+	yage/gra/drawable.hpp\
+	yage/gra/animation.hpp\
+	yage/gra/animation_task.hpp\
+	yage/gra/function_animation.hpp\
+	yage/gra/scene_node.hpp\
+	yage/gra/camera.hpp\
+	yage/gra/texture.hpp\
+	yage/gra/material.hpp\
+	yage/gra/static_drawable.hpp\
+	yage/gra/font.hpp\
+	yage/gra/text.hpp\
+	yage/gra/light.hpp\
+	yage/gra/geometry.hpp\
+	yage/gra/geometry_proxy.hpp\
+	yage/gra/fog.hpp\
+	yage/geo/mesh.hpp\
+	yage/geo/multi_mesh.hpp\
+	yage/geo/cylinder.hpp\
+	yage/geo/cone.hpp\
+	yage/geo/cube.hpp\
+	yage/geo/sphere.hpp\
+	yage/geo/hemisphere.hpp\
+	yage/geo/ply_model.hpp\
+	yage/geo/md2_model.hpp\
+	yage/geo/md2_model_impl.hpp\
+	yage/geo/textured_plane.hpp\
+	yage/geo/textured_plane_2d.hpp\
+	yage/geo/textured_hemisphere.hpp\
+	yage/geo/multi_textured_cube.hpp\
+	yage/game/entity_manager.hpp\
+	yage/game/entity.hpp\
+	yage/game/entity_observer.hpp\
+	yage/game/collidable.hpp\
+	yage/game/static_collision.hpp\
+	yage/game/dynamic_collision.hpp\
+	yage/game/collision_util.hpp\
+	yage/game/state.hpp\
+	yage/game/state_manager.hpp\
+	yage/app/yage_app.hpp\
+	yage/app/game_app.hpp\
+	yage/app/graphic_controller.hpp
+
+yage_sources = \
+	yage/base/arg_parser.cpp \
+	yage/base/misc.cpp \
+	yage/base/logger.cpp \
+	yage/base/config.cpp \
+	yage/base/conf_backend_xml.cpp \
+	yage/base/file_finder.cpp\
+	yage/base/file_manager.cpp\
+	yage/base/exception.cpp\
+	yage/base/tree.cpp\
+	yage/base/singleton.cpp\
+	yage/base/handle_allocator.cpp\
+	yage/base/factory_manager.cpp\
+	yage/core/system.cpp\
+	yage/core/timer.cpp \
+	yage/core/graphic_system.cpp\
+	yage/core/sound_system.cpp\
+	yage/core/input_system.cpp\
+	yage/core/key_observer.cpp\
+	yage/core/mouse_observer.cpp\
+	yage/core/video_observer.cpp\
+	yage/core/task.cpp\
+	yage/core/task_manager.cpp\
+	yage/core/state_task.cpp\
+	yage/core/resource_manager.cpp\
+	yage/core/file_resource_manager.cpp\
+	yage/core/font_manager.cpp\
+	yage/gra/scene.cpp\
+	yage/gra/scene_node.cpp\
+	yage/gra/camera.cpp\
+	yage/gra/texture.cpp\
+	yage/gra/material.cpp\
+	yage/gra/static_drawable.cpp\
+	yage/gra/light.cpp\
+	yage/gra/animation_task.cpp\
+	yage/gra/font.cpp\
+	yage/gra/text.cpp\
+	yage/gra/fog.cpp\
+	yage/gra/geometry_proxy.cpp\
+	yage/geo/mesh.cpp\
+	yage/geo/multi_mesh.cpp\
+	yage/geo/cube.cpp\
+	yage/geo/cone.cpp\
+	yage/geo/cylinder.cpp\
+	yage/geo/sphere.cpp\
+	yage/geo/hemisphere.cpp\
+	yage/geo/ply_model.cpp\
+	yage/geo/md2_model.cpp\
+	yage/geo/md2_model_impl.cpp\
+	yage/geo/textured_plane.cpp\
+	yage/geo/textured_plane_2d.cpp\
+	yage/geo/textured_hemisphere.cpp\
+	yage/geo/multi_textured_cube.cpp\
+	yage/game/entity.cpp\
+	yage/game/entity_manager.cpp\
+	yage/game/entity_observer.cpp\
+	yage/game/static_collision.cpp\
+	yage/game/dynamic_collision.cpp\
+	yage/game/collision_util.cpp\
+	yage/game/collidable.cpp\
+	yage/game/state.cpp\
+	yage/game/state_manager.cpp\
+	yage/app/yage_app.cpp\
+	yage/app/game_app.cpp\
+	yage/app/graphic_controller.cpp

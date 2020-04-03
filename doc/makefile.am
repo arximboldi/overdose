@@ -1,0 +1,8 @@
+
+man_MANS = man/overdose.6
+
+EXTRA_DIST = $(man_MANS)\
+	Doxyfile.in\
+	html/pandoc.css\
+	html/readme.html\
+	pdf/readme.pdf

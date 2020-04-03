@@ -1,0 +1,161 @@
+% OVERDOSE, breve manual de usuario.
+% Juan Pedro Bolívar Puente
+% Time-stamp: <2009-06-17 11:23:23 raskolnikov> 
+
+Overdose es un sencillo juego en el que el usuario debe experimentar
+(y sufrir) virtualmente los efectos de las drogas para alcanzar su
+objetivo.
+
+Overdose es Software Libre y se distribuye bajo la licencia GPLv3, lea
+el fichero COPYING para más información sobre los términos en los que
+esto le permite modificar y compartir el programa.
+
+
+1. Intalación del programa
+==========================
+
+1.1 Dependencias
+----------------
+
+Para poder instalar el programa primero debe tener algunas cosas
+instaladas en su máquina, a saber:
+
+1. Una shell sh-compatible.
+2. GNU make.
+3. Un compilador de C++.
+4. Las siguientes bibliotecas compartidas:
+   - [Libxml2](http://www.xmlsoft.org/)
+   - [Lib Boost](http://www.boost.org/)
+   - [LibSDL](http://www.libsdl.org)
+   - [SDL_Image](http://www.libsdl.org/projects/SDL_image/)
+   - [OpenGL](http://www.opengl.org)
+
+En un sistema Debian (y probablemente Ubuntu) esto puede ejecutando,
+con permisos de root:
+
+`apt-get install build-essential libxml2-dev libboost-dev
+libsdl1.2-dev libsdl-image1.2-dev libgl1-mesa-dev libglu1-mesa-dev`
+
+
+1.2 Compilación
+---------------
+
+Una vez tenemos las dependencias debemos compilar el programa. Para
+ello, primero tenemos que ejecutar, dentro de la carpeta del programa
+y como usuario normal:
+
+    ./configure
+
+Este script comprobará que tenemos todas las dependencias. Si alguna
+falla lo advertirá con un mensaje de error. Además, podemos usar este
+programa para personalizar la instalación, indicar dónde queremos
+instalar el programa, etc. Para más información ejecuta `./configure
+--help`. Cuando este programa termine con éxito, debemos ejecutar:
+
+    make
+
+1.3 Instalación y desinstalación
+--------------------------------
+
+El proceso de compilación puede tardar incluso varios minutos. Una vez
+haya terminado sin emitir mensajes de error, ya podemos instalar el
+programa, ejecutando:
+
+    make install
+
+Recordemos que normalmente este comando debe ser ejecutado como
+root. Si algún día queremos desinstalar el programa lo podemos hacer
+con:
+
+    make uninstall
+
+
+2. Uso del programa
+===================
+
+2.1. Ejecutando el programa
+---------------------------
+
+Con el programa correctamente instalado, basta con ejecutar:
+
+    overdose
+
+Para lanzar el programa. El programa puede ser personalizado con
+algunas opciones como la resolución de la pantalla y demás,
+introduciendo opciones después del nombre del programa. Para más
+información puede ejecutar:
+
+    overdose --help
+
+O, alternativamente:
+
+    man overdose
+
+Note que muchos de los parámetros que pase al programa se guardarán en
+el fichero de configuración `~/.overdose/config.xml`, por lo que no
+tendrá que introducirlos en sesiones futuras.
+
+2.2. Jugando al juego
+---------------------
+
+En Overdose, debemos controlar a un __yuppie__ de la banca que, arruinado
+económicamente por la crisis, con problemas de conciencia por su
+avaricia ruin y habiendo perdido su vida entre despachos y pantallas,
+decide intentar experimentarlo todo en el último día de su vida.
+
+### 2.2.1. Objetivo
+  
+Tu misión es ayudarle a lograr morir de sobredosis, consumiendo todo
+tipo de estupefacientes que debe comprar en la calle.
+
+El nivel de droga en sangre aparece en la pantalla en la esquina
+superior izquierda, en tres barras de color y que representan también
+el estado estupefaciente del personaje en cuanto a:
+  
+1. **Psicodelia:** el indicador verde.
+2. **Éxtasis:** el indicador azul.
+2. **Euforia:** el indicador rojo.
+
+Cada indicador subirá (o bajará) según las sustancias que
+consumamos. Habremos ganado la partida cuando todos lleguen al nivel
+máximo. Hay que darse prisa, porque estos tres niveles también
+descienden poco a poco con el simple paso del tiempo.
+
+### 2.2.2 Consiguiendo y consumiendo droga
+
+Para conseguir droga debemos acercarnos a algún camello de la
+calle. Este se nos quedará mirando y aparecerá un mensaje en la
+pantalla con su oferta. 
+
+> Para comprar la droga, pulsa la tecla 'b'.
+
+Cuando hayamos comprado la droga nos aparecerá en un inventario en la
+esquina superior derecha. Ahí podemos almacenar hasta un máximo de 5
+drogas.
+
+> Para consumir la droga que aparece seleccionada, pulsa la tecla
+> 'espacio'.
+
+> Para cambiar la droga seleccionada, pulsa las teclas 'm' y 'n'.
+
+Debemos tener cuidado, porque mientras tenemos droga los policías
+vendrán a por nosotros y nos las quitarán. También, el consumo de
+drogas producirá efectos temporales sobre el comportamiento del
+personaje. Abajo, un indicador nos mostrará cuanto tiempo queda hasta
+que se nos pasen los efectos de cierto tipo de sustancia.
+
+### 2.2.3 Movimiento
+
+> Para movernos por el mapa debemos utilizar los cursores.
+
+> Podemos girar la cámara con el ratón y usando la rueda del ratón
+> acercarla y alejarla. Para centrar la cámara de nuevo podemos pulsar
+> el tercer botón del ratón.
+
+> Con la tecla F2 podemos poner una cámara voladora que podemos
+> controlar con el ratón y las teclas 'a', 's',' d', y 'w'.
+
+### 2.2.4 Funciones especiales
+
+> Las teclas de función de la F1 a F2 pueden alterar la visualización
+> del juego.

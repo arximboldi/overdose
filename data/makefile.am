@@ -1,0 +1,16 @@
+
+pkgdatadir = @PACKAGE_DATA_DIR@
+
+nobase_pkgdata_DATA = \
+	$(wildcard tex/object/*.png)\
+	$(wildcard tex/object/*.tga)\
+	$(wildcard tex/player/*.tga)\
+	$(wildcard tex/player/*.pcx)\
+	$(wildcard tex/player/*.png)\
+	$(wildcard tex/hud/*.png)\
+	$(wildcard tex/scene/*.png)\
+	$(wildcard font/*.ttf)\
+	$(wildcard md2/object/*.md2)\
+	$(wildcard md2/player/*.md2)
+
+EXTRA_DIST = $(nobase_pkgdata_DATA)

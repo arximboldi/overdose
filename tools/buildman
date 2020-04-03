@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Making man pages"
+help2man src/overdose -o doc/man/overdose.6
+

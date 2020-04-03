@@ -1,0 +1,91 @@
+\documentclass[a4paper,10pt,spanish]{article}
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{url}
+\usepackage[hmargin=2.5cm,vmargin=2cm]{geometry}
+
+\title{Propuesta de proyecto para Informática Gráfica: \emph{Overdose}}
+\author{Juan Pedro Bolívar Puente\\jpboli@correo.ugr.es}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{El juego}
+
+\subsection{Temática y contexto}
+
+Eres una estrella del rock de los ochenta venida a menos. O tal vez un \emph{broker} de la banca acabado. O incluso un político corrupto que acaba de salir de la cárcel. Tal vez, el juego podría disponer de elección de personaje. 
+
+En cualquier caso, tu vida ya no tiene sentido y has decidido acabar a lo grande, alcanzando el \emph{nirvana} como Kurt Cobain: con una sobredosis. Tu misión ahora es recorrer las calles en busca de camellos, antiguos amigos y otros habitantes de la noche que te proporcionen drogas intentando evitar toda suerte de obstáculos que se proponen arruinar tu colocón.
+
+$$  R \rightarrow \sqrt{2^\pi} $$
+
+\begin{description}
+
+\subsection{Elementos del juego}
+
+El estado del personaje está definido por tres indicadores lineales cuyo nivel se verá afectado por el entorno, a saber:
+
+\begin{description}
+\item[Psicodelia] Indica el nivel de distorsión de la realidad del personaje.
+\item[Apalanque] Indica el nivel de atrofia de los reflejos y velocidad mental del jugador.
+\item[Euforia] Indica el nivel de motivación, estímulo y, sobre todo, temeridad del jugador.
+\end{description}
+
+En general, el consumo de droga hará aumentar algunos de estos indicadores, aunque algunas pueden hacer disminuir alguno de ellos. También el tiempo los hace disminuir. El juego termina cuando todos los indicadores llegan a su nivel máximo. Además, el nivel de los indicadores afecta al comportamiento del jugador, la respuesta de los controles y la percepción del entorno y la cámara.
+
+Es probable que se añada un cuarto indicador especial de \emph{tolerancia}. Cuando acabas de consumir droga este indicador sube al máximo y empieza a bajar a otra vez más o menos rápido, que si consumes drogas con el indicador activo te arriesgas a vomitar perdiendo puntos de los otros indicadores. Así el jugador no podría consumir todas las drogas que consiga una tras otra sino que tendría que ir haciéndolo de forma pausada -para esto, sería interesante añadir algún sistema de inventario para acumular las drogas que no puedes tomar aún. El juego tendría así cierto componente de estrategia, ya que el orden en que se consumen las drogas obtenidas influirá en que podamos lograr más rápido nuestro objetivo.
+
+\subsubsection{Elementos adicionales}
+
+Existen muchos elementos adicionales que se podrían añadir, pero no estamos seguro de que en el plazo de desarrollo dé tiempo a añadirlos. Los anotamos aquí por si en el futuro decidiésemos implementarlos.
+
+En general, los elementos adicionales que consideramos son distintos obstáculos que se interponen en tu camino a la autodestrucción. Por ejemplo:
+
+\begin{description}
+\item[Combates] Puede que algún amigo o narcotraficante piense que en tu bien y no quiera darte más droga. Para conseguir su droga tendrás que enfrentarte con él en una pelea, pero la adrenalina del combate te hará disminuir tus indicadores.
+
+\item[Policía, tu madre, tu amor platónico] Estos son otros de los muchos elementos que podrían hacerte volver a tomar contacto con la realidad. Por ejemplo, avistar policías te puede causar una disminución en la psicodelia. Que venga tu madre a echarte la bronca o ver a tu amor platónico pasar también te disminuiría los indicadores.
+\end{description}
+
+\section{Motor de juegos}
+
+Para poder construir el juego desarrollaremos un motor de juegos. En realidad, este será un motor de renderizado 3D con capacidades extendidas como sistemas de eventos para facilitar.
+
+Su diseño estará influido por nuestra experiencia previa con el motor \emph{Ogre3D} aunque su arquitectura estará simplificada dados nuestros requerimientos simples -por ejemplo, no necesitamos subsistemas de renderizado intercambiables. Esta influencia destacará en que el motor se basará en \emph{grafos de escena}, una estructura arbórea que contiene toda la modelización gráfica de la escena y facilita la gestión de las entidades gráficas y sus relaciones. Se intentará que el motor tenga un buen diseño orientado a objetos y que para construir el juego en sí no haya que utilizar en ningún momento las primitivas de OpenGl.
+
+\subsection{Dependencias}
+
+Estas son las bibliotecas que utilizaremos para realizar el motor:
+
+\begin{itemize}
+\item \texttt{GNU Autotools} para el sistema de compilación.\footnote{GNU Autotools será sólo necesario para los desarrolladores, los usuarios sólo necesitarán una shell compatible con \texttt{sh}, un compilador de C++ y \texttt{make}.}
+\item \texttt{SDL} y \texttt{SDL\_image} $\geq$ 1.2, para la comunicación con el entorno gráfico nativo.
+\item \texttt{OpenGL}. (La versión necesaria dependerá de las características que implementemos)
+\item \texttt{Boost}, en concreto sus submódulos \texttt{Function} (para el sistema de eventos y otros tipos de conexiones entre objetos), \texttt{Thread} (aunque no creo que hagamos uso de la concurrencia, algunas clases que estamos reutilizando de otros proyectos eran \emph{thread-safe}) y \texttt{SharedPtr} (puntero con conteo de referencias para facilitar la gestión de recursos compartidos como texturas, modelos, etc...). En un principio se usará la versión 1.35 pero tal vez decidamos usar el módulo \texttt{Flyweight} incluido en la versión 1.38.
+\item \texttt{SigC++} $\geq$ 2.0, para el sistema de eventos y el patrón \emph{observer}.
+\item Por la biblioteca de audio no nos hemos decidido aún. Posiblemente se use \texttt{SDL\_mixer} pero está muy limitada. También se podría usar \texttt{OpenAl} que es algo más avanzada pero como la anterior está discontinuada. La última opción, que sería interesante para incluir efectos de sonido psicotrópicos, sería usar \texttt{libpsynth}, aunque está disponible en menos sistemas que las anteriores y su API no es estable aún\footnote{\texttt{libpsynth} es parte del proyecto Psychosynth, desarrollado por el autor. Más información en: \url{http://www.psychosynth.org}}.
+\end{itemize}
+
+\subsection{Características}
+
+A continuación se indican algunas de las características que podría incluir el sistema, ordenadas según la prioridad que en un principio se le dará. Si el profesor estima que para una mejor evaluación del proyecto deberían reordenarse estas prioridades le sugiero que se ponga en contacto con los autores por correo electrónico.
+
+\begin{enumerate}
+\item Abstracciones basadas en objetos de los distintos componentes vistos en prácticas: cámara, geometría, iluminación, modelos PLY.
+\item Sistema de partículas, con eventos de colisión y agentes multiestado.
+\item Árboles de escena.
+\item Soporte para texturas.
+\item Soporte para modelos en formato MD2 con texturas y animación basada en keyframes.
+\item \emph{Overlays} bidimensionales para la visualización de los indicadores en pantalla.
+\item Optimización del renderizado de la escena con técnicas simples de \emph{culling}.
+\item Optimización del renderizado de la escena con \emph{display lists}, \emph{vertex buffers} y otras facilidades de OpenGL.
+\item Uso de \emph{shaders} y programas de GPU (interesantes para visualizar efectos psicotrópicos).
+\item Uso del sistema \texttt{Open Dynamics Engine} para físicas realistas, aunque para que los resultados fuesen vistosos habría que incluir animación por esqueleto, lo cual es muy costoso.
+\end{enumerate}
+
+\end{document}
+
+% LocalWords:  haver
