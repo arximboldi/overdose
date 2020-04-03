@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 00:46:56 raskolnikov>
- *
  *  @file        scene_node.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 15:07:04 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,13 +47,13 @@ void scene_node::draw()
     glTranslatef (m_position[0], m_position[1], m_position[2]);
     glRotatef (m_rotate[0], m_rotate[1], m_rotate[2], m_rotate[3]);
     glScalef (m_scale[0], m_scale[1], m_scale[2]);
-    
+
     for (scene_node::iterator iter = begin (); iter != end (); ++iter)
 	iter->draw ();
-      
+
     for (draw_list::iterator it = m_drawables.begin(); it != m_drawables.end(); ++it)
 	(*it)->draw ();
-    
+
     glPopMatrix();
 }
 

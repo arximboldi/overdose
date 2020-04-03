@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 16:29:19 raskolnikov>
- *
  *  @file        task.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed May 13 19:36:20 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -51,4 +49,3 @@ void task::finish ()
 
 } /* namespace core */
 } /* namespace yage */
-

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 12:51:55 raskolnikov>
- *
  *  @file        graphic_system.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 15 13:23:41 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -69,7 +67,7 @@ void graphic_system::init (const std::string& title,
     m_fullsc = fs;
     m_grab = grab;
     do_init ();
-}    
+}
 
 void graphic_system::do_init ()
 {
@@ -98,7 +96,7 @@ void graphic_system::do_init ()
 			  SDL_OPENGL |
 			  (m_fullsc ? SDL_FULLSCREEN : 0)) == 0)
 	throw graphic_system_error (
-	    std::string ("Could not create window: ") + SDL_GetError ());    
+	    std::string ("Could not create window: ") + SDL_GetError ());
 
     /* TODO: Parametrizar key repeat? */
     SDL_EnableKeyRepeat (300, 50);
@@ -108,7 +106,7 @@ void graphic_system::do_init ()
 	SDL_ShowCursor (0);
 	SDL_WM_GrabInput (SDL_GRAB_ON);
     }
-    
+
     /* Asociamos las extensiones a los tipos */
     m_geometries.get_policy ().attach_default_factory<geo::md2_model_impl> ("md2");
     m_geometries.get_policy ().attach_default_factory<geo::ply_model> ("ply");
@@ -121,7 +119,7 @@ void graphic_system::do_init ()
 
     set_polygon_mode ();
     set_shading_mode ();
-    
+
     m_isinit = true;
 }
 
@@ -145,7 +143,7 @@ void graphic_system::resize_window (int sc_w, int sc_h, bool fs, bool grab)
     m_sc_height = sc_h;
     m_fullsc = fs;
     m_grab = grab;
-    
+
     SDL_SetVideoMode (m_sc_width, m_sc_height, 32,
 		      SDL_OPENGL |
 		      (m_fullsc ? SDL_FULLSCREEN : 0));
@@ -157,7 +155,7 @@ void graphic_system::resize_window (int sc_w, int sc_h, bool fs, bool grab)
 	SDL_ShowCursor (true);
 	SDL_WM_GrabInput (SDL_GRAB_ON);
     }
-    
+
 #else
     throw graphic_system_error ("Resize not supported on windows platform.");
 #endif
@@ -167,11 +165,11 @@ bool graphic_system::handle_video_resize (SDL_Event& ev)
 {
     m_sc_width = ev.resize.w;
     m_sc_height = ev.resize.h;
-    
+
     glViewport (0, 0, m_sc_width, m_sc_height);
     return false;
 }
-  
+
 bool graphic_system::handle_video_update (SDL_Event& ev)
 {
     update ();
@@ -181,11 +179,11 @@ bool graphic_system::handle_video_update (SDL_Event& ev)
 void graphic_system::update ()
 {
     glEnable (GL_NORMALIZE);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );    
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     if (m_scene)
 	m_scene->render (m_sc_width, m_sc_height);
-    
+
     SDL_GL_SwapBuffers ();
 }
 
@@ -207,4 +205,3 @@ void graphic_system::set_clear_color (const base::point4f& col)
 
 } /* namespace core */
 } /* namespace yage */
-

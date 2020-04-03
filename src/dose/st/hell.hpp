@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 12:32:37 raskolnikov>
- *
  *  @file        hell.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon Jun 15 10:02:16 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -41,7 +39,7 @@ class hell : public st::level
 public:
     void init ();
     std::string loading ();
-    
+
 private:
     void setup_floor ();
     void setup_buildings ();

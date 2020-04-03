@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 13:50:21 raskolnikov>
- *
  *  @file        observer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed Apr  8 13:42:05 2009
@@ -15,7 +13,7 @@
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,7 +47,7 @@ class short_circuit_accum
 {
 public:
     typedef bool result_type;
-    
+
     template<typename IteratorT>
     result_type operator () (IteratorT beg, IteratorT end)
     {
@@ -132,7 +130,7 @@ void subject_base<Listener>::remove_slot (Signal& sig,
 {
     typedef typename Signal::slot_list_type list;
     list sl = sig.slots ();
-    
+
     typename list::iterator it = sl.begin ();
     while (it != sl.end ()) {
 	if (*it == s)

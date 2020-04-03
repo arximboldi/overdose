@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2011-08-22 23:11:01 raskolnikov>
- *
  *  @file        misc.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -13,7 +11,7 @@
  *  Copyright (C) 2007, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,7 +44,7 @@ namespace base
 const char* get_extension (const char* file)
 {
     const char* ext;
-    
+
     for (ext = file; *ext != '\0'; ext++);
     while(--ext >= file && *ext != '.');
 
@@ -66,7 +64,7 @@ int strcmp_i (const char* a, const char* b)
 }
 
 char* itoa (int val, int yage)
-{	
+{
     static char buf[32] = {0};
     int i = 30;
     bool sign = val < 0;
@@ -75,9 +73,9 @@ char* itoa (int val, int yage)
 	buf[30] = '0';
 	return &buf[30];
     }
-	
+
     if (sign) val = -val;
-    
+
     for(; val && i ; --i, val /= yage)
 	buf[i] = "0123456789abcdef"[val % yage];
 
@@ -104,7 +102,7 @@ char* ftoa (double f, double sigfigs)
         sprintf(a, "%#*.*f", width, prec, f );
     } else {
         if ( sigfigs < 2.0 ) sigfigs = 2.0;
-            
+
         if ( front > (int)sigfigs )
             sprintf( a, "%#.*e", (int)sigfigs-1, f );
         else {
@@ -114,7 +112,7 @@ char* ftoa (double f, double sigfigs)
             sprintf( a, "%#*.*f", width, prec, f );
 	}
     }
-    
+
     return strdup(a);
 }
 
@@ -122,19 +120,19 @@ string dirname_str(string str)
 {
     string::iterator end = str.end();
     string::iterator beg;
-    
+
     for (beg = --str.end(); beg != --str.begin() && *beg != '/'; --beg);
-    str.erase(++beg, end);   
+    str.erase(++beg, end);
     return str;
 }
 
 string basename_str(string str)
 {
     string::iterator beg;
-    
+
     for (beg = --str.end(); beg != --str.begin() && *beg != '/'; --beg);
     str.erase(str.begin (), ++beg);
-    
+
     return str;
 }
 

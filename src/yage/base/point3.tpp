@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-10 22:03:56 raskolnikov>
- *
  *  @file        point3.tpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:00:48 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -186,7 +184,7 @@ bool point3<T>::operator== (const point3<T>& po) const
     return
 	p[0] == po.x () &&
 	p[1] == po.y () &&
-	p[2] == po.z (); 
+	p[2] == po.z ();
 }
 
 template <class T>
@@ -195,7 +193,7 @@ bool point3<T>::operator!= (const point3<T>& po) const
     return
 	p[0] != po.x () ||
 	p[1] != po.y () ||
-	p[2] != po.z (); 
+	p[2] != po.z ();
 }
 
 template <class T>
@@ -218,7 +216,7 @@ point3<T>& point3<T>::operator += (const point3<T>& v)
     p[2] += v.p[2];
     return *this;
 }
-  
+
 template<class T>
 point3<T> point3<T>::operator+ (const point3<T>& v) const
 {
@@ -268,7 +266,7 @@ point3<T> point3<T>::cross (const point3& v) const
 		     p[2]*v.p[0] - p[0]*v.p[2],
 		     p[0]*v.p[1] - p[1]*v.p[0]);
 }
- 
+
 template<class T>
 point3<T> point3<T>::normalize () const
 {

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-19 23:50:21 raskolnikov>
- *
  *  @file        resource_manager.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon May 18 19:15:07 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,7 +44,7 @@ class resource_manager
 {
 public:
     typedef boost::shared_ptr<Resource> resource_ptr;
-    
+
     resource_ptr find (const Key& name);
     void add (const Key& name, resource_ptr res);
     void del (const Key& name);
@@ -54,7 +52,7 @@ public:
 
 protected:
     virtual resource_ptr handle_not_found (const Key& name);
-    
+
 private:
     typedef std::map<Key, resource_ptr> resource_map;
     resource_map m_resources;

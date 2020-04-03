@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:57:00 raskolnikov>
- *
  *  @file        dealer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu Jun 11 19:44:50 2009

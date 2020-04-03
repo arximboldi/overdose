@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-21 13:01:07 raskolnikov>
- *
  *  @file        hemisphere.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:18:54 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -38,24 +36,24 @@ namespace geo
 {
 
 hemisphere::hemisphere (size_t division)
-{ 
+{
     begin (mesh::QUADS);
     for (size_t i = 0; i < division; ++i)
     {
 	colour (point3f (1.0, (float) i / division, 0.0));
-	
+
 	for (size_t j = 0; j < division; j++) {
-	    point (point3f (sin (M_PI * (float) j / division) * 
+	    point (point3f (sin (M_PI * (float) j / division) *
 			    cos (M_PI * (float) i /division),
 			    cos (M_PI * (float) j / division),
-			    sin (M_PI * (float) j / division) * 
+			    sin (M_PI * (float) j / division) *
 			    sin (M_PI * (float) i /division)));
 	    point (point3f (sin (M_PI * (float) j / division) *
 			    cos (M_PI * (float) (i+1) /division),
 			    cos (M_PI * (float) j / division),
-			    sin (M_PI * (float) j / division) * 
+			    sin (M_PI * (float) j / division) *
 			    sin (M_PI * (float) (i+1) /division)));
-	    point (point3f (sin (M_PI * (float) (j+1) / division) * 
+	    point (point3f (sin (M_PI * (float) (j+1) / division) *
 			    cos (M_PI * (float) (i+1) /division),
 			    cos (M_PI * (float) (j+1) / division),
 			    sin (M_PI * (float) (j+1) / division) *

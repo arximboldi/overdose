@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 21:30:16 raskolnikov>
- *
  *  @file        entity_manager.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 12:20:08 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -92,7 +90,7 @@ void entity_manager::find_collisions (entity_list& list, const collidable& who)
 {
     typedef entity_list::iterator iterator;
     static_collision col;
-    
+
     for (iterator iter = m_static.begin (); iter != m_static.end (); ++iter)
     {
 	collidable other = (*iter)->get_bounds ();
@@ -113,7 +111,7 @@ bool entity_manager::find_collisions (const collidable& who)
 {
     typedef entity_list::iterator iterator;
     static_collision col;
-    
+
     for (iterator iter = m_static.begin (); iter != m_static.end (); ++iter)
     {
 	collidable other = (*iter)->get_bounds ();
@@ -137,7 +135,7 @@ entity_manager::find_dynamic_static_collisions (const collidable& who,
 						const base::point3f& move)
 {
     typedef entity_list::iterator iterator;
-    
+
     for (iterator iter = m_static.begin (); iter != m_static.end (); ++iter)
     {
 	dynamic_collision col;
@@ -161,7 +159,7 @@ void entity_manager::update (int delta_ticks)
     for (iterator iter = m_dynamic.begin (); iter != m_dynamic.end ();)
 	if (iter->is_finished ()) m_dynamic.erase (iter++);
 	else ++iter;
-    
+
     /* Comprobar las colisiones. */
     for (iterator iter_a = m_dynamic.begin (); iter_a != m_dynamic.end (); ++iter_a)
     {
@@ -174,7 +172,7 @@ void entity_manager::update (int delta_ticks)
 		check_collision (*iter_a, *iter_b, iter_a->get_movement ());
 	}
     }
-    
+
     /* Actualizar todas las entidades */
     for (iterator iter = m_dynamic.begin (); iter != m_dynamic.end (); ++iter)
 	iter->apply_movement ();

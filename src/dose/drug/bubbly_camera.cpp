@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 19:15:15 raskolnikov>
- *
  *  @file        bubbly_camera.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 18:33:52 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -53,7 +51,7 @@ void bubbly_camera::update (int delta)
 {
     m_camera->set_ratio (m_orig_ratio + m_orig_ratio * m_depth * std::sin (m_ratio_pos));
     m_camera->set_fov (m_orig_fov + m_orig_fov * m_depth * std::sin (m_fov_pos));
-    
+
     m_ratio_pos += delta * m_ratio_speed;
     m_fov_pos += delta * m_fov_speed;
 }

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 19:52:17 raskolnikov>
- *
  *  @file        md2_model.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Tue May 12 09:22:34 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -59,12 +57,12 @@ float md2_model::get_loop_offset ()
 void md2_model::animate (float percent)
 {
     size_t range = m_anim_end - m_anim_start;
-        
+
     m_curr_frame = m_anim_start + int (range * percent) % (range + 1);
     m_next_frame = m_curr_frame + 1;
     if (m_next_frame > m_anim_end)
 	m_next_frame -= range + 1;
-    
+
     m_interp = range * percent - std::floor (range * percent);
 }
 
@@ -87,10 +85,10 @@ void md2_model::draw ()
 	m_texture->enable ();
 
     draw_raw ();
- 
+
     if (m_texture)
 	m_texture->disable ();
-    
+
     glPopMatrix ();
 }
 

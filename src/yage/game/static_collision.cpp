@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-25 11:42:47 raskolnikov>
- *
  *  @file        static_collision.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 10:52:42 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -86,7 +84,7 @@ bool static_collision::operator () (const capsule& a, const aabb& b)
     /* TODO: Esto no funciona si la capsula no es paralela a los ejes,
        pero lo dejamos así porque por ahora estamos siempre
        paralelos a los ejes. */
-       
+
     return
 	std::min (sq_dist_point_aabb (a.p1, b),
 		  sq_dist_point_aabb (a.p1, b))

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-19 12:47:25 raskolnikov>
- *
  *  @file        textured_hemisphere.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Tue May 19 11:06:14 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -39,29 +37,29 @@ textured_hemisphere::textured_hemisphere (size_t division)
 {
     begin (mesh::QUADS);
     for (size_t i = 0; i < division; ++i)
-    {	
+    {
 	for (size_t j = 0; j < division; j++) {
 	    point3f pn;
-	    
-	    point3f p0 (sin (M_PI * (float) j / division) * 
+
+	    point3f p0 (sin (M_PI * (float) j / division) *
 			cos (M_PI * (float) i / division),
-			sin (M_PI * (float) j / division) * 
+			sin (M_PI * (float) j / division) *
 			sin (M_PI * (float) i / division),
 			cos (M_PI * (float) j / division));
 	    pn = p0.normalize ();
 	    point2f t0 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
 			1 - asinf (pn.y ()) / M_PI + 0.5f);
-	    
+
 	    point3f p1 (sin (M_PI * (float) j / division) *
 			cos (M_PI * (float) (i+1) /division),
-			sin (M_PI * (float) j / division) * 
+			sin (M_PI * (float) j / division) *
 			sin (M_PI * (float) (i+1) /division),
 			cos (M_PI * (float) j / division));
 	    pn = p1.normalize ();
 	    point2f t1 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
 			1 - asinf (pn.y ()) / M_PI + 0.5f);
-	    
-	    point3f p2 (sin (M_PI * (float) (j+1) / division) * 
+
+	    point3f p2 (sin (M_PI * (float) (j+1) / division) *
 			cos (M_PI * (float) (i+1) / division),
 			sin (M_PI * (float) (j+1) / division) *
 			sin (M_PI * (float) (i+1) / division),
@@ -70,7 +68,7 @@ textured_hemisphere::textured_hemisphere (size_t division)
 	    point2f t2 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
 			1 - asinf (pn.y ()) / M_PI + 0.5f);
 
-			
+
 	    point3f p3 (sin (M_PI * (float) (j+1) / division) *
 			cos (M_PI * (float) i / division),
 			sin (M_PI * (float) (j+1) / division) *
@@ -92,10 +90,10 @@ textured_hemisphere::textured_hemisphere (size_t division)
 
 	    FIX_TEX(t0, t1);
 	    FIX_TEX(t1, t2);
-	    FIX_TEX(t2, t3);	    
-	    
+	    FIX_TEX(t2, t3);
+
 #undef FIX_TEX
-	    
+
 	    tex_coord (t0);
 	    point (p0);
 	    tex_coord (t1);

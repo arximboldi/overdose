@@ -2,7 +2,6 @@
  *  File:       mesh.hpp
  *  Author:     Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  Date:       Sun May  3 13:18:21 2009
- *  Time-stamp: <2009-06-12 00:01:26 raskolnikov>
  *
  *  Declaracion de la clase Mesh.
  *
@@ -15,7 +14,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -77,33 +76,33 @@ public:
     };
 
     mesh ();
-    
+
     void begin (polygon_type mode,
 		int n_vertex_est = 0,
 		normal_type normal = VERTEX);
     void end ();
-    
+
     void point (const base::point3f& p);
     void tex_coord (const base::point2f& t);
     void colour (const base::point3f& p);
-        
+
     void set_material (boost::shared_ptr<gra::material> material)
     {
 	m_material = material;
     }
-    
+
     void set_texture (boost::shared_ptr<gra::texture> texture)
     {
 	m_texture = texture;
     }
-    
+
     bool get_state () const
     {
 	return m_working;
     }
 
     void draw ();
-    
+
     void draw_raw ();
 
 private:
@@ -122,7 +121,7 @@ private:
 	base::point3f tri [3];
 	base::point3f norm;
     };
-    
+
     std::vector<mesh_point> m_vertex;
     std::vector<mesh_face> m_faces;
 
@@ -131,13 +130,13 @@ private:
 
     bool m_working;
     mesh_point m_curr;
-    
+
     bool m_faces_normal;
     bool m_vertex_normal;
 
     boost::shared_ptr<gra::texture>  m_texture;
     boost::shared_ptr<gra::material> m_material;
-    
+
     void normalize_faces ();
     void normalize_vertex ();
 
@@ -154,4 +153,3 @@ typedef boost::shared_ptr<geo::mesh> mesh_ptr;
 } /* namespace yage */
 
 #endif /* YAGE_MESH_H */
-

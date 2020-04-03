@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 21:04:09 raskolnikov>
- *
  *  @file        policeman.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 22:00:17 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -66,7 +64,7 @@ void policeman::handle_collision (yage::game::entity& other,
 	pedestrian::handle_collision (other, box, col);
     }
 }
-    
+
 void policeman::update (int delta)
 {
     pedestrian::update (delta);
@@ -104,7 +102,7 @@ void policeman::follow_state (int delta)
 bool policeman::player_in_fov ()
 {
     const float fov = M_PI / 2.0f;
-    
+
     float a = base::normalize_angle (get_look_angle ());
     float pa = angle_to_player ();
 

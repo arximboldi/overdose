@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-25 17:05:01 raskolnikov>
- *
  *  @file        multi_textured_cube.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 24 19:17:28 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -38,7 +36,7 @@ namespace geo
 multi_textured_cube::multi_textured_cube (float tile_f, float tile_s, float tile_t)
 {
     const float l = 0.5;
-    
+
     begin (mesh::QUADS);
     tex_coord (point2f (0, 1));
     point (point3f (-l, -l,  l));
@@ -49,7 +47,7 @@ multi_textured_cube::multi_textured_cube (float tile_f, float tile_s, float tile
     tex_coord (point2f (0, 0));
     point (point3f (-l,  l,  l));
     end ();
-    
+
     begin (mesh::QUADS);
     tex_coord (point2f (0, 1));
     point (point3f (l, -l, -l));
@@ -60,7 +58,7 @@ multi_textured_cube::multi_textured_cube (float tile_f, float tile_s, float tile
     tex_coord (point2f (tile_f, 1));
     point (point3f (l, -l,  l));
     end ();
-    
+
     begin (mesh::QUADS);
     tex_coord (point2f (0, 1));
     point (point3f (-l, -l, -l));
@@ -69,7 +67,7 @@ multi_textured_cube::multi_textured_cube (float tile_f, float tile_s, float tile
     tex_coord (point2f (tile_s, 0));
     point (point3f ( l,  l, -l));
     tex_coord (point2f (0, 0));
-    point (point3f (-l,  l, -l)); 
+    point (point3f (-l,  l, -l));
     end ();
 
     begin (mesh::QUADS);
@@ -91,9 +89,9 @@ multi_textured_cube::multi_textured_cube (float tile_f, float tile_s, float tile
     tex_coord (point2f (tile_t, 1));
     point (point3f ( l, l,  l));
     tex_coord (point2f (0, 1));
-    point (point3f (-l, l,  l)); 
+    point (point3f (-l, l,  l));
     end ();
-    
+
     begin (mesh::QUADS);
     tex_coord (point2f (0, 0));
     point (point3f (-l, -l, -l));
@@ -102,10 +100,10 @@ multi_textured_cube::multi_textured_cube (float tile_f, float tile_s, float tile
     tex_coord (point2f (tile_t, 1));
     point (point3f ( l, -l,  l));
     tex_coord (point2f (0, 1));
-    point (point3f (-l, -l,  l)); 
+    point (point3f (-l, -l,  l));
     end ();
 }
-    
+
 void multi_textured_cube::set_top_bottom (boost::shared_ptr<gra::texture> tex)
 {
     get (4).set_texture (tex);

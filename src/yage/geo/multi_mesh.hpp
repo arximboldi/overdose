@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-24 19:25:21 raskolnikov>
- *
  *  @file        multi_mesh.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 10 21:51:09 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -42,10 +40,10 @@ class multi_mesh : public gra::geometry
 {
 public:
 
-    
+
     void set_material (boost::shared_ptr<gra::material> material);
     void set_texture (boost::shared_ptr<gra::texture> texture);
-    
+
     void begin (mesh::polygon_type mode,
 		int n_vertex_est = 0,
 		mesh::normal_type normal = mesh::VERTEX);
@@ -54,15 +52,15 @@ public:
     void point (const base::point3f& p);
     void tex_coord (const base::point2f & t);
     void colour (const base::point3f& p);
-    
+
     void draw ();
     void draw_raw ();
-    
+
     mesh& get (size_t index)
     {
 	return m_mesh [index];
     }
-    
+
 private:
     std::vector<mesh> m_mesh;
 

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-22 17:14:23 raskolnikov>
- *
  *  @file        tester.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 16:54:01 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -55,9 +53,9 @@ class tester : public yage::game::state
 {
 public:
     tester ();
-    
+
     bool handle_key_press (SDL_Event& ev);
-    
+
     bool handle_key_release (SDL_Event& ev)
     {
 	return false;
@@ -67,17 +65,17 @@ public:
     {
 	return false;
     }
-    
+
     bool handle_mouse_button_press (SDL_Event& ev)
     {
 	return false;
     }
-    
+
     bool handle_mouse_button_release (SDL_Event& ev)
     {
 	return false;
     }
-    
+
 private:
     float m_rad;
     float m_angle, m_angle2;

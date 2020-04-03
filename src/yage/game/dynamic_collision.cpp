@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 17:22:56 raskolnikov>
- *
  *  @file        dynamic_collision.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 17:45:58 2009
@@ -14,7 +12,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -91,7 +89,7 @@ bool dynamic_collision::operator () (const capsule& a, const capsule& b)
 	     base::point3f (bs.center[0], 0, bs.center[2])).normalize ();
 	return true;
     }
-    
+
     return false;
 }
 
@@ -114,7 +112,7 @@ bool dynamic_collision::operator () (const sphere& a, const capsule& b)
 }
 
 bool dynamic_collision::operator () (const sphere& s, const aabb& b)
-{   
+{
     /* Obtenemos una AABB expandiendo b por el radio de la esfera */
     aabb e = b;
     e.min[0] -= s.rad; e.min[1] -= s.rad; e.min[2] -= s.rad;
@@ -125,7 +123,7 @@ bool dynamic_collision::operator () (const sphere& s, const aabb& b)
     if (!intersect_ray_aabb (s.center, m_delta, e, m_time, p) ||
 	m_time > 1.0f)
         return false;
-    
+
     /* Buscamos las caras en de b en las que p cae */
     int u = 0, v = 0;
     if (p[0] < b.min[0]) u |= 1;
@@ -142,13 +140,13 @@ bool dynamic_collision::operator () (const sphere& s, const aabb& b)
     point3f p1 = s.center, p2 = s.center + m_delta;
 
 #define corner(b, n)  (((n) & 1) ? (b).max : (b).min)
-    
+
     /* Si los 3 bits están activados estamos en una región de vertice */
     if (m == 7) {
 	float tmin = FLT_MAX;
 
 	if (intersect_segment_capsule (p1, p2, corner (b, v), corner (b, v ^ 1), s.rad, m_time))
-	    tmin = std::min (m_time, tmin);    
+	    tmin = std::min (m_time, tmin);
 	if (intersect_segment_capsule (p1, p2, corner (b, v), corner (b, v ^ 2), s.rad, m_time))
 	    tmin = std::min (m_time, tmin);
 	if (intersect_segment_capsule (p1, p2, corner (b, v), corner (b, v ^ 4), s.rad, m_time))
@@ -156,15 +154,15 @@ bool dynamic_collision::operator () (const sphere& s, const aabb& b)
 
 	if (tmin == FLT_MAX)
 	    return false;
-	
+
 	m_time = tmin;
 	return true;
     }
-    
+
     /* Si solo hay 1 bit entonces estamos en una cara */
     if ((m & (m - 1)) == 0)
 	return true;
-	    
+
     /* Si no es un lado */
     return intersect_segment_capsule (p1, p2, corner (b, u ^ 7), corner (b, v), s.rad, m_time);
 
@@ -172,7 +170,7 @@ bool dynamic_collision::operator () (const sphere& s, const aabb& b)
 }
 
 bool dynamic_collision::operator () (const capsule& a, const aabb& b)
-{    
+{
     /* Cambiamos el test por probar las dos esferas */
     float t1, t2;
     bool r1, r2, ret = false;
@@ -206,15 +204,15 @@ bool dynamic_collision::operator () (const capsule& a, const aabb& b)
 	m_time = t2;
 	ret = true;
     }
-    
+
     if (ret) {
 	dest = dest + m_delta * m_time * (1 - EPSILON);
-	
+
 	float diff_max_x = dest[0] - b.max[0];
 	float diff_min_x = b.min[0] - dest[0];
 	float diff_max_z = dest[2] - b.max[2];
 	float diff_min_z = b.min[2] - dest[2];
-    
+
 	if (diff_max_x >= 0 &&
 	    diff_max_x >= diff_max_z &&
 	    diff_max_x >= diff_min_z)
@@ -232,7 +230,7 @@ bool dynamic_collision::operator () (const capsule& a, const aabb& b)
 		 diff_min_z >= diff_min_x)
 	    m_normal = base::point3f (0, 0, -1);
     }
-    
+
     return ret;
 }
 

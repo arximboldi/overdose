@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 17:45:16 raskolnikov>
- *
  *  @file        collidable.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 19:08:02 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -44,18 +42,18 @@ public:
     collidable_translator (const base::point3f& pos)
 	: m_pos (pos)
     {}
-    
+
     void operator () (sphere& col) const
     {
 	col.center = col.center + m_pos;
     }
-    
+
     void operator () (capsule& col) const
     {
 	col.p1 = col.p1 + m_pos;
 	col.p2 = col.p2 + m_pos;
     }
-    
+
     void operator () (aabb& col) const
     {
 	col.max = col.max + m_pos;

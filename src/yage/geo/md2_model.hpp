@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:55:30 raskolnikov>
- *
  *  @file        md2_model.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Tue May 12 09:20:36 2009

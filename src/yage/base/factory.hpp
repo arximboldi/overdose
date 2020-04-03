@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-22 17:14:45 raskolnikov>
- *
  *  @file        factory.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 12:50:06 2009
@@ -11,7 +9,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -40,7 +38,7 @@ class factory_functor_base
 {
 public:
     virtual ~factory_functor_base () {};
-    virtual Base* operator () () = 0;    
+    virtual Base* operator () () = 0;
 };
 
 template <class Base, class Concrete>

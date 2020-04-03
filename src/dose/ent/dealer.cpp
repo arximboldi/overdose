@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 22:35:32 raskolnikov>
- *
  *  @file        dealer.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu Jun 11 19:45:48 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -79,7 +77,7 @@ void dealer::update (int delta)
 }
 
 bool dealer::player_near ()
-{   
+{
     base::point3f d = get_level ()->get_player ()->get_node ().get_world_position ();
     base::point3f t = get_node ().get_world_position ();
 
@@ -93,7 +91,7 @@ void dealer::salute_state (int delta)
     } catch (geo::md2_model_error& err) {
 	set_animation ("stand", 1.5);
     }
-    
+
     if (!player_near ()) {
 	states ().pop_state ();
 	finish_animation ();

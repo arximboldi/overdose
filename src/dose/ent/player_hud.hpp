@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:56:18 raskolnikov>
- *
  *  @file        player_hud.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu Jun 11 23:41:08 2009

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 16:26:38 raskolnikov>
- *
  *  @file        task.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed May 13 19:29:32 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -44,37 +42,37 @@ class task
 {
 public:
     typedef std::list<boost::shared_ptr<task> > task_list;
-    
+
     task ();
-    
+
     virtual ~task () {}
 
     virtual void update (int ms) = 0;
-    
+
     void finish ();
-    
+
     bool is_finished ()
     {
 	return m_is_finished;
     }
-	
+
     bool toggle_pause ()
     {
 	return (m_is_paused = !m_is_paused);
     }
-	
+
     bool is_paused ()
     {
 	return m_is_paused;
     }
-	
+
     boost::shared_ptr<task>
     add_next (boost::shared_ptr<task> next)
     {
 	m_next.push_back (next);
 	return next;
     }
-	
+
     const task_list& get_next ()
     {
 	return m_next;
@@ -84,7 +82,7 @@ public:
     {
 	m_parent = parent;
     }
-    
+
     boost::shared_ptr<task_manager> get_task_parent ()
     {
 	return boost::shared_ptr<task_manager> (m_parent);
@@ -93,7 +91,7 @@ public:
 private:
     bool m_is_finished;
     bool m_is_paused;
-	
+
     std::list<boost::shared_ptr<task> > m_next;
     boost::weak_ptr<task_manager> m_parent;
 };

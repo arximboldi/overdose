@@ -2,14 +2,13 @@
  *  File:       texture.hpp
  *  Author:     Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  Date:       Sun May 10 17:44:21 2009
- *  Time-stamp: <2009-06-12 18:54:04 raskolnikov>
  *
  *  Interfaz de la clase texture.
  */
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -64,7 +63,7 @@ public:
     {
 	return m_real_height;
     }
-    
+
     size_t get_width () const
     {
 	return m_width;
@@ -79,10 +78,10 @@ public:
     {
 	m_blending = blend;
     }
-    
+
 private:
     void make_texture (SDL_Surface* surf, GLint filter);
-	
+
     GLuint m_glid;
     size_t m_width;
     size_t m_height;

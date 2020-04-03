@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-11 13:35:14 raskolnikov>
- *
  *  @file        cylinder.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 12:08:36 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -37,7 +35,7 @@ namespace geo
 {
 
 class cylinder : public multi_mesh
-{  
+{
 public:
     cylinder (size_t division = 20);
 };

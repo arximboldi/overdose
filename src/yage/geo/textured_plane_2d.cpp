@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 18:50:50 raskolnikov>
- *
  *  @file        textured_plane_2d.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 00:18:09 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -45,9 +43,9 @@ void textured_plane_2d::draw ()
     {
 	float width = m_tex->get_real_width ();
 	float height = m_tex->get_real_height ();
-	
+
 	m_tex->enable ();
-    
+
 	glBegin (GL_QUADS);
 	{
 	    glTexCoord2f (0, 0);

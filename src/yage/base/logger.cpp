@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 12:42:40 raskolnikov>
- *
  *  @file        logger.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -13,7 +11,7 @@
  *  Copyright (C) 2007, 2008, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -59,4 +57,3 @@ void log::operator () (log& l, int level, const string& msg)
 
 } /* namespace base */
 } /* namespace yage */
-

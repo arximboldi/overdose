@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 11:41:37 raskolnikov>
- *
  *  @file        empty.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun Jun 14 11:39:49 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,4 +47,3 @@ public:
 } /* namespace ent */
 
 #endif /* DOSE_EMPTY_H_ */
-

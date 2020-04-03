@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-22 15:31:00 raskolnikov>
- *
  *  @file        key_listener.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:54:35 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,7 +47,7 @@ class key_subject : public base::subject_base <key_listener>
 public:
     sdl_signal_type on_key_press;
     sdl_signal_type on_key_release;
-    
+
     void add_listener (key_listener& l);
     void del_listener (key_listener& l);
 };

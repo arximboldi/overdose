@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 20:36:31 raskolnikov>
- *
  *  @file        state_manager.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 12:42:05 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -70,11 +68,11 @@ void state_manager::update (int delta)
 {
     if (!m_states.empty ())
 	m_states.top ()->update (delta);
-        
+
     while (!m_actions.empty ())
     {
 	action_slot& a = m_actions.front ();
-	
+
 	switch (a.first)
 	{
 	case CHANGE_STATE:
@@ -89,7 +87,7 @@ void state_manager::update (int delta)
 	default:
 	    break;
 	}
-	
+
 	m_actions.pop ();
     }
 }
@@ -123,7 +121,7 @@ void state_manager::new_state (const std::string& name)
     if (!texname.empty ()) {
 	core::graphic_system& graphic = core::system::self ().graphic ();
 	gra::texture_ptr tex (graphic.textures ().find (texname));
-		
+
 	gra::scene_node& node = m_loading_scene->get_hud_root ();
 	node.clear_drawables ();
 	node.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (tex)));
@@ -133,7 +131,7 @@ void state_manager::new_state (const std::string& name)
 	graphic.set_scene (m_loading_scene);
 	graphic.update ();
     }
-    
+
     current->init ();
     register_state (current);
     m_states.push (current);

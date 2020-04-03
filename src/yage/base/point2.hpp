@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-21 12:33:41 raskolnikov>
- *
  *  @file        point2.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 13:52:20 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -56,17 +54,17 @@ public:
     inline T& operator[] (const int indice);
     inline T* ptr ();
     inline const T* ptr () const;
-    
+
     inline point2& operator+= (const point2 &p);
     inline point2 operator+ (const point2 &p) const;
     inline point2 operator- (const point2 &p) const;
     inline point2 operator* (const T & t) const;
     inline point2 operator* (const point2 & p) const;
-    
+
     inline bool operator< (const point2& p) const;
     inline bool operator== (const point2<T> &p);
     inline bool operator!= (const point2<T> &p);
-    
+
 private:
     T p[2];
 };

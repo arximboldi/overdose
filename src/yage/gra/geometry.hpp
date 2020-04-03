@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 09:46:30 raskolnikov>
- *
  *  @file        geometry.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed May 20 12:58:40 2009
@@ -18,7 +16,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or

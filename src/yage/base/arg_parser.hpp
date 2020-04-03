@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 13:40:33 raskolnikov>
- *
  *  @file        arg_parser.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -12,7 +10,7 @@
  *  Copyright (C) 2007, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -104,7 +102,7 @@ struct atof_func
     {
 	char* end = 0;
 	float res = strtof (str, &end);
-	
+
 	if (end <= str)
 	    throw parse_error ();
 	return res;
@@ -282,7 +280,7 @@ public:
 	} catch (...) {
 	    throw parse_error ();
 	}
-	
+
 	return true;
     }
 };
@@ -317,7 +315,7 @@ public:
     typedef std::list <const char*>::const_iterator const_iterator;
 
     arg_parser () {}
-    
+
     ~arg_parser ();
 
     /**
@@ -447,7 +445,7 @@ public:
 
 private:
     typedef ptr_iterator<std::list <option*>::iterator> option_iterator;
-    
+
     static const unsigned char NULL_FLAG = '\0';
     std::list <option*> m_short[256];
     std::map <const char*, std::list <option*>, detail::ltstr> m_long;
@@ -463,7 +461,7 @@ private:
 
     const char** parse_short (const char** argv, const char** argv_end);
     const char** parse_long (const char** argv, const char** argv_end);
-    
+
     arg_type get_type (const char *arg)
     {
 	if (arg[0] == '-') {
@@ -472,10 +470,10 @@ private:
 	    else
 		return arg_short;
 	}
-	
+
 	return arg_free;
     }
-    
+
     bool is_free (const char *arg)
     {
 	return arg [0] != '-';

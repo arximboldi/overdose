@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 14:04:30 raskolnikov>
- *
  *  @file        light.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 14 19:09:40 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -56,7 +54,7 @@ void light::draw ()
 	if (m_need_update) {
 	    glLighti (m_handle, GL_SPOT_EXPONENT, m_spot_exponent);
 	    glLightf (m_handle, GL_SPOT_CUTOFF, m_spot_cutoff);
-	
+
 	    glLightf (m_handle, GL_CONSTANT_ATTENUATION, m_constant_attenuation);
 	    glLightf (m_handle, GL_LINEAR_ATTENUATION, m_linear_attenuation);
 	    glLightf (m_handle, GL_QUADRATIC_ATTENUATION, m_quadratic_attenuation);
@@ -110,4 +108,3 @@ void light::disable ()
 
 } /* namespace gra */
 } /* namespace yage */
-

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 19:26:40 raskolnikov>
- *
  *  @file        bubbly_camera.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 18:32:15 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -51,12 +49,12 @@ public:
     {
 	return m_camera;
     }
-    
+
     void set_depth (float depth)
     {
-	m_depth = depth; 
+	m_depth = depth;
     }
-    
+
     void set_ratio_speed (float speed)
     {
 	m_ratio_speed = speed;
@@ -71,7 +69,7 @@ public:
     {
 	return m_depth;
     }
-    
+
     float get_ratio_speed () const
     {
 	return m_ratio_speed;
@@ -81,7 +79,7 @@ public:
     {
 	return m_fov_speed;
     }
-    
+
     float get_original_ratio ()
     {
 	return m_orig_ratio;
@@ -91,17 +89,17 @@ public:
     {
 	return m_orig_fov;
     }
-    
+
 private:
     yage::gra::camera_ptr m_camera;
 
     float m_depth;
-    
+
     float m_ratio_pos;
     float m_fov_pos;
     float m_ratio_speed;
     float m_fov_speed;
-    
+
     float m_orig_ratio;
     float m_orig_fov;
 };

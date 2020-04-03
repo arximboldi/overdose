@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 19:42:09 raskolnikov>
- *
  *  @file        adrenaline.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 19:39:09 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -40,7 +38,7 @@ class adrenaline : public dope
 {
 public:
     adrenaline ();
-    
+
     void take ();
     void accumulate (dope_ptr p);
     void handle_finish ();

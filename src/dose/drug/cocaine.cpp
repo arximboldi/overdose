@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 22:21:49 raskolnikov>
- *
  *  @file        cocaine.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 11:52:58 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -62,10 +60,10 @@ void cocaine::take ()
     /* Alteramos la velocidad al andar */
     {
 	m_orig_walk_speed = player->get_walk_speed ();
-	
+
 	float min = m_orig_walk_speed;
 	float max = FX_WALK_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_walk_speed, player,
@@ -76,10 +74,10 @@ void cocaine::take ()
     /* Alteramos la velocidad al rotar */
     {
 	m_orig_rotate_speed = player->get_rotate_speed ();
-	
+
 	float min = m_orig_rotate_speed;
 	float max = FX_ROTATE_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_rotate_speed, player,
@@ -96,12 +94,12 @@ void cocaine::accumulate (dope_ptr d)
     get_level ()->get_player_controller ().randomize_keys ();
 
     ent::player_ptr player = get_level ()->get_player ();
-	
+
     /* Alteramos la velocidad al caminar */
-    {	
+    {
 	float min = player->get_walk_speed ();
 	float max = min + (min - m_orig_walk_speed) / 2;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_walk_speed, player,
@@ -113,7 +111,7 @@ void cocaine::accumulate (dope_ptr d)
     {
 	float min = player->get_rotate_speed ();
 	float max = min + (min - m_orig_rotate_speed) / 2;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_rotate_speed, player,
@@ -128,12 +126,12 @@ void cocaine::handle_finish ()
     get_level ()->get_player_controller ().restore_keys ();
 
     ent::player_ptr player = get_level ()->get_player ();
-	
+
     /* Restauramos la velocidad al caminar */
-    {	
+    {
 	float min = player->get_walk_speed ();
 	float max = ent::player::DEFAULT_WALK_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_walk_speed, player,
@@ -145,7 +143,7 @@ void cocaine::handle_finish ()
     {
 	float min = player->get_rotate_speed ();
 	float max = ent::player::DEFAULT_ROTATE_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_rotate_speed, player,

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 16:36:29 raskolnikov>
- *
  *  @file        trigger_task.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon Jun 15 16:18:00 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -52,7 +50,7 @@ public:
 	m_func ();
 	this->finish ();
     }
-    
+
 private:
     FuncType m_func;
 };

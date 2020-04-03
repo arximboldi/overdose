@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 21:22:28 raskolnikov>
- *
  *  @file        multi_mesh.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 10 21:51:30 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -82,7 +80,7 @@ void multi_mesh::colour (const base::point3f& p)
     check_state (true);
     m_mesh.back ().colour (p);
 }
-    
+
 void multi_mesh::draw ()
 {
     check_state (false);

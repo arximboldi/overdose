@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-22 12:29:22 raskolnikov>
- *
  *  @file        input_system.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:51:37 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -38,7 +36,7 @@ bool input_system::update ()
 {
     bool cont = true;
     SDL_Event ev;
-    
+
     while (SDL_PollEvent (&ev)) {
 	switch (ev.type) {
 	case SDL_VIDEOEXPOSE:
@@ -48,7 +46,7 @@ bool input_system::update ()
 	case SDL_VIDEORESIZE:
 	    on_video_resize (ev);
 	    break;
-	
+
 	case SDL_KEYDOWN:
 	    on_key_press (ev);
 	    break;
@@ -68,11 +66,11 @@ bool input_system::update ()
 	case SDL_MOUSEMOTION:
 	    on_mouse_move (ev);
 	    break;
-	
+
 	case SDL_QUIT:
 	    cont = false;
 	    break;
-	
+
 	default:
 	    break;
 	}

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 23:12:38 raskolnikov>
- *
  *  @file        system.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 15:20:26 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -61,7 +59,7 @@ void system_impl::main_loop ()
 {
     timer timer;
     bool val;
-    
+
     m_input.add_video_listener (m_graphic);
     while (!m_must_quit && (val = m_input.update ()))
     {
@@ -69,7 +67,7 @@ void system_impl::main_loop ()
 	    timer.force_fps (m_fps);
 	    m_update_fps = false;
 	}
-	
+
 	timer.update ();
 	m_tasks->update (timer.delta_ticks ());
 	m_graphic.update ();

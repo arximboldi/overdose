@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 23:59:37 raskolnikov>
- *
  *  @file        pedestrian.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed Jun 10 19:49:13 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -53,19 +51,19 @@ public:
 protected:
     float angle_to_player ();
     float sq_distance_to_player ();
-    
+
     yage::core::state_task& states ()
     {
 	return m_states;
     }
-    
+
 private:
     void rotate_state (int delta);
     void walk_state (int delta);
     void idle_state (int delta);
-    
+
     yage::core::state_task m_states;
-    
+
     float m_dest_angle;
     int m_ticks;
     int m_old_action;

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 22:26:18 raskolnikov>
- *
  *  @file        adrenaline.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 19:42:18 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -61,12 +59,12 @@ void adrenaline::take ()
 
     ent::player_ptr player = get_level ()->get_player ();
     gra::camera_ptr camera = get_level ()->get_player_camera ();
-    
+
     /* Alteramos la velocidad al andar */
-    {	
+    {
 	float min = player->get_walk_speed ();
 	float max = FX_WALK_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_walk_speed, player,
@@ -75,10 +73,10 @@ void adrenaline::take ()
     }
 
     /* Alteramos la velocidad al rotar */
-    {	
+    {
 	float min = player->get_rotate_speed ();
 	float max = FX_ROTATE_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_rotate_speed, player,
@@ -87,10 +85,10 @@ void adrenaline::take ()
     }
 
     /* Alteramos el angulo de vision */
-    {	
+    {
 	float min = camera->get_fov ();
 	float max = FX_FOV;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&gra::camera::set_fov, camera,
@@ -111,12 +109,12 @@ void adrenaline::handle_finish ()
 
     ent::player_ptr player = get_level ()->get_player ();
     gra::camera_ptr camera = get_level ()->get_player_camera ();
-    
+
     /* Alteramos la velocidad al andar */
-    {	
+    {
 	float min = player->get_walk_speed ();
 	float max = ent::player::DEFAULT_WALK_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_walk_speed, player,
@@ -125,10 +123,10 @@ void adrenaline::handle_finish ()
     }
 
     /* Alteramos la velocidad al rotar */
-    {	
+    {
 	float min = player->get_rotate_speed ();
 	float max = ent::player::DEFAULT_ROTATE_SPEED;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&ent::player::set_rotate_speed, player,
@@ -137,10 +135,10 @@ void adrenaline::handle_finish ()
     }
 
     /* Alteramos el angulo de vision */
-    {	
+    {
 	float min = camera->get_fov ();
 	float max = gra::camera::DEFAULT_FOV;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&gra::camera::set_fov, camera,

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 20:32:51 raskolnikov>
- *
  *  @file        dope_effect.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 21:14:57 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -52,13 +50,13 @@ public:
 
     dope_effect (dope_ptr p);
     ~dope_effect ();
-    
+
     void take ();
     void accumulate (dope_ptr d);
     void update (int delta);
     const std::string& get_name () const;
     void force_finish ();
-    
+
     yage::gra::scene_node& get_node ()
     {
 	return m_node;
@@ -68,7 +66,7 @@ public:
     {
 	return m_dope;
     }
-    
+
 private:
     dope_ptr m_dope;
     yage::gra::scene_node m_node;

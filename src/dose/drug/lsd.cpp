@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 22:24:27 raskolnikov>
- *
  *  @file        lsd.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 11:58:09 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -79,7 +77,7 @@ void lsd::take ()
 
     base::point4f min = m_orig_fog_color;
     base::point4f max = random_color ();
-    
+
     get_level ()->get_tasks ().add (
 	gra::create_function_task<float> (
 	    bind (&gra::fog::set_color, fog,
@@ -92,12 +90,12 @@ void lsd::accumulate (dope_ptr d)
 {
     set_progress (get_progress () + 0.8);
     randomize_models ();
-    
+
     gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
-    
+
     base::point4f min = fog->get_color ();
     base::point4f max = random_color ();
-    
+
     get_level ()->get_tasks ().add (
 	gra::create_function_task<float> (
 	    bind (&gra::fog::set_color, fog,
@@ -111,10 +109,10 @@ void lsd::handle_finish ()
     restore_models ();
 
     gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
-    
+
     base::point4f min = fog->get_color ();
     base::point4f max = m_orig_fog_color;
-    
+
     get_level ()->get_tasks ().add (
 	gra::create_function_task<float> (
 	    bind (&gra::fog::set_color, fog,
@@ -150,15 +148,15 @@ void lsd::randomize_models ()
 void lsd::restore_models ()
 {
     game::entity_manager_ptr ents = get_level ()->entities ();
-    
+
     for (game::entity_manager::iterator it = ents->dynamic_begin ();
 	 it != ents->dynamic_end (); ++it)
     {
 	ent::person_ptr p = dynamic_pointer_cast<ent::person> (*it);
 	if (p)
-	    p->restore_model ();	
+	    p->restore_model ();
     }
-}    
+}
 
 } /* namespace drug */
 } /* namespace dose */

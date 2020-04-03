@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 16:29:27 raskolnikov>
- *
  *  @file        player_controller.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 24 12:43:40 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -42,14 +40,14 @@ class player_controller : public yage::core::key_listener
 {
 public:
     typedef boost::shared_ptr<player> player_ptr;
-    
+
     player_controller (player_ptr person);
 
     bool handle_key_press (SDL_Event& ev);
     bool handle_key_release (SDL_Event& ev);
     void randomize_keys ();
     void restore_keys ();
-    
+
 private:
     player_ptr m_person;
     SDLKey m_move_keys [4];

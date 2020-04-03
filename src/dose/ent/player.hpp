@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 16:52:15 raskolnikov>
- *
  *  @file        player.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu Jun 11 23:08:09 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -43,7 +41,7 @@ class player : public person
 {
 public:
     typedef boost::shared_ptr<dealer> dealer_ptr;
-    
+
     player (const std::string& model,
 	    const std::string& texture,
 	    bool inverse_normals = false,
@@ -51,7 +49,7 @@ public:
 	    float rotate_speed = DEFAULT_ROTATE_SPEED);
 
     void update (int delta);
-    
+
     player_hud& get_hud ()
     {
 	return m_hud;
@@ -71,14 +69,14 @@ public:
     {
 	return m_dead;
     }
-    
+
     void kill ();
-   
+
     void take_some_shit ();
     void start_adrenaline ();
     void finish_adrenaline ();
     void handle_police ();
-    
+
 private:
     void manage_dealer (dealer_ptr p);
 

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 20:33:40 raskolnikov>
- *
  *  @file        dope_effect.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 21:18:21 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,18 +44,18 @@ dope_effect::dope_effect (dope_ptr p)
     : m_dope (p)
 {
     core::graphic_system& graphic = core::system::self ().graphic ();
-    
+
     /* Nombre de la droga */
     {
 	gra::scene_node& n = m_node.get_path ("bar.text");
-	
+
 	gra::text_ptr t (new gra::text (graphic.fonts ().find ("DejaVuSans.ttf", 14),
 					p->get_name (),
 					point3f (1, 1, 1)));
 	n.add_drawable (t);
 	n.set_position (point3f (5, 2, 0));
     }
-    
+
     /* Barra de progreso */
     {
 	gra::scene_node& n = m_node.get_path ("bar.progress");
@@ -66,7 +64,7 @@ dope_effect::dope_effect (dope_ptr p)
 	    t->set_blending (true);
 	    n.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (t)));
 
-	    
+
 	    m_node.get_child ("bar").set_position (
 		point3f (graphic.get_width () / 2 - t->get_width () / 2, 0, 0));
 	}
@@ -102,7 +100,7 @@ void dope_effect::update (int delta)
 {
     m_node.get_path ("bar.progress.level").set_scale (
 	base::point3f (std::min (1.0f, m_dope->get_progress ()), 1, 1));
-	
+
     m_dope->update (delta);
     if (m_dope->get_progress () <= 0) {
 	m_dope->handle_finish ();

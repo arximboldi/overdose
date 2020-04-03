@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 00:23:30 raskolnikov>
- *
  *  @file        2d_textured_plane.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 00:14:59 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -50,12 +48,12 @@ public:
     textured_plane_2d (texture_ptr ptr = texture_ptr ());
 
     void draw ();
-    
+
     void set_texture (texture_ptr ptr)
     {
 	m_tex = ptr;
     }
-    
+
 private:
     texture_ptr m_tex;
 };

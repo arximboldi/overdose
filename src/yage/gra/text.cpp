@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 18:51:06 raskolnikov>
- *
  *  @file        text.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 17 23:53:11 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -66,7 +64,7 @@ void text::draw ()
 	update_texture ();
 
 	m_tex->enable ();
-    
+
 	glBegin (GL_QUADS);
 	{
 	    glTexCoord2f (0, 0);
@@ -94,7 +92,7 @@ void text::update_texture ()
 	} else {
 	    if (!m_font)
 		throw text_error ("Can not render text without a font.");
-	
+
 	    core::sdl_surface_ptr surf (
 		m_font->render_surface (m_str, m_color, m_mode));
 
@@ -107,11 +105,11 @@ void text::update_texture ()
 	    m_height = m_tex->get_height ();
 	    m_real_width  = m_tex->get_real_width ();
 	    m_real_height = m_tex->get_real_height ();
-	    
+
 	    if (m_mode == font::BLENDED)
 		m_tex->set_blending (true);
 	}
-	
+
 	m_need_update = false;
     }
 }

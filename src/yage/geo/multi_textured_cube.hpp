@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-25 17:02:54 raskolnikov>
- *
  *  @file        multi_textured_cube.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 24 19:08:45 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -40,7 +38,7 @@ class multi_textured_cube : public multi_mesh
 {
 public:
     multi_textured_cube (float tile_f = 1, float tile_s = 1, float tile_t = 1);
-    
+
     void set_top_bottom (boost::shared_ptr<gra::texture> tex);
     void set_front_back (boost::shared_ptr<gra::texture> tex);
     void set_left_right (boost::shared_ptr<gra::texture> tex);

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 13:43:45 raskolnikov>
- *
  *  @file        timer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -12,7 +10,7 @@
  *  Copyright (C) 2007 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -68,14 +66,14 @@ timer::timer (int fpsrate)
 timer::~timer ()
 {
 }
-	
+
 void timer::force_fps (int fpsrate)
 {
     framecount = 0;
     rate = fpsrate;
     rateticks = (1000.0 /rate);
 }
-	
+
 void timer::reset ()
 {
     gettimeofday (&start, NULL);
@@ -85,16 +83,16 @@ void timer::update ()
 {
     int lastticks;
     int targetticks;
-    
+
     lastticks = nowticks;
-    
+
     update_ticks ();
-	
+
     if (rate > 0) {
         framecount++;
-        
+
         targetticks = sinceticks + int(framecount * rateticks);
-		
+
         if (nowticks <= targetticks)
             usleep((targetticks - nowticks)*1000);
         else {
@@ -105,7 +103,7 @@ void timer::update ()
     } else {
 	update_ticks ();
     }
-    
+
     ms = nowticks - lastticks;
 }
 

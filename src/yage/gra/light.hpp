@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 13:14:13 raskolnikov>
- *
  *  @file        light.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 14 18:36:15 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -109,7 +107,7 @@ public:
 	m_specular = specular;
 	m_need_update = true;
     }
-    
+
 private:
     GLenum m_handle;
 
@@ -121,7 +119,7 @@ private:
     GLfloat m_quadratic_attenuation;
 
     bool m_directional;
-    
+
     base::point3f m_direction;
     base::point4f m_ambient;
     base::point4f m_diffuse;

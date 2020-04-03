@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-24 14:06:40 raskolnikov>
- *
  *  @file        config.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -11,7 +9,7 @@
 
 /*
  *  Copyright (C) 2007, 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -184,7 +182,7 @@ public:
     conf_node ()
 	: m_backend (0)
     {}
-    
+
     /** Destructor. */
     ~conf_node ()
     {
@@ -218,7 +216,7 @@ public:
     {
 	on_nudge (*this);
     }
-    
+
     /**
      * Sets the value of the node. The node type is set to @a T, unless
      * @a T is not a valid type in which case nothing happends.
@@ -239,7 +237,7 @@ public:
      */
     template<class T>
     void set (const T& val, bool overwrite);
-    
+
     /**
      * Sets the value of the node if no previous value has been give to
      * the node. The node type is set to @a T, unless @a T is not a valid type
@@ -248,7 +246,7 @@ public:
      */
     template<class T>
     void def (const T& val);
-    
+
     /**
      * Gets the value of the node. Make sure that @a T matches the node type.
      * @param data Somewhere to store the node value.
@@ -261,7 +259,7 @@ public:
      */
     template<class T>
     T get () const;
-    
+
     /**
      * Permanently stores this node hierarchy using the attached backend.
      */
@@ -277,7 +275,7 @@ public:
      * set values with their old value.
      */
     void def_load ();
-    
+
     /**
      * Attaches a backend to the node. If another backend has already been
      * attached it is datached.
@@ -289,7 +287,7 @@ public:
      * Dataches the currently attached backend to the node.
      */
     void datach_backend ();
-    
+
 private:
     boost::any m_element;
     conf_backend* m_backend;
@@ -316,7 +314,7 @@ template<class T>
 void conf_node::get (T& data) const
 {
     lock lock (this);
-    
+
     try {
 	data = boost::any_cast<T> (m_element);
     } catch (boost::bad_any_cast&) {
@@ -329,7 +327,7 @@ T conf_node::get () const
 {
     lock lock (this);
     T ret;
-    
+
     try {
 	ret = boost::any_cast<T> (m_element);
     } catch (boost::bad_any_cast&) {
@@ -344,7 +342,7 @@ template<class T>
 void conf_node::def (const T& val)
 {
     lock lock (this);
-    
+
     if (m_element.empty ()) {
 	m_element = val;
 	on_change (*this);
@@ -355,7 +353,7 @@ template<class T>
 void conf_node::set (const T& val, bool overwrite)
 {
     lock lock (this);
-    
+
     if (overwrite || m_element.empty ()) {
 	m_element = val;
 	on_change (*this);

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 14:21:19 raskolnikov>
- *
  *  @file        graphic_system.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 15 13:15:50 2009
@@ -21,7 +19,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -89,7 +87,7 @@ public:
 	FLAT   = GL_FLAT,
 	SMOOTH = GL_SMOOTH
     };
-    
+
     static const int  DEFAULT_SCREEN_WIDTH  = 640;
     static const int  DEFAULT_SCREEN_HEIGHT = 480;
     static const bool DEFAULT_FULLSCREEN    = false;
@@ -100,29 +98,29 @@ public:
 	       int sc_h = DEFAULT_SCREEN_HEIGHT,
 	       bool fs  = DEFAULT_FULLSCREEN,
 	       bool grab = false);
-    
+
     void init (const std::string& title,
 	       int sc_w = DEFAULT_SCREEN_WIDTH,
 	       int sc_h = DEFAULT_SCREEN_HEIGHT,
 	       bool fs  = DEFAULT_FULLSCREEN,
 	       bool grab = false);
-    
+
     void close ();
 
     void set_polygon_mode (polygon_mode mode = FILL);
-    void set_shading_mode (shading_mode mode = SMOOTH);    
+    void set_shading_mode (shading_mode mode = SMOOTH);
     void set_clear_color (const base::point4f& col);
-    
+
     void update ();
-    
+
     bool handle_video_resize (SDL_Event& ev);
     bool handle_video_update (SDL_Event& ev);
-    
+
     void resize_window (int sc_w  = DEFAULT_SCREEN_WIDTH,
 			int sc_h  = DEFAULT_SCREEN_HEIGHT,
 			bool fs   = DEFAULT_FULLSCREEN,
 			bool grab = false);
-        
+
     bool is_init ()
     {
 	return m_isinit;
@@ -142,12 +140,12 @@ public:
     {
 	return m_sc_height;
     }
-    
+
     void set_scene (boost::shared_ptr<gra::scene> scene)
     {
 	m_scene = scene;
     }
-    
+
     texture_manager& textures ()
     {
 	return m_textures;
@@ -167,10 +165,10 @@ public:
     {
 	return m_fonts;
     }
-    
+
 private:
     friend class system_impl;
-    
+
     graphic_system ();
     void do_init ();
 
@@ -180,7 +178,7 @@ private:
     bool m_grab;
     std::string m_title;
     bool m_isinit;
-    
+
     boost::shared_ptr<gra::scene> m_scene;
 
     texture_manager  m_textures;

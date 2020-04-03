@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 11:42:51 raskolnikov>
- *
  *  @file        overdose.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon May 18 19:02:11 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -39,7 +37,7 @@ namespace dose
 {
 
 float overdose::s_dope_level = 0.0f;
-    
+
 static const char* OVERDOSE_PROGRAM = "overdose";
 static const char* OVERDOSE_VERSION = VERSION;
 static const char* OVERDOSE_DESCRIPTION =
@@ -79,7 +77,7 @@ void overdose::prepare (yage::base::arg_parser& args)
 void overdose::register_states (boost::shared_ptr<yage::game::state_manager> mgr)
 {
     mgr->add<st::tester> ("tester");
-	
+
     mgr->add<st::level_one> ("level_one");
     mgr->add<st::hell> ("hell");
 }
@@ -87,6 +85,6 @@ void overdose::register_states (boost::shared_ptr<yage::game::state_manager> mgr
 std::string overdose::initial_state ()
 {
     return m_initial_state;
-}   
+}
 
 } /* namespace dose */

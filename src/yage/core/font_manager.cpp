@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-20 12:03:52 raskolnikov>
- *
  *  @file        font_manager.tpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed May 20 11:35:30 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -54,4 +52,3 @@ font_manager_policy::load_resource (const std::string& path,
 
 } /* namespace core */
 } /* namespace yage */
-

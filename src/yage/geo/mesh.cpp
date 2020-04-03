@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2011-08-22 23:34:51 raskolnikov>
- *
  *  @file        mesh.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 13:46:45 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -58,28 +56,28 @@ void mesh::begin (polygon_type poly,
 		  normal_type norm)
 {
     check_state (false);
-    
+
     m_poly_type = poly;
     m_norm_type = norm;
-    
+
     m_vertex.clear ();
     m_faces.clear ();
     m_vertex.reserve (n_vertex_est);
     m_faces.reserve (n_vertex_est / 3);
-    
+
     m_working = true;
-    
+
     m_curr.has_tex = false;
     m_curr.has_colour = false;
 }
-   
+
 void mesh::point (const base::point3f& p)
 {
     check_state (true);
-    
-    m_curr.point = p;    
+
+    m_curr.point = p;
     m_vertex.push_back (m_curr);
-    
+
     switch (m_poly_type)
     {
     case TRIANGLES:
@@ -111,7 +109,7 @@ void mesh::point (const base::point3f& p)
 	    m_faces.push_back (face);
 	}
 	break;
-	
+
     default:
 	break;
     }
@@ -123,7 +121,7 @@ void mesh::point (const base::point3f& p)
 void mesh::tex_coord (const base::point2f& tex)
 {
     check_state (true);
-    
+
     m_curr.has_tex = true;
     m_curr.tex = tex;
 }
@@ -131,7 +129,7 @@ void mesh::tex_coord (const base::point2f& tex)
 void mesh::colour (const base::point3f& col)
 {
     check_state (true);
-    
+
     m_curr.has_colour = true;
     m_curr.colour = col;
 }
@@ -141,16 +139,16 @@ void mesh::end ()
     check_state (true);
 
     m_working = false;
-    
+
     switch (m_norm_type) {
     case VERTEX:
 	normalize_vertex ();
 	break;
-	
+
     case FACE:
 	normalize_faces ();
 	break;
-	
+
     default:
 	break;
     }
@@ -159,20 +157,20 @@ void mesh::end ()
 void mesh::draw_raw ()
 {
     check_state (false);
-    
+
     glBegin (GL_TRIANGLES);
     for (size_t j = 0; j < m_vertex.size (); ++j)
-    {	
+    {
 	if (m_vertex[j].has_colour)
 	    glColor3fv (&m_vertex[j].colour[0]);
 	if (m_vertex[j].has_tex)
-	    glTexCoord2f (m_vertex[j].tex[0], m_vertex[j].tex[1]);		
-	
+	    glTexCoord2f (m_vertex[j].tex[0], m_vertex[j].tex[1]);
+
 	if (m_vertex_normal)
 	    glNormal3fv (m_vertex[j].norm.ptr ());
 	else if (m_faces_normal && j % 3 == 0)
 	    glNormal3fv (m_faces[j/3].norm.ptr ());
-	
+
 	glVertex3fv (m_vertex[j].point.ptr ());
     }
     glEnd ();
@@ -181,18 +179,18 @@ void mesh::draw_raw ()
 void mesh::draw ()
 {
     check_state (false);
-    
+
     if (m_texture)
 	m_texture->enable ();
     if (m_material)
 	m_material->apply ();
 
     draw_raw ();
-    
+
     if (m_texture)
 	m_texture->disable ();
 }
-  
+
 void mesh::normalize_faces ()
 {
     if (!m_faces_normal)
@@ -232,9 +230,9 @@ void mesh::normalize_vertex ()
     if (!m_vertex_normal)
     {
 	normalize_faces ();
-	
+
 	std::map <base::point3f, std::pair<base::point3f, int>, comparator> norm;
-	
+
 	for (vector<mesh_face>::iterator it = m_faces.begin();
 	     it != m_faces.end();
 	     ++it)
@@ -249,7 +247,7 @@ void mesh::normalize_vertex ()
 	    m_vertex [i].norm =
 		norm [m_vertex[i].point].first * (1.0f / norm [m_vertex[i].point].second);
 	}
-	
+
 	m_vertex_normal = true;
     }
 }

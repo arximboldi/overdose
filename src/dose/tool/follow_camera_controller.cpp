@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-16 11:26:00 raskolnikov>
- *
  *  @file        follow_camera_controller.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 24 11:52:43 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -74,7 +72,7 @@ void follow_camera_controller::handle_entity_rotate (game::entity& p)
 }
 
 void follow_camera_controller::recalculate ()
-{    
+{
     /* HACK, parametrizar el 50 ese ;) */
     base::point3f center = m_old_pos + base::point3f (0, 50, 0);
     float hangle = std::atan2 (m_old_orient [0], m_old_orient [2]) + m_hangle;
@@ -82,11 +80,11 @@ void follow_camera_controller::recalculate ()
 	std::cos (m_angle) * std::sin (hangle) * m_distance,
 	- std::sin (m_angle) * m_distance,
 	std::cos (m_angle) * std::cos (hangle) * m_distance);
-    
+
     /* Evitamos colisiones con el suelos */
     if (newpos [1] < 0)
 	newpos [1] = 5;
-    
+
     /* Si los volumenes se solapan esto no funciona bien:
          - Comprobamos si la camara esta dentro de algun volumen.
 	 - Nos imaginamos que viajamos desde el centro del rayo de vision
@@ -95,14 +93,14 @@ void follow_camera_controller::recalculate ()
     game::entity_manager_ptr entities (m_entity->get_entity_parent ());
     game::sphere cambox ( newpos, 5 /* near de la cam / 2 ??*/ );
     game::collidable camcol = cambox;
-    
+
     game::entity_manager::entity_list elist;
     entities->find_collisions (elist, camcol);
 
     if (!elist.empty ()) {
 	cambox.center = center;
 	camcol = cambox;
-	
+
 	game::collidable other = elist.front ()->get_bounds ();
 	translate_collidable (other, elist.front ()->get_node ().get_position ());
 	game::dynamic_collision col;
@@ -122,7 +120,7 @@ bool follow_camera_controller::handle_mouse_move (SDL_Event& ev)
     m_hangle += ev.motion.xrel * m_speed;
 
     recalculate ();
-    
+
     return false;
 }
 
@@ -144,7 +142,7 @@ bool follow_camera_controller::handle_mouse_button_press (SDL_Event& ev)
     }
 
     recalculate ();
-    
+
     return false;
 }
 

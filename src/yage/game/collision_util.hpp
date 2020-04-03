@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 21:43:30 raskolnikov>
- *
  *  @file        collision_util.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 12:19:56 2009
@@ -13,7 +11,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or

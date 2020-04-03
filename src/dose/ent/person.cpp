@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 16:02:31 raskolnikov>
- *
  *  @file        person.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat May 23 14:36:08 2009

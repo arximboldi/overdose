@@ -2,7 +2,6 @@
  *  File:       singleton.hpp
  *  Author:     Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  Date:       2007
- *  Time-stamp: <2009-05-18 12:28:11 raskolnikov>
  *
  *  This file implements a policy-yaged generic singleton. It is a
  *  simplification (less policy implementations are provided) of
@@ -16,7 +15,7 @@
 
 /*
  *  Copyright (C) 2007, 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -76,13 +75,13 @@ public:
      * Real type of the singleton.
      */
     typedef T type;
-    
+
     /**
      * Access the singleton only instance.
      * @return The singleton instance.
      */
     static T& self ();
-    
+
 protected:
     /** Hidden constructor. */
     singleton_holder () {};
@@ -100,7 +99,7 @@ private:
     static instance_type m_instance;
     /** Did we kill the singleton already? */
     static bool m_destroyed;
-    
+
     /** The destroy handler */
     static void destroy_singleton ();
 };
@@ -116,7 +115,7 @@ struct create_with_new
     {
 	return new T;
     }
-    
+
     static void destroy (T* var)
     {
 	delete var;
@@ -301,7 +300,7 @@ public:
 	m_destroyed = true;
 #endif
     }
-        
+
 private:
 #ifndef YAGE_ATEXIT_FIXED
     static bool m_destroyed;

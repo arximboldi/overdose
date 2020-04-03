@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 22:02:37 raskolnikov>
- *
  *  @file        point4.tpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:11:52 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -154,7 +152,7 @@ point4<T>& point4<T>::operator=(const point4<T>& po)
     p[1] = po.y();
     p[2] = po.z();
     p[3] = po.t();
-    
+
     return *this;
 }
 
@@ -165,7 +163,7 @@ bool point4<T>::operator==(const point4<T>& po)
 	p[0] == po.x() &&
 	p[1] == po.y() &&
 	p[2] == po.z() &&
-	p[3] == po.t(); 
+	p[3] == po.t();
 }
 
 
@@ -176,7 +174,7 @@ bool point4<T>::operator!=(const point4<T>& po)
 	p[0] != po.x() ||
 	p[1] != po.y() ||
 	p[2] != po.z() ||
-	p[3] != po.t(); 
+	p[3] != po.t();
 }
 
 template <class T>

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 16:48:23 raskolnikov>
- *
  *  @file        cocaine.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 11:51:51 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -40,7 +38,7 @@ class cocaine : public dope
 {
 public:
     cocaine ();
-    
+
     void take ();
     void accumulate (dope_ptr dp);
     void handle_finish ();

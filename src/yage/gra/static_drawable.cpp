@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 11:32:09 raskolnikov>
- *
  *  @file        static_drawable.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon May 11 15:47:01 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -36,7 +34,7 @@ namespace gra
 static_drawable::static_drawable (drawable& d)
 {
     m_handle = display_list_handle_allocator::self ().allocate ();
-    
+
     glNewList (m_handle, GL_COMPILE);
     d.draw ();
     glEndList ();

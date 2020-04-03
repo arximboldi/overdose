@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 22:20:47 raskolnikov>
- *
  *  @file        marihuana.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 11:46:46 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -85,7 +83,7 @@ void marihuana::handle_finish ()
 	gra::camera_ptr cam = m_camfx->get_camera ();
 	float min = cam->get_ratio ();
 	float max = m_camfx->get_original_ratio ();
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&gra::camera::set_ratio, cam,
@@ -98,7 +96,7 @@ void marihuana::handle_finish ()
 	gra::camera_ptr cam = m_camfx->get_camera ();
 	float min = cam->get_fov ();
 	float max = m_camfx->get_original_fov ();
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&gra::camera::set_fov, cam,

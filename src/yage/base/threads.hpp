@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 13:41:47 raskolnikov>
- *
  *  @file        threads.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Tue Apr  7 11:29:08 2009
@@ -27,7 +25,7 @@
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -73,7 +71,7 @@ public:
 	explicit lock (const no_threading& host) {}
 	explicit lock (const no_threading* host) {}
     };
-	
+
 private:
 };
 
@@ -102,7 +100,7 @@ public:
 	{
 	    m_host.m_mutex.lock ();
 	}
-	
+
 	~lock ()
 	{
 	    m_host.m_mutex.unlock ();
@@ -111,7 +109,7 @@ public:
     private:
 	const object_lockable& m_host;
     };
-    
+
 private:
     mutable Mutex m_mutex;
 };
@@ -137,13 +135,13 @@ public:
 	{
 	    s_init.m_mutex.lock ();
 	}
-	
+
 	~lock ()
 	{
 	    s_init.m_mutex.unlock ();
 	}
     };
-	
+
 private:
     struct initializer
     {

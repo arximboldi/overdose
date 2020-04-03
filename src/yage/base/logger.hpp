@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 17:55:44 raskolnikov>
- *
  *  @file        logger.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007

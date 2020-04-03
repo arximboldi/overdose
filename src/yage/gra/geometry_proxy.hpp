@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 21:24:45 raskolnikov>
- *
  *  @file        geometry_proxy.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat May 23 20:55:19 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -40,7 +38,7 @@ class geometry_proxy : public geometry
 {
 public:
     geometry_proxy (boost::shared_ptr<geometry> proxy);
-    
+
     void draw ();
     void draw_raw ();
 

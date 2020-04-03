@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-10 19:41:13 raskolnikov>
- *
  *  @file        building.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 12:04:36 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -50,7 +48,7 @@ building::building (float wide,
 		    float tile_t)
 {
     core::graphic_system& graphic = core::system::self ().graphic ();
-    
+
     boost::shared_ptr<geo::multi_textured_cube> model (
 	new geo::multi_textured_cube (tile_f, tile_s, tile_t));
     model->set_front_back (graphic.textures ().find (f_tex));
@@ -61,7 +59,7 @@ building::building (float wide,
     node.set_scale (base::point3f (deep, high, wide));
     node.set_position (base::point3f (0, high/2, 0));
     node.add_drawable (model);
-    
+
     game::aabb bbox;
     bbox.min = base::point3f (-deep/2, 0, -wide/2);
     bbox.max = base::point3f ( deep/2, high,  wide/2);

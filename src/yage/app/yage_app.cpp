@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 23:21:38 raskolnikov>
- *
  *  @file        yage_app.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon May 18 17:55:20 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -67,7 +65,7 @@ void yage_app::load_config ()
 	base::config::self ().attach_backend (
 	    new base::conf_backend_xml (
 		(get_config_path () / "config.xml").string ()));
-	
+
 	base::config::self ().def_load ();
     }
     catch (base::yage_error& e)
@@ -81,7 +79,7 @@ void yage_app::store_config ()
     try
     {
 	base::config::self ().save ();
-    }	
+    }
     catch (base::yage_error& e)
     {
 	e.log ();
@@ -91,9 +89,9 @@ void yage_app::store_config ()
 int yage_app::run (int argc, const char* argv [])
 {
     int ret = 0;
-	
+
     base::logger::self ().attach_sink (new base::log_std_sink);
-    
+
     try
     {
 	generate_paths ();
@@ -103,7 +101,7 @@ int yage_app::run (int argc, const char* argv [])
  	    load_config ();
 	    graphic_controller ctrl (m_config.get_child ("graphic"));
 	    ctrl.init (m_name + " " + m_version);
-	
+
 	    ret = execute ();
 	    store_config ();
 	}
@@ -128,7 +126,7 @@ int yage_app::run (int argc, const char* argv [])
 	ret = 1;
     }
 #endif
-    
+
     /* TODO: mover esto a otra parte */
     core::system::self ().tasks ().clear ();
     core::system::self ().clear_resources ();
@@ -156,7 +154,7 @@ int yage_app::parse_args (int argc, const char* argv [])
 	0, m_config.get_path ("graphic.window.grab"));
     base::option* arg_fps        = new base::option_conf<int> (
 	m_config.get_path ("graphic.fps"));
-    
+
     prepare (args);
 
     args.add ('h', "help",       &arg_show_help);
@@ -182,7 +180,7 @@ int yage_app::parse_args (int argc, const char* argv [])
 	print_version (cout);
 	return 255;
     }
-    
+
     return 0;
 }
 

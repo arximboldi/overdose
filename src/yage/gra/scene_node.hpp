@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 09:46:55 raskolnikov>
- *
  *  @file        scene_node.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 15:01:35 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -51,7 +49,7 @@ class scene_node : public base::tree_node <scene_node>,
 {
 public:
     typedef std::list<drawable_ptr>::iterator drawable_iterator;
-    
+
     scene_node ();
 
     drawable_iterator drawable_begin ()
@@ -74,7 +72,7 @@ public:
     {
 	m_drawables.insert (m_drawables.end (), b, e);
     }
-    
+
     void add_drawable (drawable_ptr d)
     {
 	m_drawables.push_back (d);
@@ -116,21 +114,21 @@ public:
 	    m_position + get_parent ()->get_world_position ():
 	    m_position;
     }
-    
+
     float get_sq_distance (const scene_node& nod) const
     {
 	return nod.get_parent () == get_parent () ?
 	    (m_position - nod.m_position).sq_length() :
 	    (get_world_position () - nod.get_world_position ()).length();
     }
-    
+
     float get_distance (const scene_node& nod) const
     {
 	return nod.get_parent () == get_parent () ?
 	    (m_position - nod.m_position).length() :
 	    (get_world_position () - nod.get_world_position ()).length();
     }
-    
+
     void draw ();
 
 private:

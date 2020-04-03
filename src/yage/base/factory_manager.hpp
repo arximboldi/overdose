@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 12:20:04 raskolnikov>
- *
  *  @file        factory_manager.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 12:51:57 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -48,7 +46,7 @@ public:
     typedef Pointer ptr_type;
     typedef boost::function0<Base*> factory_method;
     typedef map_key_iterator<Key, factory_method> iterator;
-    
+
     template <class Concrete>
     void add (const Key& k);
     void add (const Key& k, factory_method fn);
@@ -69,7 +67,7 @@ public:
     {
 	return m_map.end ();
     }
-    
+
 private:
     typedef std::map<Key, factory_method> factory_map;
     factory_map m_map;

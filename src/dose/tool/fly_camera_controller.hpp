@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:56:27 raskolnikov>
- *
  *  @file        fly_camera_controller.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 18:56:59 2009

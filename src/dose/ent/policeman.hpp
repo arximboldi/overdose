@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 23:29:13 raskolnikov>
- *
  *  @file        policeman.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 21:59:13 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -47,7 +45,7 @@ public:
 			   yage::game::dynamic_collision& col);
 
     void update (int delta);
-    
+
 private:
     void follow_state (int delta);
     bool player_in_fov ();

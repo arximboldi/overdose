@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-10 22:03:17 raskolnikov>
- *
  *  @file        point3.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:07:39 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -39,7 +37,7 @@ namespace base
 
 template <class T>
 class point3
-{      
+{
 public:
     inline point3 ();
     inline point3 (T x, T y, T z);
@@ -57,7 +55,7 @@ public:
 
     inline T* ptr ();
     inline const T* ptr () const;
-    
+
     inline T length () const;
     inline T sq_length () const;
     inline point3 cross (const point3& p) const;
@@ -65,17 +63,17 @@ public:
     inline point3 normalize () const;
     inline point3 normal (const point3& p) const;
     inline T cos (const point3& p) const;
-    
+
     inline point3& operator+= (const point3& p);
     inline point3 operator+ (const point3& p) const;
     inline point3 operator- (const point3& p) const;
     inline point3 operator* (const T& t) const;
     inline point3 operator* (const point3& p) const;
-    
+
     inline bool operator< (const point3& p) const;
     inline bool operator==(const point3& p) const;
     inline bool operator!=(const point3& p) const;
-    
+
     inline point3& operator=(const point3& p);
     inline T& operator[] (int indice);
     inline const T& operator[] (const int indice) const;

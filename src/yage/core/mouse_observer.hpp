@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-22 15:31:45 raskolnikov>
- *
  *  @file        mouse_listener.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:55:27 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -51,7 +49,7 @@ public:
     sdl_signal_type on_mouse_move;
     sdl_signal_type on_mouse_button_press;
     sdl_signal_type on_mouse_button_release;
-    
+
     void add_listener (mouse_listener& l);
     void del_listener (mouse_listener& l);
 };
@@ -64,12 +62,12 @@ public:
     {
 	return on_mouse_button_press (event);
     }
-    
+
     bool handle_mouse_button_release (SDL_Event& event)
     {
 	return on_mouse_button_release (event);
     }
-    
+
     bool handle_mouse_move (SDL_Event& event)
     {
 	return on_mouse_move (event);

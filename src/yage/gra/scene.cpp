@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 12:48:00 raskolnikov>
- *
  *  @file        scene.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 20:47:58 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -57,28 +55,28 @@ void scene::render (int vp_width, int vp_height)
 
 	if (m_fog)
 	    m_fog->enable ();
-	
+
 	m_root.draw ();
 
 	if (m_fog)
 	    m_fog->disable ();
-	
+
 	glDisable (GL_LIGHTING);
 	glDisable (GL_DEPTH_TEST);
     }
-    
+
     /* Dibujamos el HUD bidimensional */
     setup_ortho (vp_width, vp_height);
     {
 	glPushMatrix ();
 	m_hud_root.draw ();
-	glPopMatrix ();	    
+	glPopMatrix ();
     }
 }
 
 void scene::setup_perspective (int vp_width, int vp_height)
 {
-    glMatrixMode (GL_PROJECTION);  
+    glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
 
     if (m_camera)

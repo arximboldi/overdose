@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 13:24:33 raskolnikov>
- *
  *  @file        level.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 11:55:08 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -57,16 +55,16 @@ class level : public yage::game::state
 {
 public:
     static const int STATIC_CAMERAS = 4;
-    
+
     typedef boost::shared_ptr<ent::person> person_ptr;
     typedef boost::shared_ptr<ent::dealer> dealer_ptr;
     typedef boost::shared_ptr<ent::player> player_ptr;
 
     typedef std::list<dealer_ptr>::iterator dealer_iterator;
-    
+
     level ();
     ~level ();
-    
+
     bool handle_key_press (SDL_Event& event);
     bool handle_key_release (SDL_Event& event);
 
@@ -94,7 +92,7 @@ public:
     {
 	return m_player_cam_ctl;
     }
-    
+
     dealer_iterator dealers_begin ()
     {
 	return m_dealers.begin ();
@@ -114,7 +112,7 @@ public:
     {
 	m_next_level = next;
     }
-    
+
 protected:
     struct play_area
     {
@@ -157,7 +155,7 @@ protected:
 			    const play_area& area,
 			    int max_drugs);
     void add_random_policeman (const play_area& area);
-    
+
     void add_entity (const std::string& name,
 		     yage::game::entity_ptr ent);
     void add_dealer (const std::string& name,
@@ -172,17 +170,17 @@ protected:
     {
 	return m_static;
     }
-    
+
 private:
     void unset_camera ();
-    
+
     yage::game::entity_manager_ptr m_entities;
     yage::gra::scene_node m_static;
     std::list<dealer_ptr> m_dealers;
-    
+
     player_ptr m_player_ent;
     ent::player_controller m_player_ctl;
-    
+
     yage::gra::camera_ptr m_player_cam;
     tool::follow_camera_controller m_player_cam_ctl;
     yage::gra::camera_ptr m_fly_cam;

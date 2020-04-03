@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 19:36:26 raskolnikov>
- *
  *  @file        md2_model_impl.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed May 13 10:05:03 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -147,10 +145,10 @@ public:
 
     md2_model_impl (const std::string& str);
     ~md2_model_impl ();
-    
+
     void draw ();
     void draw_raw ();
-    
+
     void set_texture (boost::shared_ptr<gra::texture> texture)
     {
 	m_texture = texture;
@@ -160,7 +158,7 @@ public:
     {
 	m_material = material;
     }
-    
+
     anim_iterator anims_begin ()
     {
 	return m_anim_map.begin ();
@@ -189,22 +187,22 @@ public:
     void draw_frame_triangles (size_t frame);
     void draw_frame_commands (size_t frame);
     void draw_frame_interpolated_triangles (size_t src_frame, size_t dst_frame, float interp);
-    void draw_frame_interpolated_commands (size_t src_frame, size_t dst_frame, float interp);    
+    void draw_frame_interpolated_commands (size_t src_frame, size_t dst_frame, float interp);
     bool get_animation_bounds (const std::string& anim,
 			       int& start, int& end, int& fps);
-    
+
 private:
     typedef std::map<std::string, detail::md2_anim> anim_map;
     typedef std::map<std::string, std::string> skin_map;
-    
+
     void free_data ();
     void load_model (const std::string& fname);
-    void setup_animations ();    
+    void setup_animations ();
     void setup_skins ();
-    
+
     boost::shared_ptr<gra::texture> m_texture;
     boost::shared_ptr<gra::material> m_material;
-    
+
     detail::md2_header    m_header;
     detail::md2_skin*     m_skins;
     detail::md2_texcoord* m_texcoords;

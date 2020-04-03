@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 18:48:22 raskolnikov>
- *
  *  @file        font.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 17 20:57:37 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,14 +47,14 @@ class font
 {
 public:
     typedef boost::shared_ptr<texture> texture_ptr;
-    
+
     enum render_mode
     {
 	SOLID,
 	SHADED,
 	BLENDED
     };
-    
+
     font (const std::string& fname, int ptsize = 12);
     ~font ();
 
@@ -76,7 +74,7 @@ public:
     render_surface (const std::string& str,
 		    const base::point3f& color,
 		    render_mode mode);
-    
+
 private:
     mutable TTF_Font* m_font;
 };

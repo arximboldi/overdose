@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 12:34:06 raskolnikov>
- *
  *  @file        state.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 12:42:42 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -61,13 +59,13 @@ public:
     virtual void resume () {}
 
     /* TODO: hacer mas generico esto: */
-    virtual std::string loading () { return ""; } 
+    virtual std::string loading () { return ""; }
 
     void change_state (const std::string& name);
     void enter_state (const std::string& name);
     void leave_state ();
     void update (int delta);
-    
+
     boost::shared_ptr<gra::scene> get_scene ()
     {
 	return m_scene;
@@ -87,7 +85,7 @@ public:
     {
 	return m_mouse;
     }
-    
+
     void set_state_parent (boost::weak_ptr<state_manager> parent)
     {
 	m_parent = parent;
@@ -97,13 +95,13 @@ public:
     {
 	return boost::shared_ptr<state_manager> (m_parent);
     }
-    
+
 private:
     core::key_forwarder m_keys;
     core::mouse_forwarder m_mouse;
     boost::shared_ptr<core::task_manager> m_tasks;
     boost::shared_ptr<gra::scene> m_scene;
-    
+
     boost::weak_ptr<state_manager> m_parent;
 };
 

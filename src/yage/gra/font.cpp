@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-18 12:17:47 raskolnikov>
- *
  *  @file        font.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 17 21:00:21 2009
@@ -11,7 +9,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -82,7 +80,7 @@ font::render (const std::string& str,
 	      render_mode mode)
 {
     core::sdl_surface_ptr surf (render_surface (str, color, mode));
-    
+
     boost::shared_ptr<texture> result (new texture (surf.get ()));
     return result;
 }
@@ -94,7 +92,7 @@ font::render_surface (const std::string& str,
 {
     SDL_Color sdl_color = { color[0] * 255, color[1] * 255, color[2] * 255 };
     SDL_Surface* surf   = 0;
-    
+
     switch (mode)
     {
     case SOLID:

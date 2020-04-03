@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 19:53:23 raskolnikov>
- *
  *  @file        player.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu Jun 11 23:12:33 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -71,7 +69,7 @@ void player::update (int delta)
 	m_hud.set_psychodelia (std::max (m_hud.get_psychodelia () + dec, 0.0f));
 	m_hud.set_ecstasy (std::max (m_hud.get_ecstasy () + dec, 0.0f));
 	m_hud.set_euphoria (std::max (m_hud.get_euphoria () + dec, 0.0f));
-    
+
 	/* Buscamos al camello mas cercano */
 	level_ptr l = get_level ();
 	st::level::dealer_iterator it;
@@ -81,11 +79,11 @@ void player::update (int delta)
 	for (it = l->dealers_begin (); it != l->dealers_end (); ++it) {
 	    float this_dist =
 		((*it)->get_node ().get_world_position () -
-		 get_node ().get_world_position ()).sq_length (); 
+		 get_node ().get_world_position ()).sq_length ();
 
 	    if (this_dist < min_dist) {
 		best = *it;
-		min_dist = this_dist; 
+		min_dist = this_dist;
 	    }
 	}
 
@@ -94,7 +92,7 @@ void player::update (int delta)
 	    manage_dealer (best);
 	else
 	    m_hud.set_player_message ("");
-    
+
 	m_buy_shit = false;
 
 	/* Comprobamos si ha terminado la partida */
@@ -122,7 +120,7 @@ void player::manage_dealer (dealer_ptr p)
 	else
 	    m_hud.set_player_alert ("You can not carry more drugs!");
     }
-    
+
     if (p->has_shit ())
 	m_hud.set_player_message (
 	    std::string ("Do you want to buy some ") +
@@ -176,7 +174,7 @@ void player::kill ()
     tool::follow_camera_controller&  cam = l->get_player_camera_controller ();
 
     m_dead = true;
-    
+
     /* Desconectamos las señales del usuario */
     cam.core::mouse_listener::disconnect_all ();
     l->get_player_controller ().disconnect_all ();
@@ -184,12 +182,12 @@ void player::kill ()
     m_hud.finish_drugs ();
     const char* death_anim [] = { "death1", "death2", "death3" };
     play (death_anim [base::ranged_random (0, 3)], 0.3f);
-        
+
     /* Efecto de rotacion horizontal */
     {
 	float min = cam.get_hangle ();
 	float max = min + 4 * M_PI;
-	
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&tool::follow_camera_controller::set_hangle, &cam,
@@ -226,7 +224,7 @@ void player::kill ()
     {
 	base::point4f min = fog->get_color ();
 	base::point4f max = base::point4f (0.8, 0, 0, 1);
-    
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&gra::fog::set_color, fog,
@@ -239,7 +237,7 @@ void player::kill ()
     {
 	float min = fog->get_density ();
 	float max = 0.003;
-    
+
 	get_level ()->get_tasks ().add (
 	    gra::create_function_task<float> (
 		bind (&gra::fog::set_density, fog,
@@ -247,7 +245,7 @@ void player::kill ()
 		4000
 		));
     }
-    
+
     /* Ya podemos saltar de nivel. */
     l->enable_finish ();
     m_hud.set_player_alert ("Drugs have killed you. Press ENTER to continue.", 15000);

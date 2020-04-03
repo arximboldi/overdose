@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-17 11:56:01 raskolnikov>
- *
  *  @file        alcohol.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 12:02:12 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -59,7 +57,7 @@ void alcohol::take ()
 
     float min = m_orig_fog;
     float max = FX_FOG;
-    
+
     get_level ()->get_tasks ().add (
 	gra::create_function_task<float> (
 	    bind (&gra::fog::set_density, fog,
@@ -72,12 +70,12 @@ void alcohol::take ()
 void alcohol::accumulate (dope_ptr d)
 {
     set_progress (get_progress () + 0.5);
-    
+
     gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
 
     float min = fog->get_density ();
     float max = min + (min - m_orig_fog) / 2;
-    
+
     get_level ()->get_tasks ().add (
 	gra::create_function_task<float> (
 	    bind (&gra::fog::set_density, fog,
@@ -92,7 +90,7 @@ void alcohol::handle_finish ()
     const float DEFAULT_FOG = 0.0005;
     float min = fog->get_density ();
     float max = DEFAULT_FOG;
-    
+
     get_level ()->get_tasks ().add (
 	gra::create_function_task<float> (
 	    bind (&gra::fog::set_density, fog,

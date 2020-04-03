@@ -2,14 +2,13 @@
  *  File:       material.cpp
  *  Author:     Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  Date:       Sun May 10 18:36:08 2009
- *  Time-stamp: <2009-05-14 18:03:47 raskolnikov>
  *
  *  Implementación de la clase material.
  */
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or

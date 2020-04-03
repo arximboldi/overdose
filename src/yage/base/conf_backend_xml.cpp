@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-24 18:20:33 raskolnikov>
- *
  *  @file        conf_backend_xml.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -12,7 +10,7 @@
  *  Copyright (C) 2007, 2008, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -122,7 +120,7 @@ conf_node* conf_backend_xml::process_new_element (xmlTextReaderPtr reader,
 	    m_current_type = typeid (std::string);
 	else
 	    throw config_xml_type_error ();
-	
+
 	xmlFree(type);
     }
 
@@ -140,7 +138,7 @@ conf_node* conf_backend_xml::process_text (xmlTextReaderPtr reader,
 					   conf_node* node)
 {
     const xmlChar* value;
-    
+
     value = xmlTextReaderConstValue(reader);
 
     if (value)
@@ -186,14 +184,14 @@ void conf_backend_xml::do_load (conf_node& node)
 			   XML_PARSE_NOENT |
 			   XML_PARSE_NOBLANKS),
 	 &xmlFreeTextReader);
-    
+
     if (reader == 0)
 	throw config_xml_io_error ("Could not open config file for reading: " +
 				   m_file +
 				   ". The application might create it later.");
-    
+
     cur_node = &node;
-	
+
     ret = xmlTextReaderRead (reader);
     while (ret == 1 && cur_node != 0) {
 	cur_node = process (reader, cur_node);
@@ -212,7 +210,7 @@ void conf_backend_xml::expand_value (xmlTextWriterPtr writer, conf_node& node)
 	string repr;
 	node.get (val);
 	repr = lexical_cast<string> (val);
-	
+
 	if (xmlTextWriterWriteAttribute (writer, xml_cast ("type"), xml_cast ("int")))
 	    throw config_xml_error ("Error while writing node: " + node.get_path_name ());
 	if (xmlTextWriterWriteString (writer, xml_cast (repr.c_str ())))
@@ -224,7 +222,7 @@ void conf_backend_xml::expand_value (xmlTextWriterPtr writer, conf_node& node)
 	string repr;
 	node.get (val);
 	repr = lexical_cast<string> (val);
-	
+
 	if (xmlTextWriterWriteAttribute (writer, xml_cast ("type"), xml_cast ("float")))
 	    throw config_xml_error ("Error while writing node: " + node.get_path_name ());
 	if (xmlTextWriterWriteString (writer, xml_cast (repr.c_str ())))
@@ -234,14 +232,14 @@ void conf_backend_xml::expand_value (xmlTextWriterPtr writer, conf_node& node)
     {
 	string repr;
 	node.get (repr);
-	
+
 	if (xmlTextWriterWriteAttribute (writer, xml_cast ("type"), xml_cast ("string")))
 	    throw config_xml_error ("Error while writing node: " + node.get_path_name ());
 	if (xmlTextWriterWriteString (writer, xml_cast (repr.c_str ())))
 	    throw config_xml_error ("Error while writing node: " + node.get_path_name ());
     }
     else if (!node.empty ())
-	throw config_xml_type_error ();    
+	throw config_xml_type_error ();
 }
 
 void conf_backend_xml::expand_childs (xmlTextWriterPtr writer, conf_node& node)
@@ -261,10 +259,10 @@ void conf_backend_xml::expand (xmlTextWriterPtr writer, conf_node& node)
 	if (xmlTextWriterStartElement (writer, xml_cast (node.get_name ().c_str())) < 0)
 	    throw config_xml_error ("Error while expanding node: " + node.get_path_name ());
     }
-    
+
     expand_value  (writer, node);
     expand_childs (writer, node);
-    
+
     if (xmlTextWriterEndElement (writer) < 0)
 	throw config_xml_error ("Error while ending node: " + node.get_path_name ());
 }
@@ -281,16 +279,15 @@ void conf_backend_xml::save (conf_node& node)
 
     if (xmlTextWriterSetIndent (writer, 1) < 0)
 	throw config_xml_error ("Error while setting indent size.");
-    
+
     if (xmlTextWriterStartDocument (writer, 0, 0, 0) < 0)
 	throw config_xml_error ("Error while starting document.");
 
     expand (writer, node);
-    
+
     if (xmlTextWriterEndDocument (writer) < 0)
 	throw config_xml_error ("Error while ending document.");
 }
 
 } /* namespace base */
 } /* namespace yage */
-

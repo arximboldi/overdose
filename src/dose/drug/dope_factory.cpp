@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 20:04:38 raskolnikov>
- *
  *  @file        dope_factory.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri Jun 12 12:09:43 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -59,7 +57,7 @@ dope_factory_impl::create_random ()
 
     iterator it;
     for (it = begin (); it != end () && index > 0; ++it, --index);
-    
+
     if (it == end ())
 	throw base::factory_error ("Error in dope_factory_impl::create_random ()");
 

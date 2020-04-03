@@ -2,14 +2,13 @@
  *  File:       material.hpp
  *  Author:     Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  Date:       Sun May 10 18:33:37 2009
- *  Time-stamp: <2009-06-13 17:19:54 raskolnikov>
  *
  *  Interfaz de la clase material.
  */
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -45,7 +44,7 @@ public:
 	      int shininess = 128);
 
     void apply ();
-    
+
     void set_ambient (const base::point4f& ambient)
     {
 	m_ambient = ambient;
@@ -64,8 +63,8 @@ public:
     void set_shininess (int shininess)
     {
 	m_shininess = shininess;
-    }	
-    
+    }
+
     const base::point4f& get_ambient () const
     {
 	return m_ambient;

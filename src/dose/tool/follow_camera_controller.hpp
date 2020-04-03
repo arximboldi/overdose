@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:57:05 raskolnikov>
- *
  *  @file        follow_camera_controller.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 24 11:48:05 2009

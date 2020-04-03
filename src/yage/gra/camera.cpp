@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-16 11:18:37 raskolnikov>
- *
  *  @file        camera.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 12:05:33 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -75,13 +73,13 @@ void camera::apply_model_rotation ()
     u_aux = m_vup.cross (m_vpn);
     n = _vertex4f (m_vpn[0], m_vpn[1], m_vpn[2], 1);
     u = _vertex4f (u_aux[0], u_aux[1], u_aux[2], 1);
-    angle_x = to_deg (atan2 (n.y, n.z)); 
+    angle_x = to_deg (atan2 (n.y, n.z));
 
     m.rotate_axis_x (angle_x);
     n *= m;
     u *= m;
     angle_y = - to_deg (atan2 (n.x, n.z));
-    
+
     m.rotate_axis_y (angle_y);
     u *= m;
     angle_z = - to_deg (atan2 (u.y, u.x));
@@ -118,4 +116,3 @@ void camera::look_at (const point3f& pos)
 
 } /* namespace gra */
 } /* namespace yage */
-

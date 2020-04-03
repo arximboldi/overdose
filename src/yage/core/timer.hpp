@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-15 14:43:56 raskolnikov>
- *
  *  @file        timer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -16,7 +14,7 @@
  *  Copyright (C) 2007 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -81,7 +79,7 @@ public:
     {
 	return mscount;
     }
-    
+
     /**
      * Returns the milliseconds elapsed between the last two @c update() calls.
      */

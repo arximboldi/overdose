@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 17:05:18 raskolnikov>
- *
  *  @file        game_app.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 16:28:19 2009

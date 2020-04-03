@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 12:07:39 raskolnikov>
- *
  *  @file        scene.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 20:47:02 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -43,7 +41,7 @@ class scene
 {
 public:
     void render (int vp_width, int vp_height);
-    
+
     scene_node& get_root ()
     {
 	return m_root;
@@ -53,12 +51,12 @@ public:
     {
 	return m_hud_root;
     }
-    
+
     boost::shared_ptr<drawable> get_sky ()
     {
 	return m_sky;
     }
-    
+
     void set_sky (boost::shared_ptr<drawable> sky,
 		  const base::point3f& scale = base::point3f (15000, 15000, 15000))
     {
@@ -85,7 +83,7 @@ public:
     {
 	m_fog = fog;
     }
-    
+
 private:
     void setup_perspective (int vp_width, int vp_height);
     void setup_ortho (int vp_width, int vp_height);

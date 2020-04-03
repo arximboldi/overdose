@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 11:31:41 raskolnikov>
- *
  *  @file        handle_allocator.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Mon May 11 15:47:40 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -58,7 +56,7 @@ public:
     count_creator_policy ()
 	: m_count (0)
     {}
-    
+
     T create ()
     {
 	return ++ m_count;
@@ -74,10 +72,10 @@ class handle_allocator
 public:
     handle_allocator ()
     {}
-    
+
     T allocate ();
     void release (T id);
-    
+
 private:
     CreatorPolicy<T> m_creator;
     std::list<T> m_free;
@@ -93,7 +91,7 @@ public:
     fixed_handle_allocator ();
     T allocate ();
     void release (T id);
-    
+
 private:
     std::deque<T> m_free;
 };
@@ -103,7 +101,7 @@ template <typename T, template<typename> class C>
 T handle_allocator<T, C>::allocate ()
 {
     T ret;
-	
+
     if (m_free.empty ())
 	ret = m_creator.create ();
     else {

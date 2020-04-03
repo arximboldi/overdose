@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 22:02:14 raskolnikov>
- *
  *  @file        point4.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 14:08:06 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -38,7 +36,7 @@ namespace base
 
 template <class T>
 class point4
-{      
+{
 public:
     inline point4 ();
     inline point4 (T x, T y, T z, T t);
@@ -58,18 +56,18 @@ public:
 
     inline T* ptr ();
     inline const T* ptr () const;
-    
+
     inline T& operator[] (const int indice);
     inline const T& operator[] (const int indice) const;
     inline point4& operator= (const point4 &p);
-    
+
     inline bool operator== (const point4<T> &p);
     inline bool operator!= (const point4<T> &p);
 
     inline point4 operator- (const point4& p) const;
     inline point4 operator+ (const point4& p) const;
     inline point4 operator* (T p) const;
-    
+
 private:
     T p[4];
 };
@@ -82,4 +80,3 @@ typedef point4<float> point4f;
 #include <yage/base/point4.tpp>
 
 #endif /* YAGE_POINT4_H */
-

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 13:29:13 raskolnikov>
- *
  *  @file        tester.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 17:01:17 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -38,14 +36,14 @@ namespace st
 tester::tester ()
 {
     yage::core::graphic_system& graphic = yage::core::system::self ().graphic ();
-    
+
     get_keys ().add_listener (*this);
     get_mouse ().add_listener (*this);
 
     boost::shared_ptr<geo::mesh> sky (new geo::textured_hemisphere);
     sky->set_texture (graphic.textures ().find ("sky_mid.png"));
     get_scene ()->set_sky (sky);
-	
+
     std::cout << "test 2.1\n";
     m_model = boost::dynamic_pointer_cast<geo::md2_model> (
 	graphic.geometries ().find ("civi.md2"));
@@ -54,7 +52,7 @@ tester::tester ()
     //m_model.reset (new geo::textured_plane);
     m_text.reset (new gra::text (graphic.fonts ().find ("DejaVuSans.ttf", 16),
 				 "Texto de prueba."));
-	
+
     m_light->enable ();
     m_model->set_material (
 	boost::shared_ptr<gra::material> (
@@ -63,10 +61,10 @@ tester::tester ()
 		base::point4f (1, 1, 1, 1),
 		base::point4f (1, 1, 1, 1)
 		)));
-	
+
     get_scene ()->get_hud_root ().get_child ("text").add_drawable (m_text);
     get_scene ()->get_hud_root ().get_child ("text").set_position (base::point3f (50, 50, 0));
-    get_scene ()->get_root ().get_child ("model").add_drawable (m_model);	
+    get_scene ()->get_root ().get_child ("model").add_drawable (m_model);
     get_scene ()->get_root ().get_child ("light").add_drawable (m_light);
     get_scene ()->get_root ().get_child ("light").set_position (base::point3f (-100, -100, -100));
     m_light->set_diffuse (base::point4f (0.75, 0.75, 0.5, 1));
@@ -84,11 +82,11 @@ tester::tester ()
     m_model->set_animation ("attack");
 
     m_model->set_texture (graphic.textures ().find ("civi.tga"));
-	
+
     m_camera->set_position (base::point3f (0, 0, 10));
     //m_camera->set_plane_normal (base::point3f (0, 0, -1));
     m_camera->look_at (base::point3f (0, 0, 0));
-	
+
     get_scene ()->set_camera (m_camera);
 
     m_rad = 60;
@@ -102,7 +100,7 @@ tester::tester ()
     fog->set_start (60);
     fog->set_density (0.35);
     get_scene ()->set_fog (fog);
-	
+
     m_camera->set_position (base::point3f (m_rad * cos (m_angle), 0, m_rad * sin (m_angle)));
     m_camera->look_at (base::point3f ());
 
@@ -138,10 +136,10 @@ bool tester::handle_key_press (SDL_Event& ev)
 					   m_rad * sin (m_angle2),
 					   m_rad * sin (m_angle) * cos (m_angle2)));
     m_camera->look_at (base::point3f ());
-	
+
     return false;
 }
-    
+
 
 } /* namespace st */
 } /* namespace dose */

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-21 12:55:38 raskolnikov>
- *
  *  @file        point2.tpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 13:52:03 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -42,7 +40,7 @@ inline std::ostream& operator<< (std::ostream& os, const point2<T>& p)
 {
     return os << '(' << p.x() << ',' << p.y() <<  ')';
 }
-  
+
 template <class T>
 inline std::istream& operator>> (std::istream& is, point2<T>& p)
 {
@@ -139,7 +137,7 @@ bool point2<T>::operator!= (const point2<T> &po)
 {
     return
 	p[0] != po.x () ||
-	p[1] != po.y (); 
+	p[1] != po.y ();
 }
 
 template <class T>
@@ -167,7 +165,7 @@ point2<T> point2<T>::operator -(const point2 &v) const
 {
     return point2<T>(p[0] - v. p[0], p[1] - v.p[1]);
 }
-  
+
 template<class T>
 T point2<T>::length() const
 {

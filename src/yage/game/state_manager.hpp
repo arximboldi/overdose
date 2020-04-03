@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 20:34:52 raskolnikov>
- *
  *  @file        state_manager.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 12:39:35 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -64,16 +62,16 @@ public:
     ~state_manager ();
 
     void update (int delta);
-    
+
     void change_state (const std::string& name);
     void enter_state (const std::string& name);
     void leave_state ();
-    
+
     bool empty ()
     {
 	return m_states.empty ();
     }
-    
+
 private:
     enum action
     {
@@ -82,7 +80,7 @@ private:
 	LEAVE_STATE
     };
     typedef std::pair<action, std::string> action_slot;
-    
+
     void do_change_state (const std::string& name);
     void do_enter_state (const std::string& name);
     void do_leave_state ();
@@ -92,7 +90,7 @@ private:
     void unregister_state (boost::shared_ptr<state> st);
 
     void clean_resources ();
-    
+
     std::string m_next_state;
     std::stack<boost::shared_ptr<state> > m_states;
     std::queue<action_slot> m_actions;

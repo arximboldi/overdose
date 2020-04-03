@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 17:58:27 raskolnikov>
- *
  *  @file        tree.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2008

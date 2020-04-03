@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:55:20 raskolnikov>
- *
  *  @file        camera.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 12:04:06 2009

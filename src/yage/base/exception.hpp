@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 12:37:34 raskolnikov>
- *
  *  @file        exception.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2009
@@ -14,7 +12,7 @@
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,7 +44,7 @@ class exception : public std::exception
 {
 public:
     virtual ~exception () throw () {}
-    
+
     virtual void log () const {}
     virtual const char* what () const throw () = 0;
     virtual const char* where () const throw () = 0;
@@ -58,7 +56,7 @@ public:
     virtual ~error () throw () {}
 
     virtual void log () const;
-    
+
     virtual const char* what () const throw ()
     {
 	return m_what.c_str ();
@@ -69,15 +67,15 @@ public:
 	return m_where.c_str ();
     }
 
-protected:    
+protected:
     error (const std::string& where, const std::string& what) throw ();
     std::string default_error ();
-    
+
 private:
     std::string m_what;
     std::string m_where;
 };
-    
+
 #define YAGE_DECLARE_ERROR(d_parent, d_error)				\
     class d_error : public d_parent					\
     {									\

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-10 22:19:40 raskolnikov>
- *
  *  @file        fly_camera_controller.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 19:08:12 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -55,7 +53,7 @@ void fly_camera_controller::update (int delta)
 	    m_camera->get_up_vector ()
 	    .cross (m_camera->get_plane_normal ())
 	    .normalize ();
-	
+
 	m_camera->set_position (
 	    m_camera->get_position () - dir * m_move_speed * delta);
     }
@@ -65,7 +63,7 @@ void fly_camera_controller::update (int delta)
 	    m_camera->get_up_vector ()
 	    .cross (m_camera->get_plane_normal ())
 	    .normalize ();
-	
+
 	m_camera->set_position (
 	    m_camera->get_position () + dir * m_move_speed * delta);
     }
@@ -135,12 +133,12 @@ bool fly_camera_controller::handle_mouse_move (SDL_Event& ev)
     base::point3f n = m_camera->get_plane_normal ();
     base::point3f u = m_camera->get_up_vector ();
     base::point3f v = n.normal (u);
-    
+
     n = n.rotate (- horiz, u);
     n = n.rotate (vert, v);
-    
+
     m_camera->set_plane_normal (n);
-    
+
     return true;
 }
 

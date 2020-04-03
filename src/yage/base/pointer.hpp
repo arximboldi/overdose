@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 16:00:47 raskolnikov>
- *
  *  @file        pointer.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2008

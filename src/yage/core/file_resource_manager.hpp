@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 17:02:58 raskolnikov>
- *
  *  @file        file_resource_manager.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Tue May 19 22:10:55 2009

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-12 18:50:30 raskolnikov>
- *
  *  @file        text.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 17 21:03:58 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -54,7 +52,7 @@ public:
     void draw ();
     size_t get_width ();
     size_t get_height ();
-        
+
     const std::string& get_text () const
     {
 	return m_str;
@@ -76,7 +74,7 @@ public:
 	m_color = color;
 	m_need_update = true;
     }
-    
+
     font::render_mode get_mode () const
     {
 	return m_mode;
@@ -101,7 +99,7 @@ public:
 
 public:
     void update_texture ();
-    
+
     bool m_need_update;
     font_ptr m_font;
     std::string m_str;

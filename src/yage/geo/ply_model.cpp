@@ -2,14 +2,13 @@
  *  File:       ply_model.cpp
  *  Author:     Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  Date:       Sun May 10 15:56:36 2009
- *  Time-stamp: <2009-05-22 22:31:51 raskolnikov>
  *
  *  Implementación de los modelos ply.
  */
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -41,9 +40,9 @@ ply_model::ply_model (const std::string& fname)
 {
     vector<float> vert;
     vector<int> fac;
-    
+
     _file_ply file1;
-   
+
     if (file1.open (fname.c_str ()) ||
 	file1.read (vert, fac))
     {

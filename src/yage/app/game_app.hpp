@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-22 21:42:46 raskolnikov>
- *
  *  @file        game_app.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 16:21:19 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -51,12 +49,12 @@ public:
 protected:
     virtual void register_states (boost::shared_ptr<game::state_manager> states) = 0;
     virtual std::string initial_state () = 0;
-    
+
     int execute ();
-    
+
 private:
     void handle_state_manager_finish (game::state_manager&);
-    
+
     boost::shared_ptr<game::state_manager> m_game_states;
 };
 

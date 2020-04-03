@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 23:47:40 raskolnikov>
- *
  *  @file        graphic_controller.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Tue May 19 09:54:35 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -45,7 +43,7 @@ void graphic_controller::init (const std::string& wname)
     int sc_fullsc = m_conf.get_path ("window.fullscreen").get<int> ();
     int sc_grab   = m_conf.get_path ("window.grab").get<int> ();
     int fps       = m_conf.get_path ("fps").get<int> ();
-    
+
     core::system::self ().graphic (). init (
 	wname, sc_width, sc_height, sc_fullsc, sc_grab);
     core::system::self ().force_fps (fps);
@@ -93,7 +91,7 @@ void graphic_controller::handle_window_nudge (base::conf_node& conf)
     int sc_height = conf.get_child ("height").get<int> ();
     int sc_fullsc = conf.get_child ("fullscreen").get<int> ();
     int sc_grab   = conf.get_child ("grab").get<int> ();
-    
+
     core::system::self ().graphic ().resize_window (sc_width, sc_height, sc_fullsc, sc_grab);
 }
 

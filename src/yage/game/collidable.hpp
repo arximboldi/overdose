@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-14 11:52:53 raskolnikov>
- *
  *  @file        collidable.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu May 21 10:48:36 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,7 +44,7 @@ struct aabb
     base::point3f max;
 
     aabb () {}
-    
+
     aabb (const base::point3f& min_, const base::point3f& max_)
 	: min (min_), max (max_)
     {}
@@ -66,7 +64,7 @@ struct sphere
     float         rad;
 
     sphere () {}
-    
+
     sphere (const base::point3f& center_, float rad_)
 	: center (center_), rad (rad_)
     {}

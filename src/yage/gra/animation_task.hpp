@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 15:55:36 raskolnikov>
- *
  *  @file        animation_task.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 17 20:24:31 2009

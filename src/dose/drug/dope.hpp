@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 16:03:15 raskolnikov>
- *
  *  @file        dope.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Thu Jun 11 19:05:24 2009

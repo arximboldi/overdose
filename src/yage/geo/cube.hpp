@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 17:39:35 raskolnikov>
- *
  *  @file        cube.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 11:56:58 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -37,7 +35,7 @@ namespace yage
 namespace geo
 {
 
-class cube : public mesh 
+class cube : public mesh
 {
 public:
     cube ();

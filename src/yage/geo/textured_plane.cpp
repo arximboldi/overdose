@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-24 19:56:57 raskolnikov>
- *
  *  @file        textured_plane.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 17 18:23:25 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,7 +47,7 @@ textured_plane::textured_plane (float htiles,
     point (point3f (0, -l, l));
     tex_coord (point2f (0, vtiles));
     point (point3f (0, -l, -l));
-    
+
     end ();
 }
 

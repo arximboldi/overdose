@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-10 21:05:57 raskolnikov>
- *
  *  @file        entity.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May  3 12:14:37 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -49,26 +47,26 @@ class entity : public core::task
 public:
     entity (bool dynamic = false);
     virtual ~entity ();
-    
+
     virtual void handle_collision (entity& other,
 				   collidable& box,
 				   dynamic_collision& col) = 0;
     virtual base::point3f get_orientation ();
-    
+
     void apply_movement ();
     void move (const base::point3f& movement);
     void set_movement (const base::point3f& movement);
-    
+
     bool has_moved ()
     {
 	return m_moved;
     }
-    
+
     bool is_dynamic () const
     {
 	return m_dynamic;
     }
-    
+
     void set_bounds (const collidable& bounds)
     {
 	m_bounds = bounds;
@@ -78,12 +76,12 @@ public:
     {
 	return m_bounds;
     }
-    
+
     const base::point3f& get_movement () const
     {
 	return m_movement;
     }
-    
+
     gra::scene_node& get_node ()
     {
 	return m_node;
@@ -103,14 +101,14 @@ public:
     {
 	m_parent = parent;
     }
-    
+
 private:
     boost::weak_ptr<entity_manager> m_parent;
     gra::scene_node m_node;
-    
+
     base::point3f m_movement;
     collidable m_bounds;
-    
+
     bool m_moved;
     bool m_dynamic;
 };

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-13 16:43:22 raskolnikov>
- *
  *  @file        player_controller.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sun May 24 13:29:04 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -73,7 +71,7 @@ void player_controller::restore_keys ()
 bool player_controller::handle_key_press (SDL_Event& ev)
 {
     SDLKey k = ev.key.keysym.sym;
-    
+
     switch (k)
     {
     case SDLK_b:
@@ -86,11 +84,11 @@ bool player_controller::handle_key_press (SDL_Event& ev)
 
     case SDLK_m:
 	m_person->get_hud ().select_next ();
-	break;	
+	break;
 
     case SDLK_SPACE:
 	m_person->take_some_shit ();
-	break;	
+	break;
 
     default:
 	if (k == m_move_keys [0])
@@ -110,7 +108,7 @@ bool player_controller::handle_key_press (SDL_Event& ev)
 bool player_controller::handle_key_release (SDL_Event& ev)
 {
     SDLKey k = ev.key.keysym.sym;
-    
+
     switch (k)
     {
     default:
@@ -126,7 +124,7 @@ bool player_controller::handle_key_release (SDL_Event& ev)
     };
 
     return false;
-}   
+}
 
 } /* namespace ent */
 } /* namespace dose */

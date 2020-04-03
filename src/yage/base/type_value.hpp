@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-14 13:00:59 raskolnikov>
- *
  *  @file        type_value.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2009
@@ -12,7 +10,7 @@
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -48,16 +46,16 @@ public:
     type_value ()
 	: _info (&typeid (void))
     {};
-    
+
     type_value (const std::type_info& t)
 	: _info (&t)
     {}
-    
+
     bool before (const type_value& t) const
     {
 	return _info->before (*t._info);
     }
-    
+
     const char* name () const
     {
 	return _info->name ();
@@ -67,7 +65,7 @@ public:
     {
 	return *_info;
     }
-    
+
 private:
     const std::type_info* _info;
 };
@@ -85,18 +83,18 @@ inline bool operator< (const type_value& lhs, const type_value& rhs)
 inline bool operator!= (const type_value& lhs, const type_value& rhs)
 {
     return ! (lhs == rhs);
-}    
-    
+}
+
 inline bool operator> (const type_value& lhs, const type_value& rhs)
 {
     return rhs < lhs;
 }
-    
+
 inline bool operator<= (const type_value& lhs, const type_value& rhs)
 {
     return !(lhs > rhs);
 }
-     
+
 inline bool operator>= (const type_value& lhs, const type_value& rhs)
 {
     return !(lhs < rhs);

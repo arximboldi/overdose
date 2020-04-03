@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-24 18:01:27 raskolnikov>
- *
  *  @file        conf_backend_xml.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -12,7 +10,7 @@
  *  Copyright (C) 2007, 2008, 2009 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -119,17 +117,17 @@ public:
 
 private:
     type_value m_current_type;
-    
+
     std::string m_file;
     bool m_overwrite;
-    
+
     conf_node* process_new_element (xmlTextReaderPtr reader, conf_node* node);
     conf_node* process_text (xmlTextReaderPtr reader, conf_node* node);
     conf_node* process_end_element (xmlTextReaderPtr reader, conf_node* node);
     conf_node* process (xmlTextReaderPtr reader, conf_node* node);
 
     void do_load (conf_node& node);
-    
+
     void expand (xmlTextWriterPtr writer, conf_node& node);
     void expand_childs (xmlTextWriterPtr writer, conf_node& node);
     void expand_value (xmlTextWriterPtr writer, conf_node& node);

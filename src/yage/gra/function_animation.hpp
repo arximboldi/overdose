@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-16 10:59:12 raskolnikov>
- *
  *  @file        function_animation.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Sat Jun 13 12:50:32 2009
@@ -11,7 +9,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -41,13 +39,13 @@ namespace gra
 template <typename T, typename U>
 T linear_function (T min, T max, U x)
 {
-    return min + (max - min) * x; 
+    return min + (max - min) * x;
 }
 
 template <typename U>
 U sinusoid (U x)
 {
-    return std::sin (x * M_PI / 2); 
+    return std::sin (x * M_PI / 2);
 }
 
 template <typename T>
@@ -62,12 +60,12 @@ public:
 	, m_duration (duration)
     {
     }
-    
+
     void animate (float percent)
     {
 	m_func (percent);
     }
-    
+
     float get_duration ()
     {
 	return m_duration;

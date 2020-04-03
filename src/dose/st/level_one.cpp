@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2020-04-03 16:01:33 raskolnikov>
- *
  *  @file        level_one.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Fri May 22 18:45:59 2009

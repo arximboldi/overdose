@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-05-23 15:53:31 raskolnikov>
- *
  *  @file        iterator.hpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        2007
@@ -12,7 +10,7 @@
  *  Copyright (C) 2007 Juan Pedro Bolívar Puente
  *
  *  This file is part of Psychosynth.
- *   
+ *
  *  Psychosynth is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -46,7 +44,7 @@ class ptr_iterator : public Iterator
 {
 public:
     typedef std::iterator_traits<Iterator> yage_traits;
-    
+
     typedef typename std::iterator_traits<Iterator>::value_type ptr_value_type;
     typedef typename take_pointer<ptr_value_type>::type value_type;
 
@@ -65,11 +63,11 @@ public:
     ptr_iterator (const OtherIterator& it)
 	: Iterator (it)
     {}
-    
+
     ptr_iterator (const ptr_iterator& it)
 	: Iterator (it)
     {}
-    
+
     /**
      * Const indirection operator, returns a constant reference to the
      * referred value.
@@ -94,12 +92,12 @@ class ptr_const_iterator : public Iterator
 public:
     typedef typename std::iterator_traits<Iterator>::value_type ptr_value_type;
     typedef typename take_pointer<ptr_value_type>::type value_type;
-    
+
     typedef typename Iterator::iterator_category iterator_category;
     typedef typename Iterator::difference_type difference_type;
     typedef value_type* pointer;
     typedef value_type& reference;
-    
+
     ptr_const_iterator () {}
 
     ptr_const_iterator (const Iterator& it)
@@ -110,7 +108,7 @@ public:
     ptr_const_iterator (const OtherIterator& it)
 	: Iterator (it)
     {}
-    
+
     ptr_const_iterator (const ptr_const_iterator& it)
 	: Iterator (it)
     {}
@@ -159,7 +157,7 @@ public:
 	: std::map<Key, Data>::iterator (
 	    static_cast<const typename std::map<Key, Data>::iterator> (i))
     {}
-    
+
     /**
      * Preincrement operator.
      */
@@ -203,7 +201,7 @@ public:
 	: std::map<Key, Data>::const_iterator (
 	    static_cast<const typename std::map<Key, Data>::const_iterator> (i))
     {}
-    
+
     /**
      * Preincrement operator.
      */
@@ -237,7 +235,7 @@ public:
     map_iterator (const T& val)
 	: map_iterator_base<Key, Data, map_iterator> (val)
     {}
-    
+
     /**
      * Indirection operator, returns a reference to the referred value.
      */
@@ -287,7 +285,7 @@ public:
     map_key_iterator (const T& val)
 	: map_iterator_base<Key, Data, map_key_iterator> (val)
     {}
-    
+
     /**
      * Const indirection operator, returns a constant reference to the
      * referred value.
@@ -326,7 +324,7 @@ public:
     map_const_iterator (const T& val)
 	: map_const_iterator_base<Key, Data, map_const_iterator> (val)
     {}
-    
+
     /**
      * Indirection operator, returns a reference to the referred value.
      */

@@ -1,6 +1,4 @@
 /**
- *  Time-stamp:  <2009-06-15 20:53:23 raskolnikov>
- *
  *  @file        pedestrian.cpp
  *  @author      Juan Pedro Bolívar Puente <raskolnikov@es.gnu.org>
  *  @date        Wed Jun 10 19:50:14 2009
@@ -10,7 +8,7 @@
 
 /*
  *  Copyright (C) 2009 Juan Pedro Bolívar Puente
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -77,12 +75,12 @@ void pedestrian::handle_collision (yage::game::entity& other,
 
     if (states ().current () != "rotate")
     {
-	base::point3f normal = col.get_normal (); 
+	base::point3f normal = col.get_normal ();
 
 	m_dest_angle = std::atan2 (normal[2], normal[0]);
 	m_dest_angle = base::ranged_random<float> (m_dest_angle - M_PI/2, m_dest_angle + M_PI/2);
 	m_dest_angle = base::normalize_angle (m_dest_angle);
-	
+
 	m_old_action = get_action ();
 
 	float curr_angle = base::normalize_angle (get_look_angle ());
@@ -90,7 +88,7 @@ void pedestrian::handle_collision (yage::game::entity& other,
 	    set_action (ROTATE_L);
 	else
 	    set_action (ROTATE_R);
-	
+
 	m_states.push_state ("rotate");
     }
 }
@@ -102,7 +100,7 @@ void pedestrian::rotate_state (int delta)
 	set_action (ROTATE_L);
     else
 	set_action (ROTATE_R);
-	
+
     if (std::abs (m_dest_angle - curr_angle) <= get_rotate_speed () * delta)
     {
 	set_action (m_old_action);
