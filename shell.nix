@@ -11,16 +11,16 @@ let
 
   libsigcxx_oldie = stdenv.mkDerivation rec {
     pname = "libsigc++";
-    version = "2.0.18";
+    version = "2.2.11";
     src = fetchurl {
-      url = "mirror://gnome/sources/${pname}/${stdenv.lib.versions.majorMinor version}/${pname}-${version}.tar.bz2";
-      sha256 = "1syc3v1a826y7kzahipdhvkz63c8yx1cnsn2h4bs659qnwqd1rsk";
+      url = "mirror://gnome/sources/${pname}/${stdenv.lib.versions.majorMinor version}/${pname}-${version}.tar.xz";
+      sha256 = "0ms93q7r8zznsqkfdj1ds9533f0aqfaw3kdkqv154rzmfigh8d4q";
     };
     preConfigure = ''
       export AM_CXXFLAGS="$CXXFLAGS -fpermissive"
     '';
     nativeBuildInputs = [ pkgconfig gnum4 ];
-    doCheck = true;
+    doCheck = false;
     passthru = {
       updateScript = gnome3.updateScript {
         packageName = pname;
