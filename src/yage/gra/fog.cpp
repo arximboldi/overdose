@@ -53,7 +53,7 @@ void fog::update ()
     glFogf (GL_FOG_START, m_start);
     glFogf (GL_FOG_END, m_end);
     glFogfv (GL_FOG_COLOR, m_color.ptr ());
-    glHint(GL_FOG_HINT, GL_DONT_CARE);
+    glHint (GL_FOG_HINT, GL_NICEST);
 }
 
 void fog::disable ()
