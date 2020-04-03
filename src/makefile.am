@@ -3,13 +3,19 @@
 lib_LTLIBRARIES = libyage.la
 bin_PROGRAMS = overdose
 
-libyage_la_CXXFLAGS = -Wall $(SIGC_CFLAGS) -DYAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(LIBXML_CFLAGS)
-libyage_la_LIBADD = $(BOOST_FILESYSTEM_LIB) -lboost_system-mt $(SIGC_LIBS)\
+libyage_la_CXXFLAGS = -Wall -fpermissive\
+	-DYAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\"\
+	$(LIBXML_CFLAGS) $(SIGC_CFLAGS)\
+	$(SDL_CFLAGS) $(SDL_IMAGE_CFLAGS) $(SDL_TTF_CFLAGS) $(SDL_MIXER_CFLAGS)
+libyage_la_LIBADD = $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB) $(SIGC_LIBS)\
 	$(SDL_MIXER_LIBS) $(SDL_IMAGE_LIBS) $(GLU_LIBS) $(GL_LIBS) $(SDL_LIBS)\
 	$(SDL_TTF_LIBS) $(LIBXML_LIBS)
 
-overdose_CXXFLAGS = -Wall $(SIGC_CFLAGS) 
-overdose_LDADD = $(SIGC_LIBS) $(BOOST_FILESYSTEM_LIB) -lboost_system-mt libyage.la
+overdose_CXXFLAGS = -Wall -fpermissive\
+	$(LIBXML_CFLAGS) $(SIGC_CFLAGS)\
+	$(SDL_CFLAGS) $(SDL_IMAGE_CFLAGS) $(SDL_TTF_CFLAGS) $(SDL_MIXER_CFLAGS)
+overdose_LDADD = $(SIGC_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB) \
+	libyage.la
 
 libyage_la_SOURCES = \
 	$(yage_headers) \

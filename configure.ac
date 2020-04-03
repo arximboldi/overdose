@@ -47,7 +47,7 @@ PKG_CHECK_MODULES(SIGC, [ sigc++-2.0 ], [],
 AC_MSG_ERROR([
 ***
 *** You need Sigc++ library to compile the program.
-*** Install it and run this script again. 
+*** Install it and run this script again.
 ***
 ])
 ])
@@ -60,7 +60,7 @@ PKG_CHECK_MODULES(LIBXML, [ libxml-2.0 >= 2.6 ], [],
 AC_MSG_ERROR([
 ***
 *** You need LibXML library to compile the program.
-*** Install it and run this script again. 
+*** Install it and run this script again.
 ***
 ])
 ])
@@ -69,12 +69,12 @@ AC_MSG_ERROR([
 dnl  Test for SDL
 dnl -----------------------------------------------------------------------------
 
-PKG_CHECK_MODULES(SDL, [ sdl >= 1.2 ], [], 
+PKG_CHECK_MODULES(SDL, [ sdl >= 1.2 ], [],
 [
 AC_MSG_ERROR([
 ***
 *** You need SDL library to compile the program.
-*** Install it and run this script again. 
+*** Install it and run this script again.
 ***
 ])
 ])
@@ -83,46 +83,43 @@ AC_MSG_ERROR([
 dnl  Test for SDL Image
 dnl -----------------------------------------------------------------------------
 
-AC_CHECK_HEADER([SDL/SDL_image.h], [],
-[ 
+PKG_CHECK_MODULES(SDL_IMAGE, [ SDL_image ], [],
+[
 AC_MSG_ERROR([
 ***
-*** Could not find SDL/SDL_image.h ! Install the SDL_image devel package.
+*** You need SDL_image library to compile the program.
+*** Install it and run this script again.
 ***
 ])
 ])
-SDL_IMAGE_LIBS="-lSDL_image"
-AC_SUBST(SDL_IMAGE_LIBS)
 
 
 dnl  Test for SDL TTF
 dnl -----------------------------------------------------------------------------
 
-AC_CHECK_HEADER([SDL/SDL_ttf.h], [],
-[ 
+PKG_CHECK_MODULES(SDL_TTF, [ SDL_ttf ], [],
+[
 AC_MSG_ERROR([
 ***
-*** Could not find SDL/SDL_ttf.h ! Install the SDL_image devel package.
+*** You need SDL_ttf library to compile the program.
+*** Install it and run this script again.
 ***
 ])
 ])
-SDL_TTF_LIBS="-lSDL_ttf"
-AC_SUBST(SDL_TTF_LIBS)
 
 
 dnl  Test for SDL mixer
 dnl -----------------------------------------------------------------------------
 
-AC_CHECK_HEADER([SDL/SDL_mixer.h], [],
+PKG_CHECK_MODULES(SDL_MIXER, [ SDL_mixer], [],
 [
 AC_MSG_ERROR([
 ***
-*** Could not find SDL/SDL_mixer.h ! Install the SDL_mixer devel package.
+*** You need SDL_mixer library to compile the program.
+*** Install it and run this script again.
 ***
-]) 
 ])
-SDL_MIXER_LIBS="-lSDL_mixer"
-AC_SUBST(SDL_MIXER_LIBS)
+])
 
 
 dnl  Test for OpenGl
@@ -140,7 +137,7 @@ PACKAGE_BIN_DIR=$bindir
 PACKAGE_LIB_DIR=$libdir
 
 dnl Uncomment only for development purposes
-dnl PACKAGE_DATA_DIR="./data"
+PACKAGE_DATA_DIR="./data"
 
 AC_SUBST(PACKAGE_DATA_DIR)
 AC_SUBST(PACKAGE_BIN_DIR)
