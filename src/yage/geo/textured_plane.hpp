@@ -37,7 +37,10 @@ namespace geo
 class textured_plane : public mesh
 {
 public:
-    textured_plane (float htiles = 1, float vtiles = 1);
+    textured_plane (float htiles = 1,
+                    float vtiles = 1,
+                    int hdiv = 1,
+                    int vdiv = 1);
 };
 
 } /* namespace geo */

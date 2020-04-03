@@ -306,8 +306,9 @@ void level::add_floor (const std::string& tex,
 {
     core::graphic_system& graphic = core::system::self ().graphic ();
 
-    gra::geometry_ptr road (new geo::textured_plane (htile, vtile));
-    road->set_material (boost::shared_ptr<gra::material> (new gra::material ()));
+    gra::geometry_ptr road (new geo::textured_plane (htile, vtile, len / 1000, wide / 1000));
+    auto material = boost::shared_ptr<gra::material> (new gra::material ());
+    road->set_material (material);
     road->set_texture (graphic.textures ().find (tex));
 
     gra::scene_node_ptr node (new gra::scene_node);
