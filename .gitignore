@@ -1,5 +1,21 @@
+/*.tar.gz
+/*.tag.bz2
+/overdose-*
+config.h
+config.h.in
+.libs
+*.lo
+*.o
+*.so
+*.la
+stamp-h1
+overdose
+doc/man
+doc/pdf
+
 # http://www.gnu.org/software/automake
 Makefile.in
+makefile.in
 /ar-lib
 /mdate-sh
 /py-compile
@@ -16,6 +32,7 @@ autom4te.cache
 /compile
 /config.guess
 /config.h.in
+/config.h
 /config.log
 /config.status
 /config.sub
@@ -28,6 +45,7 @@ autom4te.cache
 
 # https://www.gnu.org/software/libtool/
 /ltmain.sh
+/libtool
 
 # http://www.gnu.org/software/texinfo
 
@@ -45,3 +63,4 @@ m4/lt~obsolete.m4
 # can automatically generate from config.status script
 # (which is called by configure script))
 Makefile
+makefile
