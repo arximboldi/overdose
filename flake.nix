@@ -13,10 +13,13 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         overdose = pkgs.callPackage ./nix/package.nix { };
+        overdose-web = pkgs.callPackage ./nix/web { };
       in
       {
         packages.default = overdose;
+        packages.web = overdose-web;
         devShells.default = pkgs.callPackage ./nix/devshell.nix { inherit overdose; };
+        devShells.web = pkgs.callPackage ./nix/web/devshell.nix { inherit overdose-web; };
       }
     );
 }
