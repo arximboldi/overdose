@@ -39,18 +39,15 @@ YAGE_DEFINE_ERROR_WHAT  (config_backend_error, "Config node has no backend.");
 
 void conf_subject::add_listener (conf_listener& l)
 {
-    on_change.connect (sigc::mem_fun (l, &conf_listener::handle_conf_change));
-    on_nudge.connect (sigc::mem_fun (l, &conf_listener::handle_conf_nudge));
-    on_add_child.connect (sigc::mem_fun (l, &conf_listener::handle_conf_add_child));
-    on_del_child.connect (sigc::mem_fun (l, &conf_listener::handle_conf_del_child));
+    connect_slot (l, on_change, sigc::mem_fun (l, &conf_listener::handle_conf_change));
+    connect_slot (l, on_nudge, sigc::mem_fun (l, &conf_listener::handle_conf_nudge));
+    connect_slot (l, on_add_child, sigc::mem_fun (l, &conf_listener::handle_conf_add_child));
+    connect_slot (l, on_del_child, sigc::mem_fun (l, &conf_listener::handle_conf_del_child));
 }
 
 void conf_subject::del_listener (conf_listener& l)
 {
-    remove_slot (on_change, sigc::mem_fun (l, &conf_listener::handle_conf_change));
-    remove_slot (on_nudge, sigc::mem_fun (l, &conf_listener::handle_conf_nudge));
-    remove_slot (on_add_child, sigc::mem_fun (l, &conf_listener::handle_conf_add_child));
-    remove_slot (on_del_child, sigc::mem_fun (l, &conf_listener::handle_conf_del_child));
+    disconnect_listener (l);
 }
 
 void conf_node::save ()

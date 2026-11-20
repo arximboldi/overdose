@@ -33,14 +33,13 @@ namespace game
 
 void entity_subject::add_listener (entity_listener& l)
 {
-    on_entity_move.connect (sigc::mem_fun (l, &entity_listener::handle_entity_move));
-    on_entity_rotate.connect (sigc::mem_fun (l, &entity_listener::handle_entity_rotate));
+    connect_slot (l, on_entity_move, sigc::mem_fun (l, &entity_listener::handle_entity_move));
+    connect_slot (l, on_entity_rotate, sigc::mem_fun (l, &entity_listener::handle_entity_rotate));
 }
 
 void entity_subject::del_listener (entity_listener& l)
 {
-    remove_slot (on_entity_move, sigc::mem_fun (l, &entity_listener::handle_entity_move));
-    remove_slot (on_entity_rotate, sigc::mem_fun (l, &entity_listener::handle_entity_rotate));
+    disconnect_listener (l);
 }
 
 } /* namespace game */
