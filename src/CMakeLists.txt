@@ -75,8 +75,7 @@ target_include_directories(yage PUBLIC
 target_compile_definitions(yage PRIVATE
   YAGE_DATA_DIR="${OVERDOSE_DATA_DIR}")
 target_link_libraries(yage PUBLIC
-  Boost::filesystem
-  Boost::thread
+  Boost::headers
   OpenGL::GL
   OpenGL::GLU
   LibXml2::LibXml2

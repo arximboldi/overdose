@@ -27,7 +27,7 @@
 #ifndef YAGE_FILE_RESOURCE_MANAGER_T_
 #define YAGE_FILE_RESOURCE_MANAGER_T_
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <yage/base/misc.hpp>
 #include <yage/base/iterator.hpp>
 #include <yage/core/file_resource_manager.hpp>
@@ -77,7 +77,7 @@ file_resource_manager<K, R, P>::handle_not_found (const K& key)
 	throw file_resource_manager_error ("No file manager associated.");
 
     std::string fname            = m_policy.file_name (key);
-    boost::filesystem::path file = m_file_mgr->find_all (fname);
+    std::filesystem::path file = m_file_mgr->find_all (fname);
 
     if (file.empty ())
 	throw file_resource_manager_error ("Resource not found. " + fname);

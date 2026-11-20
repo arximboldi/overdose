@@ -30,7 +30,7 @@
 #include <cstdlib>
 #include "file_manager.hpp"
 
-namespace bf = boost::filesystem;
+namespace bf = std::filesystem;
 
 namespace yage
 {

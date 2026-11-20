@@ -38,7 +38,7 @@
 #include "graphic_controller.hpp"
 
 using namespace std;
-namespace bf = boost::filesystem;
+namespace bf = std::filesystem;
 
 namespace yage
 {

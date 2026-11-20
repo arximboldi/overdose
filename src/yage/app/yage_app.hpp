@@ -27,7 +27,7 @@
 #ifndef YAGE_YAGE_APP_H_
 #define YAGE_YAGE_APP_H_
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <yage/base/arg_parser.hpp>
 #include <yage/base/util.hpp>
 #include <yage/base/config.hpp>
@@ -50,12 +50,12 @@ public:
 
     int run (int argc, const char* argv []);
 
-    boost::filesystem::path get_config_path ()
+    std::filesystem::path get_config_path ()
     {
 	return m_cfg_dir;
     }
 
-    boost::filesystem::path get_data_path ()
+    std::filesystem::path get_data_path ()
     {
 	return m_data_dir;
     }
@@ -82,8 +82,8 @@ private:
 
     base::conf_node& m_config;
 
-    boost::filesystem::path m_cfg_dir;
-    boost::filesystem::path m_data_dir;
+    std::filesystem::path m_cfg_dir;
+    std::filesystem::path m_data_dir;
 };
 
 } /* namespace app */

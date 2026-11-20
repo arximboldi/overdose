@@ -38,7 +38,7 @@ Without Nix, you need:
 2. [CMake](https://cmake.org) 3.20 or later, and pkg-config.
 3. These libraries:
    - [libxml2](https://gitlab.gnome.org/GNOME/libxml2)
-   - [Boost](https://www.boost.org/) (Filesystem and Thread)
+   - [Boost](https://www.boost.org/) (headers only)
    - [libsigc++ 2](https://libsigcplusplus.github.io/libsigcplusplus/)
    - [SDL 1.2](https://www.libsdl.org), or its modern replacement
      [sdl12-compat](https://github.com/libsdl-org/sdl12-compat)
@@ -49,7 +49,7 @@ Without Nix, you need:
 On Debian or Ubuntu they can be installed by running, as root:
 
     apt-get install build-essential cmake pkg-config help2man \
-        libxml2-dev libboost-filesystem-dev libboost-thread-dev \
+        libxml2-dev libboost-dev \
         libsigc++-2.0-dev libsdl1.2-dev libsdl-image1.2-dev \
         libsdl-ttf2.0-dev libsdl-mixer1.2-dev libgl-dev libglu1-mesa-dev
 

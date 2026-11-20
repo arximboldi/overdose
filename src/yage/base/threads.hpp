@@ -44,14 +44,16 @@
 #ifndef YAGE_THREADS_H_
 #define YAGE_THREADS_H_
 
+#include <cassert>
+
 #include <yage/base/util.hpp>
 
 #define YAGE_DEFAULT_THREADING         yage::base::no_threading
 #define YAGE_DEFAULT_NONOBJ_THREADING  yage::base::no_threading
 
 #ifndef YAGE_DEFAULT_MUTEX
-#include <boost/thread/recursive_mutex.hpp>
-#define YAGE_DEFAULT_MUTEX             boost::recursive_mutex
+#include <mutex>
+#define YAGE_DEFAULT_MUTEX             std::recursive_mutex
 #endif
 
 namespace yage

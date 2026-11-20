@@ -56,8 +56,8 @@ public:
     void find_if_all (PathPredicate pred,
 		      file_finder::path_list& res) const;
 
-    boost::filesystem::path
-    find_all (const boost::filesystem::path& file) const;
+    std::filesystem::path
+    find_all (const std::filesystem::path& file) const;
 };
 
 template<class StringPredicate>

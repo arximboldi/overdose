@@ -36,7 +36,7 @@
 #include <string>
 #include <cstdlib>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include <yage/base/misc.hpp>
 
@@ -49,7 +49,7 @@ class path_predicate
 {
 public:
     virtual ~path_predicate() = default;
-    virtual bool operator () (const boost::filesystem::path& str) = 0;
+    virtual bool operator () (const std::filesystem::path& str) = 0;
 };
 
 template <class IterType>
@@ -64,7 +64,7 @@ public:
 	m_last(last)
 	{};
 
-    bool operator () (const boost::filesystem::path& path) {
+    bool operator () (const std::filesystem::path& path) {
 	for (IterType i = m_first; i != m_last; ++i)
 	    if (path.extension () != *i)
 		return true;
@@ -82,22 +82,22 @@ has_extension <IterType> make_has_extension (IterType first, IterType last)
 class file_finder
 {
 public:
-    typedef std::list <boost::filesystem::path> path_list;
-    typedef std::map <boost::filesystem::path,
-		      boost::filesystem::path> path_map;
+    typedef std::list <std::filesystem::path> path_list;
+    typedef std::map <std::filesystem::path,
+		      std::filesystem::path> path_map;
     file_finder ()
 	: m_cache_updated (false)
 	, m_cache_auto (false)
     {}
 
-    void add_path (const boost::filesystem::path& path);
-    void del_path (const boost::filesystem::path& path);
+    void add_path (const std::filesystem::path& path);
+    void del_path (const std::filesystem::path& path);
     void build_cache (bool autoupdate);
     void clear_cache ();
     void clear ();
 
-    boost::filesystem::path
-    find (const boost::filesystem::path& file) const;
+    std::filesystem::path
+    find (const std::filesystem::path& file) const;
 
     template <class PathPredicate>
     void find_if (PathPredicate pred, path_list & res) const;
@@ -109,31 +109,31 @@ private:
     bool m_cache_updated;
     bool m_cache_auto;
 
-    void cache_path (const boost::filesystem::path& path);
-    void uncache_path (const boost::filesystem::path& path);
+    void cache_path (const std::filesystem::path& path);
+    void uncache_path (const std::filesystem::path& path);
 
-    boost::filesystem::path find_in (const boost::filesystem::path& path,
-				     const boost::filesystem::path& file) const;
+    std::filesystem::path find_in (const std::filesystem::path& path,
+				     const std::filesystem::path& file) const;
 
     template<class path_predicate>
-    int get_file_list (const boost::filesystem::path& folder,
+    int get_file_list (const std::filesystem::path& folder,
 		       path_list& res,
 		       path_predicate pred) const;
 };
 
 
 template<class path_predicate>
-int file_finder::get_file_list (const boost::filesystem::path& folder,
+int file_finder::get_file_list (const std::filesystem::path& folder,
 				path_list& res,
 				path_predicate pred) const
 {
     int n = 0;
 
-    if (!boost::filesystem::exists (folder))
+    if (!std::filesystem::exists (folder))
 	return n;
 
-    boost::filesystem::directory_iterator end_itr;
-    for (boost::filesystem::directory_iterator itr (folder);
+    std::filesystem::directory_iterator end_itr;
+    for (std::filesystem::directory_iterator itr (folder);
 	 itr != end_itr;
 	 ++itr) {
 	if (pred (itr->path ())) {

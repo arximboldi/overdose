@@ -18,7 +18,7 @@ endif()
 set(OVERDOSE_DATA_DIR "${PROJECT_SOURCE_DIR}/data"
   CACHE PATH "Directory the game loads its data files from")
 
-find_package(Boost 1.70 REQUIRED CONFIG COMPONENTS filesystem thread)
+find_package(Boost 1.70 REQUIRED CONFIG)
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 find_package(LibXml2 2.6 REQUIRED)
 find_package(SDL 1.2 REQUIRED)
