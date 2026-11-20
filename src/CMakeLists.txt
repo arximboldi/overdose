@@ -67,23 +67,18 @@ add_library(yage
   yage/app/graphic_controller.cpp
   lib/file_ply_stl.cc
 )
-target_include_directories(yage PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${SDL_IMAGE_INCLUDE_DIRS}
-  ${SDL_TTF_INCLUDE_DIRS}
-  ${SDL_MIXER_INCLUDE_DIRS})
+if(EMSCRIPTEN)
+  target_sources(yage PRIVATE yage/core/sdl_emscripten.cpp)
+endif()
+target_include_directories(yage PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(yage
   PRIVATE YAGE_DATA_DIR="${OVERDOSE_DATA_DIR}"
   # The engine does not use GLU; keep SDL_opengl.h from requiring it.
   PUBLIC NO_SDL_GLU)
 target_link_libraries(yage PUBLIC
+  overdose_platform
   Boost::headers
-  OpenGL::GL
   LibXml2::LibXml2
-  SDL::SDL
-  ${SDL_IMAGE_LIBRARIES}
-  ${SDL_TTF_LIBRARIES}
-  ${SDL_MIXER_LIBRARIES}
   PkgConfig::SIGC)
 set_target_properties(yage PROPERTIES
   VERSION ${PROJECT_VERSION}
@@ -121,4 +116,6 @@ add_executable(overdose
 target_include_directories(overdose BEFORE PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(overdose PRIVATE yage)
 
-install(TARGETS overdose)
+if(NOT EMSCRIPTEN)
+  install(TARGETS overdose)
+endif()

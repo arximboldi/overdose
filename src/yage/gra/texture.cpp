@@ -25,6 +25,7 @@
  */
 
 #include <SDL.h>
+#include <cstring>
 #include <SDL_image.h>
 
 #include "yage/core/sdl_wrapper.hpp"
@@ -46,6 +47,54 @@ static int power_of_two(int input)
     return value;
 }
 
+/*
+ * SDL only guarantees that SDL_Surface::pixels is valid while the
+ * surface is locked. Emscripten's SDL keeps surfaces in canvases:
+ * locking copies the canvas into pixels, and unlocking copies it back,
+ * which it refuses to do once OpenGL is in use. There, surfaces stay
+ * locked; it is harmless, as the engine frees them right after.
+ */
+static void lock_pixels (SDL_Surface* surf)
+{
+    SDL_LockSurface (surf);
+}
+
+static void unlock_pixels (SDL_Surface* surf)
+{
+#ifndef __EMSCRIPTEN__
+    SDL_UnlockSurface (surf);
+#endif
+}
+
+/* Copies src into dst, including its alpha channel as is. */
+static void copy_surface (SDL_Surface* src, SDL_Surface* dst)
+{
+#ifdef __EMSCRIPTEN__
+    /* Emscripten's SDL keeps every surface as 32-bit RGBA, like dst.
+       Images loaded while OpenGL is in use come with their pixels but
+       without the canvas SDL_BlitSurface draws with, so copy the rows. */
+    lock_pixels (dst);
+    for (int y = 0; y < src->h; ++y)
+	std::memcpy (static_cast<Uint8*> (dst->pixels) + y * dst->pitch,
+		     static_cast<const Uint8*> (src->pixels) + y * src->pitch,
+		     src->w * 4);
+    unlock_pixels (dst);
+#else
+    /* With SDL_SRCALPHA set, SDL would blend src onto dst using its
+       alpha channel instead of copying it. */
+    Uint32 saved_flags = src->flags;
+    Uint8 saved_alpha = src->format->alpha;
+
+    if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
+	SDL_SetAlpha (src, 0, 0);
+
+    SDL_BlitSurface (src, 0, dst, 0);
+
+    if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
+	SDL_SetAlpha (src, saved_flags, saved_alpha);
+#endif
+}
+
 /* TODO: Mejorar el control de errores aquí. */
 void texture::make_texture (SDL_Surface* surf, GLint filter)
 {
@@ -65,18 +114,7 @@ void texture::make_texture (SDL_Surface* surf, GLint filter)
 			      0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000));
 #endif
 
-    Uint32 saved_flags;
-    Uint8 saved_alpha;
-    saved_flags = surf->flags;
-    saved_alpha = surf->format->alpha;
-
-    if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
- 	SDL_SetAlpha (surf, 0, 0);
-
-    SDL_BlitSurface (surf, 0, conv.get (), 0);
-
-    if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
- 	SDL_SetAlpha (surf, saved_flags, saved_alpha);
+    copy_surface (surf, conv.get ());
 
     glGenTextures (1, &m_glid);
     glBindTexture (GL_TEXTURE_2D, m_glid);
@@ -86,15 +124,12 @@ void texture::make_texture (SDL_Surface* surf, GLint filter)
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    /* SDL only guarantees that pixels is valid while the surface is
-       locked; Emscripten's SDL, for example, keeps the image in a
-       canvas and copies it out on lock. */
-    SDL_LockSurface (conv.get ());
+    lock_pixels (conv.get ());
     glPixelStorei (GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
     glTexImage2D (GL_TEXTURE_2D, 0, 4, m_real_width, m_real_height, 0,
 		  GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
     glPixelStorei (GL_UNPACK_ROW_LENGTH, 0);
-    SDL_UnlockSurface (conv.get ());
+    unlock_pixels (conv.get ());
 }
 
 texture::texture (const std::string& fname)

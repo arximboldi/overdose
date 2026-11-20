@@ -25,6 +25,9 @@
  */
 
 #include <SDL_ttf.h>
+#ifdef __EMSCRIPTEN__
+#include <gl4esinit.h>
+#endif
 
 #include "yage/geo/md2_model_impl.hpp"
 #include "yage/geo/ply_model.hpp"
@@ -97,6 +100,16 @@ void graphic_system::do_init ()
 			  (m_fullsc ? SDL_FULLSCREEN : 0)) == 0)
 	throw graphic_system_error (
 	    std::string ("Could not create window: ") + SDL_GetError ());
+
+#ifdef __EMSCRIPTEN__
+    /* gl4es implements the fixed-function OpenGL we use on top of
+       WebGL, and needs the context SDL just created. */
+    static bool gl4es_ready = false;
+    if (!gl4es_ready) {
+	initialize_gl4es ();
+	gl4es_ready = true;
+    }
+#endif
 
     /* TODO: Parametrizar key repeat? */
     SDL_EnableKeyRepeat (300, 50);
