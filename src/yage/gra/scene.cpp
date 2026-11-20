@@ -28,6 +28,7 @@
 #include "camera.hpp"
 #include "scene.hpp"
 #include "fog.hpp"
+#include "projection.hpp"
 
 namespace yage
 {
@@ -82,7 +83,7 @@ void scene::setup_perspective (int vp_width, int vp_height)
     if (m_camera)
 	m_camera->apply_projection (vp_width, vp_height);
     else
-	gluPerspective (45.0, (GLdouble) vp_width / vp_height, 0.5, 1000.0);
+	perspective (45.0, (GLdouble) vp_width / vp_height, 0.5, 1000.0);
 
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity ();

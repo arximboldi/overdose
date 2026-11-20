@@ -33,6 +33,7 @@
 #include <lib/matrix.h>
 
 #include "camera.hpp"
+#include "projection.hpp"
 
 using namespace yage::base;
 
@@ -59,7 +60,7 @@ camera::camera (const point3f& pos)
 
 void camera::apply_projection (size_t sc_width, size_t sc_height)
 {
-    gluPerspective (m_fov, (GLfloat) sc_width / sc_height * m_ratio, m_near, m_far);
+    perspective (m_fov, (GLfloat) sc_width / sc_height * m_ratio, m_near, m_far);
 }
 
 void camera::apply_model_rotation ()

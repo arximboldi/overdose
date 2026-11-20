@@ -72,12 +72,13 @@ target_include_directories(yage PUBLIC
   ${SDL_IMAGE_INCLUDE_DIRS}
   ${SDL_TTF_INCLUDE_DIRS}
   ${SDL_MIXER_INCLUDE_DIRS})
-target_compile_definitions(yage PRIVATE
-  YAGE_DATA_DIR="${OVERDOSE_DATA_DIR}")
+target_compile_definitions(yage
+  PRIVATE YAGE_DATA_DIR="${OVERDOSE_DATA_DIR}"
+  # The engine does not use GLU; keep SDL_opengl.h from requiring it.
+  PUBLIC NO_SDL_GLU)
 target_link_libraries(yage PUBLIC
   Boost::headers
   OpenGL::GL
-  OpenGL::GLU
   LibXml2::LibXml2
   SDL::SDL
   ${SDL_IMAGE_LIBRARIES}

@@ -13,7 +13,6 @@
   SDL_ttf,
   SDL_mixer,
   libGL,
-  libGLU,
 }:
 stdenv.mkDerivation {
   pname = "overdose";
@@ -44,7 +43,6 @@ stdenv.mkDerivation {
     SDL_ttf
     SDL_mixer
     libGL
-    libGLU
   ];
 
   cmakeFlags = [
