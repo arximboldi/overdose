@@ -485,9 +485,10 @@ class mgr_container : public T
 public:
     ~mgr_container ()
     {
-	std::for_each (T::begin (),
-		       T::end (),
-		       std::mem_fun (&T::value_type::clean ()));
+	for (typename T::iterator it = T::begin ();
+	     it != T::end ();
+	     ++it)
+	    it->clean ();
     }
 };
 

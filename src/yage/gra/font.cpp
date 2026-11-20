@@ -90,7 +90,9 @@ font::render_surface (const std::string& str,
 		      const base::point3f& color,
 		      render_mode mode)
 {
-    SDL_Color sdl_color = { color[0] * 255, color[1] * 255, color[2] * 255 };
+    SDL_Color sdl_color = { static_cast<Uint8> (color[0] * 255),
+			    static_cast<Uint8> (color[1] * 255),
+			    static_cast<Uint8> (color[2] * 255) };
     SDL_Surface* surf   = 0;
 
     switch (mode)
