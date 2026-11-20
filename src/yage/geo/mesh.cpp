@@ -210,7 +210,7 @@ namespace
 {
 struct comparator
 {
-    bool operator () (const base::point3f& a, const base::point3f& b)
+    bool operator () (const base::point3f& a, const base::point3f& b) const
     {
 	const float epsilon = 0.0001;
 
