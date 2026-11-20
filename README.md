@@ -43,7 +43,7 @@ Without Nix, you need:
    - [SDL 1.2](https://www.libsdl.org), or its modern replacement
      [sdl12-compat](https://github.com/libsdl-org/sdl12-compat)
    - SDL_image, SDL_ttf and SDL_mixer for SDL 1.2
-   - OpenGL and GLU
+   - OpenGL
 4. Optionally, help2man to generate the man page.
 
 On Debian or Ubuntu they can be installed by running, as root:
@@ -51,7 +51,7 @@ On Debian or Ubuntu they can be installed by running, as root:
     apt-get install build-essential cmake pkg-config help2man \
         libxml2-dev libboost-dev \
         libsigc++-2.0-dev libsdl1.2-dev libsdl-image1.2-dev \
-        libsdl-ttf2.0-dev libsdl-mixer1.2-dev libgl-dev libglu1-mesa-dev
+        libsdl-ttf2.0-dev libsdl-mixer1.2-dev libgl-dev
 
 ### Building with CMake
 
@@ -76,6 +76,34 @@ its data once installed, for example:
     cmake --install build
 
 The last command normally has to be run as root.
+
+### In the browser
+
+The game also builds to WebAssembly with
+[Emscripten](https://emscripten.org), as a static website that can be
+served by any web server:
+
+    nix build .#web
+
+The site ends up in `./result`: `index.html`, the compiled game, and
+`overdose.data` with all the game data (about 75 MB). To try it
+locally, serve that directory, for example with:
+
+    python3 -m http.server -d result
+
+and open <http://localhost:8000>. Command line options can be passed in
+the URL, for example `?args=-l%205` to start with half the maximum
+amount of drugs in the blood.
+
+The browser build relies on Emscripten's own implementation of SDL 1.2
+and on [gl4es](https://github.com/ptitSeb/gl4es) to run the game's
+OpenGL code on WebGL. For working on it, `nix develop .#web` opens a
+shell with Emscripten and these dependencies, where:
+
+    emcmake cmake -S . -B build-web -G Ninja $cmakeFlags
+    cmake --build build-web
+
+builds the site into `build-web/src`.
 
 
 ## Playing
