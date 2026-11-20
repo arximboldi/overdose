@@ -66,7 +66,7 @@ public:
 
     bool operator () (const boost::filesystem::path& path) {
 	for (IterType i = m_first; i != m_last; ++i)
-	    if (extension (path) != *i)
+	    if (path.extension () != *i)
 		return true;
 	return false;
     }
