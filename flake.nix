@@ -8,13 +8,15 @@
 
   outputs =
     { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        overdose = pkgs.callPackage ./nix/package.nix { };
       in
       {
-        devShells.default = pkgs.callPackage ./nix/devshell.nix { };
+        packages.default = overdose;
+        devShells.default = pkgs.callPackage ./nix/devshell.nix { inherit overdose; };
       }
     );
 }
