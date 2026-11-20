@@ -476,21 +476,21 @@ return(*this);
 //*************************************************************************
 
 
-template <> void
+template <> inline void
 _vertex2<int>::show_values()
 {
 
 printf("vertex: x=%d y=%d\n",x,y);
 }
 
-template <> void
+template <> inline void
 _vertex2<float>::show_values()
 {
 
 printf("vertex: x=%f y=%f\n",x,y);
 }
 
-template <> void
+template <> inline void
 _vertex2<double>::show_values()
 {
 
@@ -972,21 +972,21 @@ return (atan2(sine,cosine));
 // especialization
 //*************************************************************************
 
-template <> void
+template <> inline void
 _vertex3<int>::show_values()
 {
 
 printf("vertex: x=%d y=%d z=%d\n",x,y,z);
 }
 
-template <> void
+template <> inline void
 _vertex3<float>::show_values()
 {
 
 printf("vertex: x=%f y=%f z=%f\n",x,y,z);
 }
 
-template <> void
+template <> inline void
 _vertex3<double>::show_values()
 {
 
@@ -1403,21 +1403,21 @@ return(*this);
 // especialization
 //*************************************************************************
 
-template <> void
+template <> inline void
 _vertex4<int>::show_values()
 {
 
 printf("vertex: x=%d y=%d z=%d w=%d\n",x,y,z,w);
 }
 
-template <> void
+template <> inline void
 _vertex4<float>::show_values()
 {
 
 printf("vertex: x=%f y=%f z=%f w=%f\n",x,y,z,w);
 }
 
-template <> void
+template <> inline void
 _vertex4<double>::show_values()
 {
 
@@ -1536,14 +1536,14 @@ return(Normal1);
 // especializations
 //*************************************************************************
 
-template <> void
+template <> inline void
 _plane<float>::show_values()
 {
 
 printf("plane: x=%f y=%f z=%f w=%f\n",x,y,z,w);
 }
 
-template <> void
+template <> inline void
 _plane<double>::show_values()
 {
 
