@@ -25,6 +25,9 @@
  */
 
 #include <SDL.h>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 #include <SDL_opengl.h>
 
 #include "yage/gra/camera.hpp"
@@ -57,25 +60,55 @@ void system_impl::clear_resources ()
 
 void system_impl::main_loop ()
 {
-    timer timer;
-    bool val;
-
+    m_timer = timer ();
     m_input.add_video_listener (m_graphic);
-    while (!m_must_quit && (val = m_input.update ()))
-    {
-	if (m_update_fps) {
-	    timer.force_fps (m_fps);
-	    m_update_fps = false;
-	}
 
-	timer.update ();
-	m_tasks->update (timer.delta_ticks ());
-	m_graphic.update ();
+#ifdef __EMSCRIPTEN__
+    /* A browser only draws and delivers input once control returns to
+       it, so let it call us once per frame instead of looping here.
+       simulate_infinite_loop makes this call never return: the stack
+       frames of our callers, and the objects living in them, stay
+       around while the browser drives the loop. */
+    emscripten_set_main_loop_arg (&system_impl::browser_frame, this, 0, true);
+#else
+    while (iterate ())
+	;
+    finish_loop ();
+#endif
+}
+
+bool system_impl::iterate ()
+{
+    if (m_must_quit || !m_input.update ())
+	return false;
+
+    if (m_update_fps) {
+	m_timer.force_fps (m_fps);
+	m_update_fps = false;
     }
 
+    m_timer.update ();
+    m_tasks->update (m_timer.delta_ticks ());
+    m_graphic.update ();
+    return true;
+}
+
+void system_impl::finish_loop ()
+{
     m_input.del_video_listener (m_graphic);
     m_must_quit = false;
 }
+
+#ifdef __EMSCRIPTEN__
+void system_impl::browser_frame (void* self)
+{
+    system_impl& sys = *static_cast<system_impl*> (self);
+    if (!sys.iterate ()) {
+	sys.finish_loop ();
+	emscripten_cancel_main_loop ();
+    }
+}
+#endif
 
 } /* namespace core */
 } /* namespace yage */

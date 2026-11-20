@@ -68,7 +68,15 @@ public:
     }
 
 private:
+    /** Runs one frame. Returns false when the loop has to stop. */
+    bool iterate ();
+    void finish_loop ();
+#ifdef __EMSCRIPTEN__
+    static void browser_frame (void* self);
+#endif
+
     boost::shared_ptr<task_manager> m_tasks;
+    timer m_timer;
     
     graphic_system m_graphic;
     sound_system   m_sound;

@@ -88,7 +88,11 @@ void timer::update ()
 
         if (current_ticks <= target_ticks) {
             the_delay = target_ticks - current_ticks;
+#ifndef __EMSCRIPTEN__
+            /* In a browser the frame rate is paced by the browser
+               itself, and sleeping on its main thread is not allowed. */
             SDL_Delay (the_delay);
+#endif
         } else {
             framecount = 0;
             lastticks = SDL_GetTicks ();
