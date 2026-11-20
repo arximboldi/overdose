@@ -86,10 +86,15 @@ void texture::make_texture (SDL_Surface* surf, GLint filter)
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+    /* SDL only guarantees that pixels is valid while the surface is
+       locked; Emscripten's SDL, for example, keeps the image in a
+       canvas and copies it out on lock. */
+    SDL_LockSurface (conv.get ());
     glPixelStorei (GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
     glTexImage2D (GL_TEXTURE_2D, 0, 4, m_real_width, m_real_height, 0,
 		  GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
     glPixelStorei (GL_UNPACK_ROW_LENGTH, 0);
+    SDL_UnlockSurface (conv.get ());
 }
 
 texture::texture (const std::string& fname)
