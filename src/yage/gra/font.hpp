@@ -27,7 +27,7 @@
 #ifndef YAGE_FONT_H_
 #define YAGE_FONT_H_
 
-#include <SDL/SDL_ttf.h>
+#include <SDL_ttf.h>
 #include <string>
 #include <boost/shared_ptr.hpp>
 

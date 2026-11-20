@@ -27,7 +27,7 @@
 #ifndef YAGE_STATIC_DRAWABLE_H_
 #define YAGE_STATIC_DRAWABLE_H_
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 #include <yage/base/singleton.hpp>
 #include <yage/base/handle_allocator.hpp>

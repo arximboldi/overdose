@@ -27,8 +27,8 @@
 #ifndef YAGE_TEXTURE_H_
 #define YAGE_TEXTURE_H_
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
 
 #include <boost/shared_ptr.hpp>
 

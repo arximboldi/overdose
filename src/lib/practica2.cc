@@ -9,8 +9,8 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <ctype.h>
@@ -22,7 +22,7 @@
 #include "scenenode.h"
 #include "plymesh.h"
 #include "camera.h"
-#include <SDL/SDL_mixer.h>
+#include <SDL_mixer.h>
 
 
 using namespace mge;

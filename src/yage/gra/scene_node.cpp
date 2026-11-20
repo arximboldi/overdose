@@ -24,7 +24,7 @@
  *
  */
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 #include "scene_node.hpp"
 

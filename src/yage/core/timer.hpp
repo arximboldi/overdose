@@ -33,7 +33,7 @@
 #ifndef YAGE_TIMER_H
 #define YAGE_TIMER_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 namespace yage
 {

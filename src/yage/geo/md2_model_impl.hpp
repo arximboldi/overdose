@@ -31,7 +31,7 @@
 #include <map>
 
 #include <boost/shared_ptr.hpp>
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 #include <yage/base/iterator.hpp>
 #include <yage/base/exception.hpp>

@@ -34,8 +34,8 @@
 #define YAGE_MESH_H
 
 #include <vector>
-#include <SDL/SDL_opengl.h>
-#include <SDL/SDL.h>
+#include <SDL_opengl.h>
+#include <SDL.h>
 #include <boost/shared_ptr.hpp>
 
 #include <yage/base/point2.hpp>

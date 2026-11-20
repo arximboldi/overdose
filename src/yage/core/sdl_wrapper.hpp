@@ -27,7 +27,7 @@
 #ifndef YAGE_SDL_WRAPPER_H_
 #define YAGE_SDL_WRAPPER_H_
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <yage/base/observer.hpp>
 #include <yage/base/pointer.hpp>
 

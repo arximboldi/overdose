@@ -38,7 +38,7 @@
 #ifndef YAGE_GRAPHIC_SYSTEM_H_
 #define YAGE_GRAPHIC_SYSTEM_H_
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 #include <boost/utility.hpp>
 
 #include <yage/base/exception.hpp>

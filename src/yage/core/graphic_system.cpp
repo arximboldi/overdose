@@ -24,7 +24,7 @@
  *
  */
 
-#include <SDL/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 #include "yage/geo/md2_model_impl.hpp"
 #include "yage/geo/ply_model.hpp"

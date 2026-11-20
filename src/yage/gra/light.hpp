@@ -27,7 +27,7 @@
 #ifndef YAGE_LIGHT_H_
 #define YAGE_LIGHT_H_
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 #include <yage/base/point3.hpp>
 #include <yage/base/point4.hpp>

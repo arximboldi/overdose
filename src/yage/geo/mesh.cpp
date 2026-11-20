@@ -26,9 +26,9 @@
 
 #include <map>
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
 
 #include "yage/gra/material.hpp"
 #include "yage/gra/texture.hpp"

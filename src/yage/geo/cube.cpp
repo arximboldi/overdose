@@ -27,7 +27,7 @@
 #include <iostream>
 #include <cassert>
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 #include "cube.hpp"
 

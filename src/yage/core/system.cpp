@@ -24,8 +24,8 @@
  *
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
 
 #include "yage/gra/camera.hpp"
 #include "system.hpp"

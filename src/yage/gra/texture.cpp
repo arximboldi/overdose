@@ -24,8 +24,8 @@
  *
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include "yage/core/sdl_wrapper.hpp"
 #include "texture.hpp"
