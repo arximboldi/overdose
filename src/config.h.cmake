@@ -1,0 +1,7 @@
+#ifndef OVERDOSE_CONFIG_H
+#define OVERDOSE_CONFIG_H
+
+#define PACKAGE "@PROJECT_NAME@"
+#define VERSION "@PROJECT_VERSION@"
+
+#endif
