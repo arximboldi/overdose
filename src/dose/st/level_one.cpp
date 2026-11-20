@@ -243,7 +243,7 @@ void level_one::setup_people ()
 
     const int num_dealer_models = 5;
     const md2_id dealer_models [] =
-	{ {"tigger.md2", "tigger.pcx", false},
+	{ {"tigger.md2", "tigger.png", false},
 	  {"oddjob.md2", "oddjob.png", true},
 	  {"smiley.md2", "smiley.png", true},
 	  {"bong.md2", "bong_gethigh.png", true},

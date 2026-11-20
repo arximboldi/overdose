@@ -125,10 +125,10 @@ void lsd::randomize_models ()
 {
     const int num_models = 4;
     const char* models [num_models][3] = {
-	{"lala.md2", "lala.pcx", (const char*) 1},
-	{"lala.md2", "lala_po.pcx", (const char*) 1},
-	{"lala.md2", "lala_tinkywinky.pcx", (const char*) 1},
-	{"lala.md2", "lala_dipsy.pcx", (const char*) 1}
+	{"lala.md2", "lala.png", (const char*) 1},
+	{"lala.md2", "lala_po.png", (const char*) 1},
+	{"lala.md2", "lala_tinkywinky.png", (const char*) 1},
+	{"lala.md2", "lala_dipsy.png", (const char*) 1}
     };
 
     game::entity_manager_ptr ents = get_level ()->entities ();

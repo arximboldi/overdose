@@ -102,7 +102,7 @@ void hell::setup_people ()
     const int num_dealer_models = 2;
     const md2_id dealer_models [] =
 	{ {"beelzabub.md2", "beelzabub.png", true},
-	  {"jack.md2", "jack_demon.pcx", false} };
+	  {"jack.md2", "jack_demon.png", false} };
 
     const int max_drug = 20;
 
