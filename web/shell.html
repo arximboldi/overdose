@@ -164,6 +164,15 @@
       canvas.focus();
     });
 
+    // Emscripten's SDL keeps every key press from the browser. The game
+    // has no Ctrl or Cmd shortcuts, so leave those to the browser, e.g.
+    // Ctrl+Shift+R to reload.
+    for (const type of ['keydown', 'keypress', 'keyup']) {
+      window.addEventListener(type, (event) => {
+        if (event.ctrlKey || event.metaKey) event.stopPropagation();
+      }, true);
+    }
+
     var Module = {
       canvas,
       toggleFullscreen,
