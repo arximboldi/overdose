@@ -6,6 +6,7 @@
 {
   mkShell,
   callPackage,
+  clang-tools,
   overdose-web,
 }:
 let
@@ -13,7 +14,10 @@ let
 in
 mkShell {
   inputsFrom = [ overdose-web ];
-  packages = [ (callPackage ./serve.nix { root = "build-web/src"; }) ];
+  packages = [
+    (callPackage ./serve.nix { root = "build-web/src"; })
+    clang-tools
+  ];
   inherit (overdose-web) cmakeFlags;
   env.PKG_CONFIG_PATH = overdose-web.pkgConfigPath;
 
