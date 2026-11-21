@@ -100,7 +100,8 @@ can turn freely, and `Escape` lets go of it.
 
 The browser build relies on Emscripten's own implementation of SDL 1.2
 and on [gl4es](https://github.com/ptitSeb/gl4es) to run the game's
-OpenGL code on WebGL. For working on it, `nix develop .#web` opens a
+OpenGL code on WebGL. Text is drawn with the same SDL_ttf and FreeType
+as on the desktop, built for the web. For working on it, `nix develop .#web` opens a
 shell with Emscripten and these dependencies, where:
 
     emcmake cmake -S . -B build-web -G Ninja $cmakeFlags

@@ -67,9 +67,6 @@ add_library(yage
   yage/app/graphic_controller.cpp
   lib/file_ply_stl.cc
 )
-if(EMSCRIPTEN)
-  target_sources(yage PRIVATE yage/core/sdl_emscripten.cpp)
-endif()
 target_include_directories(yage PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(yage
   PRIVATE YAGE_DATA_DIR="${OVERDOSE_DATA_DIR}"

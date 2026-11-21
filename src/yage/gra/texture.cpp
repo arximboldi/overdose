@@ -66,18 +66,36 @@ static void unlock_pixels (SDL_Surface* surf)
 #endif
 }
 
-/* Copies src into dst, including its alpha channel as is. */
+#ifdef __EMSCRIPTEN__
+static Uint8 channel (Uint32 pixel, Uint32 mask)
+{
+    return mask ? (pixel & mask) >> __builtin_ctz (mask) : 0xff;
+}
+#endif
+
+/* Copies src into dst, an RGBA surface, including its alpha channel as is. */
 static void copy_surface (SDL_Surface* src, SDL_Surface* dst)
 {
 #ifdef __EMSCRIPTEN__
-    /* Emscripten's SDL keeps every surface as 32-bit RGBA, like dst.
-       Images loaded while OpenGL is in use come with their pixels but
-       without the canvas SDL_BlitSurface draws with, so copy the rows. */
+    /* Emscripten's SDL keeps every surface at 32 bits per pixel, in the
+       channel order it was created with: RGBA for images, ARGB for
+       SDL_ttf's text. Images loaded while OpenGL is in use come with
+       their pixels but without the canvas SDL_BlitSurface draws with,
+       so convert the pixels here. */
+    const SDL_PixelFormat* format = src->format;
     lock_pixels (dst);
-    for (int y = 0; y < src->h; ++y)
-	std::memcpy (static_cast<Uint8*> (dst->pixels) + y * dst->pitch,
-		     static_cast<const Uint8*> (src->pixels) + y * src->pitch,
-		     src->w * 4);
+    for (int y = 0; y < src->h; ++y) {
+	const Uint8* in = static_cast<const Uint8*> (src->pixels) + y * src->pitch;
+	Uint8* out = static_cast<Uint8*> (dst->pixels) + y * dst->pitch;
+	for (int x = 0; x < src->w; ++x, in += 4, out += 4) {
+	    Uint32 pixel;
+	    std::memcpy (&pixel, in, 4);
+	    out[0] = channel (pixel, format->Rmask);
+	    out[1] = channel (pixel, format->Gmask);
+	    out[2] = channel (pixel, format->Bmask);
+	    out[3] = channel (pixel, format->Amask);
+	}
+    }
     unlock_pixels (dst);
 #else
     /* With SDL_SRCALPHA set, SDL would blend src onto dst using its

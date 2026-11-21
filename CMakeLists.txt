@@ -36,12 +36,22 @@ add_library(overdose_platform INTERFACE)
 if(EMSCRIPTEN)
   # Emscripten implements the SDL 1.2 API itself. gl4es provides the
   # fixed-function OpenGL the engine is written in on top of WebGL.
+  # Emscripten's SDL_ttf only approximates text with the browser's
+  # canvas, so use the real one, built with FreeType, as on the desktop.
   find_path(GL4ES_INCLUDE_DIR gl4esinit.h REQUIRED)
   find_library(GL4ES_LIBRARY gl4es REQUIRED)
+  find_path(SDL_TTF_INCLUDE_DIR SDL_ttf.h PATH_SUFFIXES SDL REQUIRED
+    NO_CMAKE_FIND_ROOT_PATH)
+  find_library(SDL_TTF_LIBRARY SDL_ttf REQUIRED)
+  find_library(FREETYPE_LIBRARY freetype REQUIRED)
   target_include_directories(overdose_platform INTERFACE
     ${GL4ES_INCLUDE_DIR}
+    ${SDL_TTF_INCLUDE_DIR}
     ${EMSCRIPTEN_SYSROOT}/include/SDL)
-  target_link_libraries(overdose_platform INTERFACE ${GL4ES_LIBRARY})
+  target_link_libraries(overdose_platform INTERFACE
+    ${GL4ES_LIBRARY}
+    ${SDL_TTF_LIBRARY}
+    ${FREETYPE_LIBRARY})
   # JavaScript-based exceptions: unlike native Wasm exceptions, they let
   # the browser's main loop unwind through the engine's catch (...).
   target_compile_options(overdose_platform INTERFACE -fexceptions)

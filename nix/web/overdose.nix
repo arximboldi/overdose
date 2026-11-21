@@ -7,7 +7,9 @@
   boost,
   emscripten,
   emscriptenCacheHook,
+  freetype,
   gl4es,
+  sdl-ttf,
   libsigcxx,
   libxml2,
 }:
@@ -38,7 +40,7 @@ stdenvNoCC.mkDerivation {
   # so let CMake search the prefixes given to it as well. Boost is only
   # used for its headers, which are the same on every platform.
   cmakeFlags = [
-    "-DCMAKE_PREFIX_PATH=${gl4es};${libxml2};${boost.dev}"
+    "-DCMAKE_PREFIX_PATH=${gl4es};${sdl-ttf};${freetype};${libxml2};${boost.dev}"
     "-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH"
     "-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=BOTH"
     "-DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=BOTH"
