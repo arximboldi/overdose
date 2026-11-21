@@ -11,7 +11,9 @@
       --fg: #fff;
       --muted: rgb(255 255 255 / 0.65);
       --accent: #e8322b;
-      --line: #5c1310;
+      --line: #fff;
+      --sans: Arimo, "Liberation Sans", Arial, sans-serif;
+      --mono: Inconsolata, "DejaVu Sans Mono", ui-monospace, monospace;
     }
     * { box-sizing: border-box; }
     body {
@@ -19,7 +21,7 @@
       min-height: 100vh;
       background: var(--bg);
       color: var(--fg);
-      font: 15px/1.5 system-ui, sans-serif;
+      font: 15px/1.5 var(--sans);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -28,11 +30,11 @@
     }
     /* The game renders at 4:3; fit it in the window without scrolling. */
     header, footer, .screen {
-      width: min(100%, 800px, calc((100dvh - 230px) * 4 / 3));
+      width: min(100%, 800px, calc((100dvh - 240px) * 4 / 3));
     }
     header, footer {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       gap: 16px;
     }
@@ -41,18 +43,26 @@
     button {
       background: none;
       color: var(--fg);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 4px 12px;
-      font: inherit;
+      border: 2px solid var(--line);
+      border-radius: 0;
+      padding: 0.4em 0.875em;
+      font: bold 15px var(--sans);
+      text-transform: lowercase;
       cursor: pointer;
+      transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out,
+                  color 0.2s ease-in-out;
     }
-    button:hover { border-color: var(--accent); color: var(--accent); }
+    button:hover, button:focus-visible {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      outline: none;
+    }
     .screen {
       position: relative;
       aspect-ratio: 4 / 3;
       background: #000;
-      border: 1px solid var(--line);
+      border: 2px solid var(--line);
     }
     /* Fullscreen fills the whole screen, at any aspect ratio. */
     .screen:fullscreen { border: none; }
@@ -66,16 +76,34 @@
       pointer-events: none;
     }
     #status:empty { display: none; }
-    footer { color: var(--muted); font-size: 13px; flex-wrap: wrap; }
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
     .controls { display: flex; flex-direction: column; gap: 4px; }
     kbd {
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      padding: 0 4px;
-      font: 12px ui-monospace, monospace;
+      display: inline-block;
+      min-width: 1.6em;
+      border: 2px solid var(--line);
+      padding: 0 0.35em;
+      font: bold 12px/1.5 var(--mono);
+      text-align: center;
       color: var(--fg);
     }
-    a { color: var(--accent); }
+    a {
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 2px solid var(--fg);
+      transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    }
+    a:hover, a:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
   </style>
 </head>
 <body>
