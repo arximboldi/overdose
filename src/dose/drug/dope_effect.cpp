@@ -66,7 +66,7 @@ dope_effect::dope_effect (dope_ptr p)
 
 
 	    m_node.get_child ("bar").set_position (
-		point3f (graphic.get_width () / 2 - t->get_width () / 2, 0, 0));
+		point3f (graphic.get_hud_width () / 2 - t->get_width () / 2, 0, 0));
 	}
 	gra::scene_node& ni = n.get_child ("level");
 	{

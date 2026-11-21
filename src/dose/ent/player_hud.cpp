@@ -125,7 +125,7 @@ player_hud::player_hud ()
 
 	for (int i = 0; i < MAX_DRUG; ++i) {
 	    get_slot (i).set_position (
-		point3f (graphic.get_width () - t->get_width () - 10,
+		point3f (graphic.get_hud_width () - t->get_width () - 10,
 			 10 + t->get_height () * i, 0));
 	    get_slot (i).get_child ("bg").set_position (point3f (0, 0, -0.5));
 	    get_slot (i).get_child ("fg").set_position (point3f (0, 0, 0.5));
@@ -155,7 +155,7 @@ void player_hud::set_player_message (const std::string& str)
 	core::graphic_system& graphic = core::system::self ().graphic ();
 
 	m_player_msg->set_text (str);
-	float center = graphic.get_width () / 2 - m_player_msg->get_width () / 2;
+	float center = graphic.get_hud_width () / 2 - m_player_msg->get_width () / 2;
 	m_node.get_child ("player-message").set_position (point3f (center, 20, 0));
     }
 }
@@ -166,7 +166,7 @@ void player_hud::set_player_alert (const std::string& str, int duration)
 	core::graphic_system& graphic = core::system::self ().graphic ();
 
 	m_player_alert->set_text (str);
-	float center = graphic.get_width () / 2 - m_player_alert->get_width () / 2;
+	float center = graphic.get_hud_width () / 2 - m_player_alert->get_width () / 2;
 	m_node.get_child ("player-alert").set_position (point3f (center, 40, 0));
     }
     m_alert_count = duration;
@@ -291,7 +291,7 @@ void player_hud::finish_drugs ()
 
 void player_hud::clean_effects ()
 {
-    point3f pos (0, core::system::self ().graphic ().get_height () - 30, 0);
+    point3f pos (0, core::system::self ().graphic ().get_hud_height () - 30, 0);
 
     for (effect_list::iterator it = m_effects.begin ();
 	 it != m_effects.end ();)

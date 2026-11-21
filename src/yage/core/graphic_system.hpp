@@ -92,6 +92,13 @@ public:
     static const int  DEFAULT_SCREEN_HEIGHT = 480;
     static const bool DEFAULT_FULLSCREEN    = false;
 
+    /*
+     * The 2D overlay is laid out in a fixed 800x600 space, which is
+     * scaled to fit the window and centred in it, whatever its size.
+     */
+    static const int  HUD_WIDTH  = 800;
+    static const int  HUD_HEIGHT = 600;
+
     ~graphic_system ();
 
     void init (int sc_w = DEFAULT_SCREEN_WIDTH,
@@ -121,6 +128,13 @@ public:
 			bool fs   = DEFAULT_FULLSCREEN,
 			bool grab = false);
 
+    /*
+     * Switches between the window and a fullscreen mode at the
+     * resolution of the screen. In a browser, the page decides how
+     * the game is shown, and this asks it to toggle fullscreen.
+     */
+    void toggle_fullscreen ();
+
     bool is_init ()
     {
 	return m_isinit;
@@ -131,14 +145,14 @@ public:
 	return m_scene;
     }
 
-    int get_width ()
+    int get_hud_width ()
     {
-	return m_sc_width;
+	return HUD_WIDTH;
     }
 
-    int get_height ()
+    int get_hud_height ()
     {
-	return m_sc_height;
+	return HUD_HEIGHT;
     }
 
     void set_scene (boost::shared_ptr<gra::scene> scene)
@@ -171,9 +185,17 @@ private:
 
     graphic_system ();
     void do_init ();
+    void set_video_mode ();
+#ifdef __EMSCRIPTEN__
+    void fit_canvas ();
+#endif
 
     int m_sc_width;
     int m_sc_height;
+    int m_win_width;
+    int m_win_height;
+    int m_desktop_width;
+    int m_desktop_height;
     bool m_fullsc;
     bool m_grab;
     std::string m_title;

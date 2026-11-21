@@ -9,7 +9,7 @@ target_link_options(overdose PRIVATE
   "SHELL:--preload-file ${PROJECT_SOURCE_DIR}/data@${OVERDOSE_DATA_DIR}"
   "SHELL:--shell-file ${_shell}"
   # Used by shell.html.
-  -sEXPORTED_RUNTIME_METHODS=addRunDependency,removeRunDependency,requestFullscreen)
+  -sEXPORTED_RUNTIME_METHODS=addRunDependency,removeRunDependency)
 set_property(TARGET overdose APPEND PROPERTY LINK_DEPENDS ${_shell})
 
 set(_out $<TARGET_FILE_DIR:overdose>)

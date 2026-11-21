@@ -24,6 +24,7 @@
  *
  */
 
+#include <algorithm>
 #include <SDL_opengl.h>
 #include "camera.hpp"
 #include "scene.hpp"
@@ -35,7 +36,7 @@ namespace yage
 namespace gra
 {
 
-void scene::render (int vp_width, int vp_height)
+void scene::render (int vp_width, int vp_height, int hud_width, int hud_height)
 {
     /* Dibujamos la escena */
     setup_perspective (vp_width, vp_height);
@@ -67,7 +68,7 @@ void scene::render (int vp_width, int vp_height)
     }
 
     /* Dibujamos el HUD bidimensional */
-    setup_ortho (vp_width, vp_height);
+    setup_ortho (vp_width, vp_height, hud_width, hud_height);
     {
 	glPushMatrix ();
 	m_hud_root.draw ();
@@ -89,12 +90,19 @@ void scene::setup_perspective (int vp_width, int vp_height)
     glLoadIdentity ();
 }
 
-void scene::setup_ortho (int vp_width, int vp_height)
+void scene::setup_ortho (int vp_width, int vp_height, int hud_width, int hud_height)
 {
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
 
-    glOrtho (0.0f, vp_width, vp_height, 0.0f, -1.0f, 1.0f);
+    /* Fit the HUD in the viewport, centred, keeping its aspect ratio. */
+    double scale = std::min (double (vp_width) / hud_width,
+			     double (vp_height) / hud_height);
+    double width = vp_width / scale;
+    double height = vp_height / scale;
+    double left = (hud_width - width) / 2;
+    double top = (hud_height - height) / 2;
+    glOrtho (left, left + width, top + height, top, -1.0, 1.0);
 
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity ();

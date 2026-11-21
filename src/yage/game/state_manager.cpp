@@ -126,8 +126,8 @@ void state_manager::new_state (const std::string& name)
 	node.clear_drawables ();
 	node.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (tex)));
 	node.set_scale (base::point3f (
-			    (float) graphic.get_width () / tex->get_width (),
-			    (float) graphic.get_height () / tex->get_height (), 1));
+			    (float) graphic.get_hud_width () / tex->get_width (),
+			    (float) graphic.get_hud_height () / tex->get_height (), 1));
 	graphic.set_scene (m_loading_scene);
 	graphic.update ();
     }

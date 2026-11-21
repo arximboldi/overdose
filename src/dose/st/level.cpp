@@ -135,13 +135,19 @@ bool level::handle_key_press (SDL_Event& ev)
 {
     SDLKey key = ev.key.keysym.sym;
 
+#ifndef __EMSCRIPTEN__
+    /* A web page has nothing to quit to, and the browser already uses
+       Escape to release the mouse and leave fullscreen. */
     if (key == SDLK_ESCAPE)
 	leave_state ();
+#endif
     if (key == SDLK_RETURN && m_can_finish)
 	if (!m_next_level.empty ())
 	    change_state (m_next_level);
 	else
 	    leave_state ();
+    else if (key == SDLK_f)
+	core::system::self ().graphic ().toggle_fullscreen ();
 #if 1
     else if (key == SDLK_F12)
 	core::system::self ().graphic ().set_polygon_mode (core::graphic_system::LINE);
