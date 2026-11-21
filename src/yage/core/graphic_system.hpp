@@ -38,6 +38,7 @@
 #ifndef YAGE_GRAPHIC_SYSTEM_H_
 #define YAGE_GRAPHIC_SYSTEM_H_
 
+#include <algorithm>
 #include <SDL_opengl.h>
 #include <boost/utility.hpp>
 
@@ -93,8 +94,9 @@ public:
     static const bool DEFAULT_FULLSCREEN    = false;
 
     /*
-     * The 2D overlay is laid out in a fixed 800x600 space, which is
-     * scaled to fit the window and centred in it, whatever its size.
+     * The 2D overlay is scaled so that an 800x600 area fits in the
+     * window. When the window has another aspect ratio, the overlay
+     * extends further along one axis: see get_hud_width ().
      */
     static const int  HUD_WIDTH  = 800;
     static const int  HUD_HEIGHT = 600;
@@ -145,14 +147,20 @@ public:
 	return m_scene;
     }
 
-    int get_hud_width ()
+    /*
+     * The size of the 2D overlay, which covers the whole window: at
+     * least HUD_WIDTH x HUD_HEIGHT, larger along one axis when the
+     * window is wider or taller than 4:3. Its origin is the top left
+     * corner of the window.
+     */
+    float get_hud_width ()
     {
-	return HUD_WIDTH;
+	return m_sc_width / hud_scale ();
     }
 
-    int get_hud_height ()
+    float get_hud_height ()
     {
-	return HUD_HEIGHT;
+	return m_sc_height / hud_scale ();
     }
 
     void set_scene (boost::shared_ptr<gra::scene> scene)
@@ -189,6 +197,13 @@ private:
 #ifdef __EMSCRIPTEN__
     void fit_canvas ();
 #endif
+
+    /* Window pixels per unit of the 2D overlay. */
+    float hud_scale ()
+    {
+	return std::min (float (m_sc_width) / HUD_WIDTH,
+			 float (m_sc_height) / HUD_HEIGHT);
+    }
 
     int m_sc_width;
     int m_sc_height;

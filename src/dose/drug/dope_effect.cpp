@@ -65,8 +65,9 @@ dope_effect::dope_effect (dope_ptr p)
 	    n.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (t)));
 
 
+	    /* Centred on the node, which player_hud places. */
 	    m_node.get_child ("bar").set_position (
-		point3f (graphic.get_hud_width () / 2 - t->get_width () / 2, 0, 0));
+		point3f (-(t->get_width () / 2.0f), 0, 0));
 	}
 	gra::scene_node& ni = n.get_child ("level");
 	{

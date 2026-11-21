@@ -73,6 +73,12 @@ public:
 
     void update (int delta);
 
+    /*
+     * Places what goes along the right edge or in the middle of the
+     * screen, after the current size of the window.
+     */
+    void layout ();
+
     float get_psychodelia () const
     {
 	return m_psychodelia;
@@ -115,6 +121,7 @@ private:
     float m_euphoria;
 
     yage::gra::drawable_ptr m_selected_bg;
+    float m_slot_width;
     yage::gra::text_ptr m_player_msg;
     yage::gra::text_ptr m_player_alert;
     int m_alert_count;

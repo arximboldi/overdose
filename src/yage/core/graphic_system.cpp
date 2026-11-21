@@ -254,7 +254,7 @@ void graphic_system::update ()
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     if (m_scene)
-	m_scene->render (m_sc_width, m_sc_height, HUD_WIDTH, HUD_HEIGHT);
+	m_scene->render (m_sc_width, m_sc_height, get_hud_width (), get_hud_height ());
 
     SDL_GL_SwapBuffers ();
 }

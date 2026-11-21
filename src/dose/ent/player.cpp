@@ -60,6 +60,9 @@ player::player (const std::string& model,
 
 void player::update (int delta)
 {
+    /* Even when dead: the HUD still shows how the player died. */
+    m_hud.layout ();
+
     if (!m_dead) {
 	person::update (delta);
 	m_hud.update (delta);

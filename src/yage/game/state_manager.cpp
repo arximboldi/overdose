@@ -125,9 +125,14 @@ void state_manager::new_state (const std::string& name)
 	gra::scene_node& node = m_loading_scene->get_hud_root ();
 	node.clear_drawables ();
 	node.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (tex)));
-	node.set_scale (base::point3f (
-			    (float) graphic.get_hud_width () / tex->get_width (),
-			    (float) graphic.get_hud_height () / tex->get_height (), 1));
+	/* Stretched over the middle 800x600 of the overlay. */
+	const float width = core::graphic_system::HUD_WIDTH;
+	const float height = core::graphic_system::HUD_HEIGHT;
+	node.set_position (base::point3f (
+			       (graphic.get_hud_width () - width) / 2,
+			       (graphic.get_hud_height () - height) / 2, 0));
+	node.set_scale (base::point3f (width / tex->get_width (),
+				       height / tex->get_height (), 1));
 	graphic.set_scene (m_loading_scene);
 	graphic.update ();
     }

@@ -40,7 +40,7 @@ class fog;
 class scene
 {
 public:
-    void render (int vp_width, int vp_height, int hud_width, int hud_height);
+    void render (int vp_width, int vp_height, float hud_width, float hud_height);
 
     scene_node& get_root ()
     {
@@ -86,7 +86,7 @@ public:
 
 private:
     void setup_perspective (int vp_width, int vp_height);
-    void setup_ortho (int vp_width, int vp_height, int hud_width, int hud_height);
+    void setup_ortho (float hud_width, float hud_height);
 
     base::point3f m_sky_scale;
     boost::shared_ptr<drawable> m_sky;

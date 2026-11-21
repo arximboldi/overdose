@@ -121,12 +121,13 @@ player_hud::player_hud ()
     {
 	gra::texture_ptr t (graphic.textures ().find ("dope-bg.png"));
 	m_selected_bg.reset (new geo::textured_plane_2d (t));
+	m_slot_width = t->get_width ();
 	t->set_blending (true);
 
+	/* layout () places them along the right edge. */
 	for (int i = 0; i < MAX_DRUG; ++i) {
 	    get_slot (i).set_position (
-		point3f (graphic.get_hud_width () - t->get_width () - 10,
-			 10 + t->get_height () * i, 0));
+		point3f (0, 10 + t->get_height () * i, 0));
 	    get_slot (i).get_child ("bg").set_position (point3f (0, 0, -0.5));
 	    get_slot (i).get_child ("fg").set_position (point3f (0, 0, 0.5));
 	}
@@ -152,22 +153,16 @@ player_hud::player_hud ()
 void player_hud::set_player_message (const std::string& str)
 {
     if (str != m_player_msg->get_text ()) {
-	core::graphic_system& graphic = core::system::self ().graphic ();
-
 	m_player_msg->set_text (str);
-	float center = graphic.get_hud_width () / 2 - m_player_msg->get_width () / 2;
-	m_node.get_child ("player-message").set_position (point3f (center, 20, 0));
+	layout ();
     }
 }
 
 void player_hud::set_player_alert (const std::string& str, int duration)
 {
     if (str != m_player_alert->get_text ()) {
-	core::graphic_system& graphic = core::system::self ().graphic ();
-
 	m_player_alert->set_text (str);
-	float center = graphic.get_hud_width () / 2 - m_player_alert->get_width () / 2;
-	m_node.get_child ("player-alert").set_position (point3f (center, 40, 0));
+	layout ();
     }
     m_alert_count = duration;
 }
@@ -183,6 +178,23 @@ void player_hud::update (int delta)
     }
 
     clean_effects ();
+}
+
+void player_hud::layout ()
+{
+    float width = core::system::self ().graphic ().get_hud_width ();
+
+    for (int i = 0; i < MAX_DRUG; ++i) {
+	gra::scene_node& slot = get_slot (i);
+	point3f pos = slot.get_position ();
+	pos [0] = width - m_slot_width - 10;
+	slot.set_position (pos);
+    }
+
+    m_node.get_child ("player-message").set_position (
+	point3f (width / 2 - m_player_msg->get_width () / 2.0f, 20, 0));
+    m_node.get_child ("player-alert").set_position (
+	point3f (width / 2 - m_player_alert->get_width () / 2.0f, 40, 0));
 }
 
 player_hud::~player_hud ()
@@ -291,7 +303,9 @@ void player_hud::finish_drugs ()
 
 void player_hud::clean_effects ()
 {
-    point3f pos (0, core::system::self ().graphic ().get_hud_height () - 30, 0);
+    /* Stacked up from the bottom, centred. */
+    core::graphic_system& graphic = core::system::self ().graphic ();
+    point3f pos (graphic.get_hud_width () / 2, graphic.get_hud_height () - 30, 0);
 
     for (effect_list::iterator it = m_effects.begin ();
 	 it != m_effects.end ();)
