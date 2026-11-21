@@ -169,17 +169,6 @@
       // Command line options for the game, e.g. ?args=-i%20tester
       arguments: (new URLSearchParams(location.search).get('args') || '')
         .split(' ').filter(Boolean),
-      preRun: [() => {
-        // Emscripten's SDL_ttf draws text with the browser and uses the
-        // path the game opened the font from as the CSS font family.
-        // Register the game's font under that name before it starts.
-        Module.addRunDependency('font');
-        new FontFace('/data/font/DejaVuSans.ttf', 'url(DejaVuSans.ttf)')
-          .load()
-          .then((font) => document.fonts.add(font))
-          .catch((error) => console.warn('Could not load the game font:', error))
-          .finally(() => Module.removeRunDependency('font'));
-      }],
       setStatus: (text) => {
         status.textContent = text.replace(/\(\d+\/\d+\)/, '').trim();
       },
