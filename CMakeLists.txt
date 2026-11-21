@@ -38,6 +38,14 @@ if(EMSCRIPTEN)
   # fixed-function OpenGL the engine is written in on top of WebGL.
   # Emscripten's SDL_ttf only approximates text with the browser's
   # canvas, so use the real one, built with FreeType, as on the desktop.
+  #
+  # These come from CMAKE_PREFIX_PATH, which `nix develop .#web` points
+  # at the current build of each. Look them up on every configure, so a
+  # build tree doesn't keep using the ones it was first configured with.
+  foreach(_var GL4ES_INCLUDE_DIR GL4ES_LIBRARY
+               SDL_TTF_INCLUDE_DIR SDL_TTF_LIBRARY FREETYPE_LIBRARY)
+    unset(${_var} CACHE)
+  endforeach()
   find_path(GL4ES_INCLUDE_DIR gl4esinit.h REQUIRED)
   find_library(GL4ES_LIBRARY gl4es REQUIRED)
   find_path(SDL_TTF_INCLUDE_DIR SDL_ttf.h PATH_SUFFIXES SDL REQUIRED
