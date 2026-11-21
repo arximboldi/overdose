@@ -95,6 +95,10 @@ and open <http://localhost:8000>. Command line options can be passed in
 the URL, for example `?args=-l%205` to start with half the maximum
 amount of drugs in the blood.
 
+After rebuilding, reload the page with `Ctrl+Shift+R`: everything Nix
+builds is dated 1970, so this server tells the browser that nothing
+has changed, and it would go on running the version it has cached.
+
 In the browser, clicking the game grabs the mouse, so that the camera
 can turn freely, and `Escape` lets go of it.
 
