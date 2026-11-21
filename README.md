@@ -95,6 +95,9 @@ and open <http://localhost:8000>. Command line options can be passed in
 the URL, for example `?args=-l%205` to start with half the maximum
 amount of drugs in the blood.
 
+In the browser, clicking the game grabs the mouse, so that the camera
+can turn freely, and `Escape` lets go of it.
+
 The browser build relies on Emscripten's own implementation of SDL 1.2
 and on [gl4es](https://github.com/ptitSeb/gl4es) to run the game's
 OpenGL code on WebGL. For working on it, `nix develop .#web` opens a
@@ -182,7 +185,8 @@ effects of each kind of substance will last.
 | `F2`               | Free-flying camera, steered with the mouse and `w`, `a`, `s`, `d` |
 | `F3`, `F4`         | Fixed cameras                                  |
 | `Enter`            | Go on to the next level once you have won      |
-| `Escape`           | Leave the current level                        |
+| `f`                | Toggle fullscreen                              |
+| `Escape`           | Leave the current level (not in the browser)   |
 
 ### Rendering modes
 

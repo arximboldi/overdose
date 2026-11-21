@@ -7,11 +7,11 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #111214;
-      --fg: #d8d6d0;
-      --muted: #8a8780;
-      --accent: #c9473a;
-      --line: #2a2b2e;
+      --bg: #000;
+      --fg: #fff;
+      --muted: rgb(255 255 255 / 0.65);
+      --accent: #e8322b;
+      --line: #5c1310;
     }
     * { box-sizing: border-box; }
     body {
@@ -28,7 +28,7 @@
     }
     /* The game renders at 4:3; fit it in the window without scrolling. */
     header, footer, .screen {
-      width: min(100%, 800px, calc((100dvh - 190px) * 4 / 3));
+      width: min(100%, 800px, calc((100dvh - 230px) * 4 / 3));
     }
     header, footer {
       display: flex;
@@ -47,7 +47,7 @@
       font: inherit;
       cursor: pointer;
     }
-    button:hover { border-color: var(--muted); }
+    button:hover { border-color: var(--accent); color: var(--accent); }
     .screen {
       position: relative;
       aspect-ratio: 4 / 3;
@@ -67,6 +67,7 @@
     }
     #status:empty { display: none; }
     footer { color: var(--muted); font-size: 13px; flex-wrap: wrap; }
+    .controls { display: flex; flex-direction: column; gap: 4px; }
     kbd {
       border: 1px solid var(--line);
       border-radius: 3px;
@@ -74,7 +75,7 @@
       font: 12px ui-monospace, monospace;
       color: var(--fg);
     }
-    a { color: var(--fg); }
+    a { color: var(--accent); }
   </style>
 </head>
 <body>
@@ -89,12 +90,18 @@
   </div>
 
   <footer>
-    <span>
-      <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> walk ·
-      click to grab the mouse, <kbd>esc</kbd> to let go ·
-      <kbd>b</kbd> buy · <kbd>space</kbd> take ·
-      <kbd>n</kbd>/<kbd>m</kbd> choose drug ·
-      <kbd>f</kbd> fullscreen
+    <span class="controls">
+      <span>
+        <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> walk ·
+        <kbd>b</kbd> buy · <kbd>space</kbd> take ·
+        <kbd>n</kbd>/<kbd>m</kbd> choose drug ·
+        <kbd>f</kbd> fullscreen
+      </span>
+      <span>
+        move the mouse to look around · wheel to zoom ·
+        middle button to re-centre · click to grab the mouse,
+        <kbd>esc</kbd> to let go
+      </span>
     </span>
     <span>Free software, <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPLv3</a></span>
   </footer>
