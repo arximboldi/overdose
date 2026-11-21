@@ -24,6 +24,9 @@
  *
  */
 
+#include <algorithm>
+#include <cmath>
+
 #include "yage/core/sdl_wrapper.hpp"
 #include "text.hpp"
 #include "texture.hpp"
@@ -35,11 +38,30 @@ namespace gra
 
 YAGE_DEFINE_ERROR_WHERE (text_error, "text");
 
+/* How many pixels one unit along x covers with the current transform. */
+static float pixel_scale ()
+{
+    GLfloat projection [16], modelview [16];
+    GLint viewport [4];
+    glGetFloatv (GL_PROJECTION_MATRIX, projection);
+    glGetFloatv (GL_MODELVIEW_MATRIX, modelview);
+    glGetIntegerv (GL_VIEWPORT, viewport);
+
+    /* The x axis, first column of the modelview, in clip space. */
+    float x = 0, y = 0;
+    for (int i = 0; i < 4; ++i) {
+	x += projection [i * 4] * modelview [i];
+	y += projection [i * 4 + 1] * modelview [i];
+    }
+    return std::hypot (x * viewport [2] / 2, y * viewport [3] / 2);
+}
+
 text::text (boost::shared_ptr<font> font,
 	    const std::string& str,
 	    const base::point3f& color,
 	    font::render_mode mode)
     : m_need_update (true)
+    , m_raster_size (font ? font->get_point_size () : 0)
     , m_font (font)
     , m_str (str)
     , m_color (color)
@@ -61,6 +83,16 @@ void text::draw ()
 {
     if (!m_str.empty ())
     {
+	/* Rasterise the text at the size it ends up on the screen, so
+	   that it stays sharp when the window or its scale changes. */
+	if (m_font) {
+	    int size = std::lround (m_font->get_point_size () * pixel_scale ());
+	    size = std::clamp (size, 1, 4 * m_font->get_point_size ());
+	    if (size != m_raster_size) {
+		m_raster_size = size;
+		m_need_update = true;
+	    }
+	}
 	update_texture ();
 
 	m_tex->enable ();
@@ -94,17 +126,20 @@ void text::update_texture ()
 		throw text_error ("Can not render text without a font.");
 
 	    core::sdl_surface_ptr surf (
-		m_font->render_surface (m_str, m_color, m_mode));
+		m_font->render_surface (m_str, m_color, m_mode, m_raster_size));
 
 	    if (!m_tex)
 		m_tex.reset (new texture (surf.get ()));
 	    else
 		m_tex->reload (surf.get ());
 
-	    m_width  = m_tex->get_width ();
-	    m_height = m_tex->get_height ();
-	    m_real_width  = m_tex->get_real_width ();
-	    m_real_height = m_tex->get_real_height ();
+	    /* Sizes are in units of the font's own size, whatever size
+	       the text was rasterised at. */
+	    float units = float (m_font->get_point_size ()) / m_raster_size;
+	    m_width  = std::lround (m_tex->get_width () * units);
+	    m_height = std::lround (m_tex->get_height () * units);
+	    m_real_width  = m_tex->get_real_width () * units;
+	    m_real_height = m_tex->get_real_height () * units;
 
 	    if (m_mode == font::BLENDED)
 		m_tex->set_blending (true);

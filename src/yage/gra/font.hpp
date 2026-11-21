@@ -28,6 +28,7 @@
 #define YAGE_FONT_H_
 
 #include <SDL_ttf.h>
+#include <map>
 #include <string>
 #include <boost/shared_ptr.hpp>
 
@@ -58,6 +59,11 @@ public:
     font (const std::string& fname, int ptsize = 12);
     ~font ();
 
+    int get_point_size () const
+    {
+	return m_ptsize;
+    }
+
     int get_height () const;
     void get_size (const std::string& text,
 		   int& w, int& h) const;
@@ -70,13 +76,25 @@ public:
 			const base::point3f& color,
 			render_mode mode);
 
+    /*
+     * Renders at the given size instead of the font's own, e.g. to
+     * match the resolution the text is shown at. Zero means the
+     * font's own size.
+     */
     SDL_Surface*
     render_surface (const std::string& str,
 		    const base::point3f& color,
-		    render_mode mode);
+		    render_mode mode,
+		    int ptsize = 0);
 
 private:
-    mutable TTF_Font* m_font;
+    TTF_Font* at_size (int ptsize);
+
+    std::string m_fname;
+    int m_ptsize;
+    int m_style;
+    TTF_Font* m_font;
+    std::map<int, TTF_Font*> m_sizes;
 };
 
 typedef boost::shared_ptr<font> font_ptr;

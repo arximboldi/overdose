@@ -37,15 +37,37 @@ namespace gra
 YAGE_DEFINE_ERROR_WHERE (font_error, "font");
 
 font::font (const std::string& fname, int ptsize)
+    : m_fname (fname)
+    , m_ptsize (ptsize)
+    , m_style (TTF_STYLE_NORMAL)
 {
     m_font = TTF_OpenFont (fname.c_str (), ptsize);
     if (!m_font)
 	throw font_error (std::string ("Could not load font: ") + fname);
+    m_sizes [ptsize] = m_font;
 }
 
 font::~font ()
 {
-    TTF_CloseFont (m_font);
+    for (auto& size : m_sizes)
+	TTF_CloseFont (size.second);
+}
+
+TTF_Font* font::at_size (int ptsize)
+{
+    if (ptsize <= 0)
+	return m_font;
+
+    auto it = m_sizes.find (ptsize);
+    if (it != m_sizes.end ())
+	return it->second;
+
+    TTF_Font* sized = TTF_OpenFont (m_fname.c_str (), ptsize);
+    if (!sized)
+	return m_font;
+    TTF_SetFontStyle (sized, m_style);
+    m_sizes [ptsize] = sized;
+    return sized;
 }
 
 int font::get_height () const
@@ -66,7 +88,9 @@ int font::get_style () const
 
 void font::set_style (int st)
 {
-    TTF_SetFontStyle (m_font, st);
+    m_style = st;
+    for (auto& size : m_sizes)
+	TTF_SetFontStyle (size.second, st);
 }
 
 bool font::is_fixed_width () const
@@ -88,8 +112,10 @@ font::render (const std::string& str,
 SDL_Surface*
 font::render_surface (const std::string& str,
 		      const base::point3f& color,
-		      render_mode mode)
+		      render_mode mode,
+		      int ptsize)
 {
+    TTF_Font* sized = at_size (ptsize);
     SDL_Color sdl_color = { static_cast<Uint8> (color[0] * 255),
 			    static_cast<Uint8> (color[1] * 255),
 			    static_cast<Uint8> (color[2] * 255) };
@@ -98,16 +124,16 @@ font::render_surface (const std::string& str,
     switch (mode)
     {
     case SOLID:
-	surf = TTF_RenderUTF8_Solid (m_font, str.c_str (), sdl_color);
+	surf = TTF_RenderUTF8_Solid (sized, str.c_str (), sdl_color);
 	break;
     case SHADED:
     {
 	SDL_Color bgcolor = {0, 0, 0};
-	surf = TTF_RenderUTF8_Shaded (m_font, str.c_str (), sdl_color, bgcolor);
+	surf = TTF_RenderUTF8_Shaded (sized, str.c_str (), sdl_color, bgcolor);
 	break;
     }
     case BLENDED:
-	surf = TTF_RenderUTF8_Blended (m_font, str.c_str (), sdl_color);
+	surf = TTF_RenderUTF8_Blended (sized, str.c_str (), sdl_color);
 	break;
     default:
 	break;

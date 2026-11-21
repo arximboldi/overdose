@@ -94,6 +94,7 @@ public:
     void set_font (font_ptr font)
     {
 	m_font = font;
+	m_raster_size = font ? font->get_point_size () : 0;
 	m_need_update = true;
     }
 
@@ -101,13 +102,14 @@ public:
     void update_texture ();
 
     bool m_need_update;
+    int m_raster_size;
     font_ptr m_font;
     std::string m_str;
     base::point3f m_color;
     font::render_mode m_mode;
 
-    size_t m_real_width;
-    size_t m_real_height;
+    float m_real_width;
+    float m_real_height;
     size_t m_width;
     size_t m_height;
     font::texture_ptr m_tex;
