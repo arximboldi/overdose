@@ -24,33 +24,31 @@
  *
  */
 
-#include <SDL_opengl.h>
 #include "material.hpp"
+#include <SDL_opengl.h>
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-material::material (const point4f& ambient,
-		    const point4f& diffuse,
-		    const point4f& specular,
-		    int shininess)
-    : m_ambient (ambient)
-    , m_diffuse (diffuse)
-    , m_specular (specular)
-    , m_shininess (shininess)
+material::material(const point4f& ambient,
+                   const point4f& diffuse,
+                   const point4f& specular,
+                   int shininess)
+    : m_ambient(ambient)
+    , m_diffuse(diffuse)
+    , m_specular(specular)
+    , m_shininess(shininess)
 {
 }
 
-void material::apply ()
+void material::apply()
 {
-    glMaterialfv (GL_FRONT_AND_BACK, GL_AMBIENT,   &m_ambient [0]);
-    glMaterialfv (GL_FRONT_AND_BACK, GL_DIFFUSE,   &m_diffuse [0]);
-    glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR,  &m_specular [0]);
-    glMaterialf  (GL_FRONT_AND_BACK, GL_SHININESS, m_shininess);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, &m_ambient[0]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, &m_diffuse[0]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, &m_specular[0]);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, m_shininess);
 }
 
 } /* namespace gra */

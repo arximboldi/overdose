@@ -30,26 +30,24 @@
 #ifndef YAGE_FILE_FINDER_H
 #define YAGE_FILE_FINDER_H
 
+#include <cstdlib>
 #include <iostream>
 #include <list>
 #include <map>
 #include <string>
-#include <cstdlib>
 
 #include <filesystem>
 
 #include <yage/base/misc.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 class path_predicate
 {
 public:
-    virtual ~path_predicate() = default;
-    virtual bool operator () (const std::filesystem::path& str) = 0;
+    virtual ~path_predicate()                                 = default;
+    virtual bool operator()(const std::filesystem::path& str) = 0;
 };
 
 template <class IterType>
@@ -59,48 +57,46 @@ class has_extension : public path_predicate
     IterType m_last;
 
 public:
-    has_extension (IterType first, IterType last) :
-	m_first(first),
-	m_last(last)
-	{};
+    has_extension(IterType first, IterType last)
+        : m_first(first)
+        , m_last(last) {};
 
-    bool operator () (const std::filesystem::path& path) {
-	for (IterType i = m_first; i != m_last; ++i)
-	    if (path.extension () != *i)
-		return true;
-	return false;
+    bool operator()(const std::filesystem::path& path)
+    {
+        for (IterType i = m_first; i != m_last; ++i)
+            if (path.extension() != *i)
+                return true;
+        return false;
     }
 };
 
-
-template<class IterType>
-has_extension <IterType> make_has_extension (IterType first, IterType last)
+template <class IterType>
+has_extension<IterType> make_has_extension(IterType first, IterType last)
 {
-    return has_extension <IterType> (first, last);
+    return has_extension<IterType>(first, last);
 }
 
 class file_finder
 {
 public:
-    typedef std::list <std::filesystem::path> path_list;
-    typedef std::map <std::filesystem::path,
-		      std::filesystem::path> path_map;
-    file_finder ()
-	: m_cache_updated (false)
-	, m_cache_auto (false)
-    {}
+    typedef std::list<std::filesystem::path> path_list;
+    typedef std::map<std::filesystem::path, std::filesystem::path> path_map;
+    file_finder()
+        : m_cache_updated(false)
+        , m_cache_auto(false)
+    {
+    }
 
-    void add_path (const std::filesystem::path& path);
-    void del_path (const std::filesystem::path& path);
-    void build_cache (bool autoupdate);
-    void clear_cache ();
-    void clear ();
+    void add_path(const std::filesystem::path& path);
+    void del_path(const std::filesystem::path& path);
+    void build_cache(bool autoupdate);
+    void clear_cache();
+    void clear();
 
-    std::filesystem::path
-    find (const std::filesystem::path& file) const;
+    std::filesystem::path find(const std::filesystem::path& file) const;
 
     template <class PathPredicate>
-    void find_if (PathPredicate pred, path_list & res) const;
+    void find_if(PathPredicate pred, path_list& res) const;
 
 private:
     path_list m_paths;
@@ -109,54 +105,52 @@ private:
     bool m_cache_updated;
     bool m_cache_auto;
 
-    void cache_path (const std::filesystem::path& path);
-    void uncache_path (const std::filesystem::path& path);
+    void cache_path(const std::filesystem::path& path);
+    void uncache_path(const std::filesystem::path& path);
 
-    std::filesystem::path find_in (const std::filesystem::path& path,
-				     const std::filesystem::path& file) const;
+    std::filesystem::path find_in(const std::filesystem::path& path,
+                                  const std::filesystem::path& file) const;
 
-    template<class path_predicate>
-    int get_file_list (const std::filesystem::path& folder,
-		       path_list& res,
-		       path_predicate pred) const;
+    template <class path_predicate>
+    int get_file_list(const std::filesystem::path& folder,
+                      path_list& res,
+                      path_predicate pred) const;
 };
 
-
-template<class path_predicate>
-int file_finder::get_file_list (const std::filesystem::path& folder,
-				path_list& res,
-				path_predicate pred) const
+template <class path_predicate>
+int file_finder::get_file_list(const std::filesystem::path& folder,
+                               path_list& res,
+                               path_predicate pred) const
 {
     int n = 0;
 
-    if (!std::filesystem::exists (folder))
-	return n;
+    if (!std::filesystem::exists(folder))
+        return n;
 
     std::filesystem::directory_iterator end_itr;
-    for (std::filesystem::directory_iterator itr (folder);
-	 itr != end_itr;
-	 ++itr) {
-	if (pred (itr->path ())) {
-	    res.push_back (itr->path ());
-	    ++n;
-	}
+    for (std::filesystem::directory_iterator itr(folder); itr != end_itr;
+         ++itr) {
+        if (pred(itr->path())) {
+            res.push_back(itr->path());
+            ++n;
+        }
     }
 
     return n;
 }
 
-template<class path_predicate>
-void file_finder::find_if (path_predicate pred, path_list& result) const
+template <class path_predicate>
+void file_finder::find_if(path_predicate pred, path_list& result) const
 {
     if (!m_cache_updated) {
-	path_list::const_iterator iter;
-	for (iter = m_paths.begin(); iter != m_paths.end(); ++iter)
-	    get_file_list (*iter, result, pred);
+        path_list::const_iterator iter;
+        for (iter = m_paths.begin(); iter != m_paths.end(); ++iter)
+            get_file_list(*iter, result, pred);
     } else {
-	path_map::const_iterator iter;
-	for (iter = m_cache.begin(); iter != m_cache.end(); ++iter)
-	    if (pred (iter->first))
-		result.push_back (iter->second);
+        path_map::const_iterator iter;
+        for (iter = m_cache.begin(); iter != m_cache.end(); ++iter)
+            if (pred(iter->first))
+                result.push_back(iter->second);
     }
 }
 

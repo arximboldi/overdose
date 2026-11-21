@@ -26,26 +26,24 @@
  *
  */
 
-#include <cstring>
-#include <cstdlib>
 #include "file_manager.hpp"
+#include <cstdlib>
+#include <cstring>
 
 namespace bf = std::filesystem;
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-bf::path file_mgr_node::find_all (const bf::path& file) const
+bf::path file_mgr_node::find_all(const bf::path& file) const
 {
-    lock lock (this);
+    lock lock(this);
 
     bf::path res;
 
-    res = find (file);
+    res = find(file);
     for (const_iterator it = begin(); res.empty() && it != end(); ++it)
-	res = it->find_all (file);
+        res = it->find_all(file);
 
     return res;
 }

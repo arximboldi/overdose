@@ -27,37 +27,29 @@
 #ifndef YAGE_TASK_MANAGER_H_
 #define YAGE_TASK_MANAGER_H_
 
-#include <list>
-#include <iostream>
-#include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
+#include <list>
 #include <yage/core/task.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-class task_manager : public boost::enable_shared_from_this <task_manager>
+class task_manager : public boost::enable_shared_from_this<task_manager>
 {
 public:
-    void update (int ms);
+    void update(int ms);
 
-    void add (boost::shared_ptr<task> t);
-    void del (boost::shared_ptr<task> t);
+    void add(boost::shared_ptr<task> t);
+    void del(boost::shared_ptr<task> t);
 
-    bool has_tasks ()
-    {
-	return !m_tasks.empty ();
-    }
+    bool has_tasks() { return !m_tasks.empty(); }
 
-    void clear ()
-    {
-	m_tasks.clear ();
-    }
+    void clear() { m_tasks.clear(); }
 
 private:
-    typedef std::list<boost::shared_ptr<task> > task_list;
+    typedef std::list<boost::shared_ptr<task>> task_list;
     task_list m_tasks;
 };
 

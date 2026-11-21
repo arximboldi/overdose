@@ -29,44 +29,41 @@
 
 #include <iostream>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class T>
 class point4
 {
 public:
-    inline point4 ();
-    inline point4 (T x, T y, T z, T t);
-    inline point4 (const point4& org);
+    inline point4();
+    inline point4(T x, T y, T z, T t);
+    inline point4(const point4& org);
 
-    inline void set (T nx, T ny, T nz, T nt);
-    inline void set_x (T x);
-    inline void set_y (T y);
-    inline void set_z (T z);
-    inline void set_t (T t);
+    inline void set(T nx, T ny, T nz, T nt);
+    inline void set_x(T x);
+    inline void set_y(T y);
+    inline void set_z(T z);
+    inline void set_t(T t);
 
+    inline T x() const;
+    inline T y() const;
+    inline T z() const;
+    inline T t() const;
 
-    inline T x () const;
-    inline T y () const;
-    inline T z () const;
-    inline T t () const;
+    inline T* ptr();
+    inline const T* ptr() const;
 
-    inline T* ptr ();
-    inline const T* ptr () const;
+    inline T& operator[](const int indice);
+    inline const T& operator[](const int indice) const;
+    inline point4& operator=(const point4& p);
 
-    inline T& operator[] (const int indice);
-    inline const T& operator[] (const int indice) const;
-    inline point4& operator= (const point4 &p);
+    inline bool operator==(const point4<T>& p);
+    inline bool operator!=(const point4<T>& p);
 
-    inline bool operator== (const point4<T> &p);
-    inline bool operator!= (const point4<T> &p);
-
-    inline point4 operator- (const point4& p) const;
-    inline point4 operator+ (const point4& p) const;
-    inline point4 operator* (T p) const;
+    inline point4 operator-(const point4& p) const;
+    inline point4 operator+(const point4& p) const;
+    inline point4 operator*(T p) const;
 
 private:
     T p[4];

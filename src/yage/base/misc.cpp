@@ -27,90 +27,96 @@
  *
  */
 
-#include <cstring>
-#include <cmath>
 #include <cctype>
+#include <cmath>
 #include <cstdio>
+#include <cstring>
 
 #include "misc.hpp"
 
 using namespace std;
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-const char* get_extension (const char* file)
+const char* get_extension(const char* file)
 {
     const char* ext;
 
-    for (ext = file; *ext != '\0'; ext++);
-    while(--ext >= file && *ext != '.');
+    for (ext = file; *ext != '\0'; ext++)
+        ;
+    while (--ext >= file && *ext != '.')
+        ;
 
-    return ext+1;
+    return ext + 1;
 }
 
-int strcmp_i (const char* a, const char* b)
+int strcmp_i(const char* a, const char* b)
 {
-    while (*a && *b && tolower(*a++) == tolower(*b++));
+    while (*a && *b && tolower(*a++) == tolower(*b++))
+        ;
 
     if (*a == *b)
-	return 0;
+        return 0;
     else if (*a < *b)
-	return -1;
+        return -1;
     else
-	return 1;
+        return 1;
 }
 
-char* itoa (int val, int yage)
+char* itoa(int val, int yage)
 {
     static char buf[32] = {0};
-    int i = 30;
-    bool sign = val < 0;
+    int i               = 30;
+    bool sign           = val < 0;
 
     if (val == 0) {
-	buf[30] = '0';
-	return &buf[30];
+        buf[30] = '0';
+        return &buf[30];
     }
 
-    if (sign) val = -val;
+    if (sign)
+        val = -val;
 
-    for(; val && i ; --i, val /= yage)
-	buf[i] = "0123456789abcdef"[val % yage];
+    for (; val && i; --i, val /= yage)
+        buf[i] = "0123456789abcdef"[val % yage];
 
-    if (sign) buf[i--] = '-';
+    if (sign)
+        buf[i--] = '-';
 
-    return &buf[i+1];
+    return &buf[i + 1];
 }
 
-char* ftoa (double f, double sigfigs)
+char* ftoa(double f, double sigfigs)
 {
     static char a[81];
     int prec, width, front;
 
-    front = (f==0)? 1 : (int)log10(fabs(f))+1;
+    front = (f == 0) ? 1 : (int) log10(fabs(f)) + 1;
 
     if (sigfigs < 1.0 && sigfigs >= 0.0) {
-	/* fit number to tolerance */
+        /* fit number to tolerance */
         double rem = fabs(f) - int(f);
-        prec=0;
-        int num = (int)rem;
+        prec       = 0;
+        int num    = (int) rem;
         while (rem * pow(10.0, prec) - num > sigfigs)
             num = int(rem * pow(10.0, ++prec));
         width = front;
-        sprintf(a, "%#*.*f", width, prec, f );
+        sprintf(a, "%#*.*f", width, prec, f);
     } else {
-        if ( sigfigs < 2.0 ) sigfigs = 2.0;
+        if (sigfigs < 2.0)
+            sigfigs = 2.0;
 
-        if ( front > (int)sigfigs )
-            sprintf( a, "%#.*e", (int)sigfigs-1, f );
+        if (front > (int) sigfigs)
+            sprintf(a, "%#.*e", (int) sigfigs - 1, f);
         else {
-            prec = (int)sigfigs - front;
-            if ( f==0.0 ) width = 2;
-            else width = front + prec + 1;
-            sprintf( a, "%#*.*f", width, prec, f );
-	}
+            prec = (int) sigfigs - front;
+            if (f == 0.0)
+                width = 2;
+            else
+                width = front + prec + 1;
+            sprintf(a, "%#*.*f", width, prec, f);
+        }
     }
 
     return strdup(a);
@@ -121,7 +127,8 @@ string dirname_str(string str)
     string::iterator end = str.end();
     string::iterator beg;
 
-    for (beg = --str.end(); beg != --str.begin() && *beg != '/'; --beg);
+    for (beg = --str.end(); beg != --str.begin() && *beg != '/'; --beg)
+        ;
     str.erase(++beg, end);
     return str;
 }
@@ -130,8 +137,9 @@ string basename_str(string str)
 {
     string::iterator beg;
 
-    for (beg = --str.end(); beg != --str.begin() && *beg != '/'; --beg);
-    str.erase(str.begin (), ++beg);
+    for (beg = --str.end(); beg != --str.begin() && *beg != '/'; --beg)
+        ;
+    str.erase(str.begin(), ++beg);
 
     return str;
 }

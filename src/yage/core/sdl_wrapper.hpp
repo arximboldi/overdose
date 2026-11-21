@@ -31,18 +31,14 @@
 #include <yage/base/observer.hpp>
 #include <yage/base/pointer.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-typedef
-sigc::signal1<bool, SDL_Event&, base::short_circuit_accum>
-sdl_signal_type;
+typedef sigc::signal1<bool, SDL_Event&, base::short_circuit_accum>
+    sdl_signal_type;
 
-typedef
-base::scoped_ptr<SDL_Surface, void (*) (SDL_Surface*), &SDL_FreeSurface>
-sdl_surface_ptr;
+typedef base::scoped_ptr<SDL_Surface, void (*)(SDL_Surface*), &SDL_FreeSurface>
+    sdl_surface_ptr;
 
 } /* namespace core */
 } /* namespace yage */

@@ -29,153 +29,150 @@
 #include "yage/core/task_manager.hpp"
 
 #include "dynamic_collision.hpp"
-#include "static_collision.hpp"
 #include "entity.hpp"
 #include "entity_manager.hpp"
+#include "static_collision.hpp"
 
 using namespace std;
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
-entity_manager::~entity_manager ()
-{
-}
+entity_manager::~entity_manager() {}
 
-void entity_manager::add_entity (boost::shared_ptr<entity> ent)
+void entity_manager::add_entity(boost::shared_ptr<entity> ent)
 {
-    if (ent->is_dynamic ())
-	m_dynamic.push_back (ent);
+    if (ent->is_dynamic())
+        m_dynamic.push_back(ent);
     else
-	m_static.push_back (ent);
+        m_static.push_back(ent);
 
-    ent->set_entity_parent (shared_from_this ());
+    ent->set_entity_parent(shared_from_this());
 
-    if (ent->is_dynamic ()) {
-	try {
-	    get_task_parent ()->add (ent);
-	} catch (boost::bad_weak_ptr&) {}
+    if (ent->is_dynamic()) {
+        try {
+            get_task_parent()->add(ent);
+        } catch (boost::bad_weak_ptr&) {
+        }
     }
 }
 
-void entity_manager::clear ()
+void entity_manager::clear()
 {
-    m_dynamic.clear ();
-    m_static.clear ();
+    m_dynamic.clear();
+    m_static.clear();
 }
 
-void entity_manager::check_collision (entity& a, entity& b,
-				      const base::point3f& move)
+void entity_manager::check_collision(entity& a,
+                                     entity& b,
+                                     const base::point3f& move)
 {
     dynamic_collision col;
 
-    collidable
-	ab = a.get_bounds (),
-	bb = b.get_bounds ();
+    collidable ab = a.get_bounds(), bb = b.get_bounds();
 
-    translate_collidable (ab, a.get_node ().get_world_position ());
-    translate_collidable (bb, b.get_node ().get_world_position ());
+    translate_collidable(ab, a.get_node().get_world_position());
+    translate_collidable(bb, b.get_node().get_world_position());
 
-    if (col.test (ab, bb,  move))
-    {
-	a.handle_collision (b, ab, col);
-	if (!a.has_moved () || !b.has_moved ())
-	    b.handle_collision (a, bb, col);
+    if (col.test(ab, bb, move)) {
+        a.handle_collision(b, ab, col);
+        if (!a.has_moved() || !b.has_moved())
+            b.handle_collision(a, bb, col);
     }
 }
 
-void entity_manager::find_collisions (entity_list& list, const collidable& who)
+void entity_manager::find_collisions(entity_list& list, const collidable& who)
 {
     typedef entity_list::iterator iterator;
     static_collision col;
 
-    for (iterator iter = m_static.begin (); iter != m_static.end (); ++iter)
-    {
-	collidable other = (*iter)->get_bounds ();
-	translate_collidable (other, (*iter)->get_node ().get_world_position ());
-	if (col.test (who, other))
-	    list.push_back (*iter);
+    for (iterator iter = m_static.begin(); iter != m_static.end(); ++iter) {
+        collidable other = (*iter)->get_bounds();
+        translate_collidable(other, (*iter)->get_node().get_world_position());
+        if (col.test(who, other))
+            list.push_back(*iter);
     }
-    for (iterator iter = m_dynamic.begin (); iter != m_dynamic.end (); ++iter)
-    {
-	collidable other = (*iter)->get_bounds ();
-	translate_collidable (other, (*iter)->get_node ().get_world_position ());
-	if (col.test (who, other))
-	    list.push_back (*iter);
+    for (iterator iter = m_dynamic.begin(); iter != m_dynamic.end(); ++iter) {
+        collidable other = (*iter)->get_bounds();
+        translate_collidable(other, (*iter)->get_node().get_world_position());
+        if (col.test(who, other))
+            list.push_back(*iter);
     }
 }
 
-bool entity_manager::find_collisions (const collidable& who)
+bool entity_manager::find_collisions(const collidable& who)
 {
     typedef entity_list::iterator iterator;
     static_collision col;
 
-    for (iterator iter = m_static.begin (); iter != m_static.end (); ++iter)
-    {
-	collidable other = (*iter)->get_bounds ();
-	translate_collidable (other, (*iter)->get_node ().get_world_position ());
-	if (col.test (who, other))
-	    return true;
+    for (iterator iter = m_static.begin(); iter != m_static.end(); ++iter) {
+        collidable other = (*iter)->get_bounds();
+        translate_collidable(other, (*iter)->get_node().get_world_position());
+        if (col.test(who, other))
+            return true;
     }
-    for (iterator iter = m_dynamic.begin (); iter != m_dynamic.end (); ++iter)
-    {
-	collidable other = (*iter)->get_bounds ();
-	translate_collidable (other, (*iter)->get_node ().get_world_position ());
-	if (col.test (who, other))
-	    return true;
+    for (iterator iter = m_dynamic.begin(); iter != m_dynamic.end(); ++iter) {
+        collidable other = (*iter)->get_bounds();
+        translate_collidable(other, (*iter)->get_node().get_world_position());
+        if (col.test(who, other))
+            return true;
     }
 
     return false;
 }
 
-bool
-entity_manager::find_dynamic_static_collisions (const collidable& who,
-						const base::point3f& move)
+bool entity_manager::find_dynamic_static_collisions(const collidable& who,
+                                                    const base::point3f& move)
 {
     typedef entity_list::iterator iterator;
 
-    for (iterator iter = m_static.begin (); iter != m_static.end (); ++iter)
-    {
-	dynamic_collision col;
-	collidable other = (*iter)->get_bounds ();
-	translate_collidable (other, (*iter)->get_node ().get_world_position ());
-	if (col.test (who, other, move))
-	    return true;
+    for (iterator iter = m_static.begin(); iter != m_static.end(); ++iter) {
+        dynamic_collision col;
+        collidable other = (*iter)->get_bounds();
+        translate_collidable(other, (*iter)->get_node().get_world_position());
+        if (col.test(who, other, move))
+            return true;
     }
 
     return false;
 }
 
-void entity_manager::update (int delta_ticks)
+void entity_manager::update(int delta_ticks)
 {
     typedef base::ptr_iterator<entity_list::iterator> iterator;
 
     /* Borrar las entidades que tengan que morir. */
-    for (iterator iter = m_static.begin (); iter != m_static.end ();)
-	if (iter->is_finished ()) m_static.erase (iter++);
-	else ++iter;
-    for (iterator iter = m_dynamic.begin (); iter != m_dynamic.end ();)
-	if (iter->is_finished ()) m_dynamic.erase (iter++);
-	else ++iter;
+    for (iterator iter = m_static.begin(); iter != m_static.end();)
+        if (iter->is_finished())
+            m_static.erase(iter++);
+        else
+            ++iter;
+    for (iterator iter = m_dynamic.begin(); iter != m_dynamic.end();)
+        if (iter->is_finished())
+            m_dynamic.erase(iter++);
+        else
+            ++iter;
 
     /* Comprobar las colisiones. */
-    for (iterator iter_a = m_dynamic.begin (); iter_a != m_dynamic.end (); ++iter_a)
-    {
-	if (iter_a->has_moved ()) {
-	    for (iterator iter_b = m_dynamic.begin (); iter_b != m_dynamic.end (); ++iter_b)
-		if (iter_a != iter_b)
-		    check_collision (*iter_a, *iter_b,
-				     iter_a->get_movement () - iter_b->get_movement ());
-	    for (iterator iter_b = m_static.begin (); iter_b != m_static.end (); ++iter_b)
-		check_collision (*iter_a, *iter_b, iter_a->get_movement ());
-	}
+    for (iterator iter_a = m_dynamic.begin(); iter_a != m_dynamic.end();
+         ++iter_a) {
+        if (iter_a->has_moved()) {
+            for (iterator iter_b = m_dynamic.begin(); iter_b != m_dynamic.end();
+                 ++iter_b)
+                if (iter_a != iter_b)
+                    check_collision(*iter_a,
+                                    *iter_b,
+                                    iter_a->get_movement() -
+                                        iter_b->get_movement());
+            for (iterator iter_b = m_static.begin(); iter_b != m_static.end();
+                 ++iter_b)
+                check_collision(*iter_a, *iter_b, iter_a->get_movement());
+        }
     }
 
     /* Actualizar todas las entidades */
-    for (iterator iter = m_dynamic.begin (); iter != m_dynamic.end (); ++iter)
-	iter->apply_movement ();
+    for (iterator iter = m_dynamic.begin(); iter != m_dynamic.end(); ++iter)
+        iter->apply_movement();
 }
 
 } /* namespace game */

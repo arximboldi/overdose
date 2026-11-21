@@ -30,25 +30,24 @@
 #include <boost/function.hpp>
 #include <yage/core/task.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-template <typename FuncType = boost::function0<void> >
+template <typename FuncType = boost::function0<void>>
 class trigger_task : public task
 {
 public:
     typedef FuncType function_type;
 
-    trigger_task (FuncType func)
-	: m_func (func)
-    {}
-
-    void update (int)
+    trigger_task(FuncType func)
+        : m_func(func)
     {
-	m_func ();
-	this->finish ();
+    }
+
+    void update(int)
+    {
+        m_func();
+        this->finish();
     }
 
 private:

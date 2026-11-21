@@ -27,23 +27,22 @@
 #include "task.hpp"
 #include "task_manager.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-task::task ()
-    : m_is_finished (false)
-    , m_is_paused (false)
-{}
+task::task()
+    : m_is_finished(false)
+    , m_is_paused(false)
+{
+}
 
-void task::finish ()
+void task::finish()
 {
     m_is_finished = true;
-    if (!m_next.empty () && !m_parent.expired ()) {
-	task_list::iterator it;
-	for (it = m_next.begin (); it != m_next.end (); ++it)
-	    get_task_parent ()->add (*it);
+    if (!m_next.empty() && !m_parent.expired()) {
+        task_list::iterator it;
+        for (it = m_next.begin(); it != m_next.end(); ++it)
+            get_task_parent()->add(*it);
     }
 }
 

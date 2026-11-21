@@ -26,14 +26,12 @@
 
 #include "singleton.hpp"
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (singleton_error,
-				"singleton",
-				"Dead reference to singleton.")
+YAGE_DEFINE_ERROR_WHERE_WHAT(singleton_error,
+                             "singleton",
+                             "Dead reference to singleton.")
 
 } /* namespace base */
 } /* namespace yage */

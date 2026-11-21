@@ -26,12 +26,10 @@
 
 #include "resource_manager.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-YAGE_DEFINE_ERROR_WHERE (resource_manager_error, "resource_manager");
+YAGE_DEFINE_ERROR_WHERE(resource_manager_error, "resource_manager");
 
 } /* namespace core */
 } /* namespace yage */

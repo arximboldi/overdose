@@ -28,93 +28,78 @@
 #define DOSE_PLAYER_HUD_H_
 
 #include <boost/shared_ptr.hpp>
+#include <dose/drug/dope_effect.hpp>
 #include <yage/gra/scene_node.hpp>
 #include <yage/gra/text.hpp>
-#include <dose/drug/dope_effect.hpp>
 
-namespace dose
-{
+namespace dose {
 
-namespace drug { class dope; }
-namespace st { class level; }
+namespace drug {
+class dope;
+}
+namespace st {
+class level;
+}
 
-namespace ent
-{
+namespace ent {
 
 class player_hud
 {
 public:
-    static constexpr int MAX_DRUG = 6;
+    static constexpr int MAX_DRUG       = 6;
     static constexpr int ALERT_DURATION = 3000;
-    static constexpr float DRUG_SCALE = 10;
+    static constexpr float DRUG_SCALE   = 10;
 
     typedef boost::shared_ptr<drug::dope> dope_ptr;
     typedef boost::shared_ptr<st::level> level_ptr;
 
-    player_hud ();
-    virtual ~player_hud ();
+    player_hud();
+    virtual ~player_hud();
 
-    void set_psychodelia (float psychodelia);
-    void set_ecstasy (float ecstasy);
-    void set_euphoria (float euphoria);
+    void set_psychodelia(float psychodelia);
+    void set_ecstasy(float ecstasy);
+    void set_euphoria(float euphoria);
 
-    void apply_drug (dope_ptr dope);
-    dope_ptr take_drug ();
-    void finish_drugs ();
+    void apply_drug(dope_ptr dope);
+    dope_ptr take_drug();
+    void finish_drugs();
 
-    void add_drug (dope_ptr p);
-    void select_prev ();
-    void select_next ();
-    void change_selected (int new_sel);
-    void clear_drugs ();
+    void add_drug(dope_ptr p);
+    void select_prev();
+    void select_next();
+    void change_selected(int new_sel);
+    void clear_drugs();
 
-    void set_player_message (const std::string& str);
-    void set_player_alert (const std::string& str, int duration = ALERT_DURATION);
+    void set_player_message(const std::string& str);
+    void set_player_alert(const std::string& str,
+                          int duration = ALERT_DURATION);
 
-    void update (int delta);
+    void update(int delta);
 
     /*
      * Places what goes along the right edge or in the middle of the
      * screen, after the current size of the window.
      */
-    void layout ();
+    void layout();
 
-    float get_psychodelia () const
-    {
-	return m_psychodelia;
-    }
+    float get_psychodelia() const { return m_psychodelia; }
 
-    float get_ecstasy () const
-    {
-	return m_ecstasy;
-    }
+    float get_ecstasy() const { return m_ecstasy; }
 
-    float get_euphoria () const
-    {
-	return m_euphoria;
-    }
+    float get_euphoria() const { return m_euphoria; }
 
-    yage::gra::scene_node& get_node ()
-    {
-	return m_node;
-    }
+    yage::gra::scene_node& get_node() { return m_node; }
 
-    bool empty () const
-    {
-	return m_drugs.empty ();
-    }
+    bool empty() const { return m_drugs.empty(); }
 
-    bool full () const
-    {
-	return m_drugs.size () >= 5;
-    }
+    bool full() const { return m_drugs.size() >= 5; }
 
 private:
     typedef std::vector<dope_ptr> dope_list;
-    typedef std::list<boost::weak_ptr<drug::dope_effect> > effect_list;
+    typedef std::list<boost::weak_ptr<drug::dope_effect>> effect_list;
 
-    yage::gra::scene_node& get_slot (int i);
-    void clean_effects ();
+    yage::gra::scene_node& get_slot(int i);
+    void clean_effects();
 
     float m_psychodelia;
     float m_ecstasy;

@@ -29,22 +29,20 @@
 
 #include <yage/geo/multi_mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
 class multi_textured_cube : public multi_mesh
 {
 public:
-    multi_textured_cube (float tile_f = 1, float tile_s = 1, float tile_t = 1);
+    multi_textured_cube(float tile_f = 1, float tile_s = 1, float tile_t = 1);
 
-    void set_top_bottom (boost::shared_ptr<gra::texture> tex);
-    void set_front_back (boost::shared_ptr<gra::texture> tex);
-    void set_left_right (boost::shared_ptr<gra::texture> tex);
+    void set_top_bottom(boost::shared_ptr<gra::texture> tex);
+    void set_front_back(boost::shared_ptr<gra::texture> tex);
+    void set_left_right(boost::shared_ptr<gra::texture> tex);
 };
 
 } /* namespace geo */
-} /* namespace yageyagyayy */
+} // namespace yage
 
 #endif /* YAGE_MULTI_TEXTURED_CUBE_H_ */

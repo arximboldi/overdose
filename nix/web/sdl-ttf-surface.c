@@ -12,19 +12,25 @@
 
 #include <SDL.h>
 
-SDL_Surface* sdl_ttf_create_surface (Uint32 flags, int width, int height, int depth,
-                                     Uint32 rmask, Uint32 gmask, Uint32 bmask, Uint32 amask)
+SDL_Surface* sdl_ttf_create_surface(Uint32 flags,
+                                    int width,
+                                    int height,
+                                    int depth,
+                                    Uint32 rmask,
+                                    Uint32 gmask,
+                                    Uint32 bmask,
+                                    Uint32 amask)
 {
-    SDL_Surface* surf = SDL_CreateRGBSurface (flags, width, height, depth,
-                                              rmask, gmask, bmask, amask);
+    SDL_Surface* surf = SDL_CreateRGBSurface(
+        flags, width, height, depth, rmask, gmask, bmask, amask);
     if (surf && surf->pixels)
-        memset (surf->pixels, 0, (size_t) surf->h * surf->pitch);
+        memset(surf->pixels, 0, (size_t) surf->h * surf->pitch);
     return surf;
 }
 
-int sdl_ttf_fill_rect (SDL_Surface* surf, SDL_Rect* rect, Uint32 color)
+int sdl_ttf_fill_rect(SDL_Surface* surf, SDL_Rect* rect, Uint32 color)
 {
-    SDL_Rect all = { 0, 0, surf->w, surf->h };
+    SDL_Rect all = {0, 0, surf->w, surf->h};
     if (!rect)
         rect = &all;
     if (!surf->pixels)

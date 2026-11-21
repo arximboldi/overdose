@@ -30,55 +30,53 @@
 
 #include <cassert>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class T,
-	  template <class> class CP,
-	  template <class> class LP,
-	  template <class> class TP>
+          template <class> class CP,
+          template <class> class LP,
+          template <class> class TP>
 typename singleton_holder<T, CP, LP, TP>::instance_type
-singleton_holder<T, CP, LP, TP>::m_instance = 0;
+    singleton_holder<T, CP, LP, TP>::m_instance = 0;
 
 template <class T,
-	  template <class> class CP,
-	  template <class> class LP,
-	  template <class> class TP>
+          template <class> class CP,
+          template <class> class LP,
+          template <class> class TP>
 bool singleton_holder<T, CP, LP, TP>::m_destroyed = false;
 
 template <class T,
-	  template <class> class CP,
-	  template <class> class LP,
-	  template <class> class TP>
-T& singleton_holder<T, CP, LP, TP>::self ()
+          template <class> class CP,
+          template <class> class LP,
+          template <class> class TP>
+T& singleton_holder<T, CP, LP, TP>::self()
 {
     if (!m_instance) {
-	typename TP<T>::lock guard;
+        typename TP<T>::lock guard;
 
-	if (!m_instance) {
-	    if (m_destroyed) {
-		LP<T>::on_dead_reference ();
-		m_destroyed = false;
-	    }
+        if (!m_instance) {
+            if (m_destroyed) {
+                LP<T>::on_dead_reference();
+                m_destroyed = false;
+            }
 
-	    m_instance = CP<T>::create ();
-	    LP<T>::schedule (m_instance, &destroy_singleton);
-	}
+            m_instance = CP<T>::create();
+            LP<T>::schedule(m_instance, &destroy_singleton);
+        }
     }
 
     return *m_instance;
 }
 
 template <class T,
-	  template <class> class CP,
-	  template <class> class LP,
-	  template <class> class TP>
-void singleton_holder<T, CP, LP, TP>::destroy_singleton ()
+          template <class> class CP,
+          template <class> class LP,
+          template <class> class TP>
+void singleton_holder<T, CP, LP, TP>::destroy_singleton()
 {
-    assert (!m_destroyed);
-    CP<T>::destroy (m_instance);
+    assert(!m_destroyed);
+    CP<T>::destroy(m_instance);
     m_instance  = 0;
     m_destroyed = true;
 }

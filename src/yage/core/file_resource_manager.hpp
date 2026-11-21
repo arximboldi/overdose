@@ -27,46 +27,41 @@
 #ifndef YAGE_FILE_RESOURCE_MANAGER_H_
 #define YAGE_FILE_RESOURCE_MANAGER_H_
 
-#include <yage/base/file_manager.hpp>
 #include <yage/base/exception.hpp>
+#include <yage/base/file_manager.hpp>
 #include <yage/core/resource_manager.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-YAGE_DECLARE_ERROR (base::yage_error, file_resource_manager_error);
+YAGE_DECLARE_ERROR(base::yage_error, file_resource_manager_error);
 
 template <class Key, class Resource>
 class default_file_resource_policy
 {
 public:
-    std::string file_name (const Key& k);
+    std::string file_name(const Key& k);
 
-    boost::shared_ptr<Resource>
-    load_resource (const std::string& path, const Key& key);
+    boost::shared_ptr<Resource> load_resource(const std::string& path,
+                                              const Key& key);
 };
 
 template <class Key,
-	  class Resource,
-	  class FilePolicy = default_file_resource_policy<Key, Resource> >
+          class Resource,
+          class FilePolicy = default_file_resource_policy<Key, Resource>>
 class file_resource_manager : public resource_manager<Key, Resource>
 {
 public:
-    file_resource_manager (base::file_mgr_node* mgr = 0);
-    void set_file_manager (base::file_mgr_node* mgr);
-    base::file_mgr_node* get_file_manager ();
+    file_resource_manager(base::file_mgr_node* mgr = 0);
+    void set_file_manager(base::file_mgr_node* mgr);
+    base::file_mgr_node* get_file_manager();
 
-    FilePolicy& get_policy ()
-    {
-	return m_policy;
-    }
+    FilePolicy& get_policy() { return m_policy; }
 
 protected:
     typedef resource_manager<Key, Resource> super;
 
-    virtual boost::shared_ptr<Resource> handle_not_found (const Key& str);
+    virtual boost::shared_ptr<Resource> handle_not_found(const Key& str);
 
 private:
     base::file_mgr_node* m_file_mgr;
@@ -77,39 +72,36 @@ template <class Resource>
 class file_resource_factory
 {
 public:
-    virtual ~file_resource_factory() = default;
-    virtual Resource* create (const std::string& path) = 0;
+    virtual ~file_resource_factory()                  = default;
+    virtual Resource* create(const std::string& path) = 0;
 };
 
 template <class Concrete, class Resource>
 class concrete_file_resource_factory : public file_resource_factory<Resource>
 {
 public:
-    virtual Concrete* create (const std::string& path);
+    virtual Concrete* create(const std::string& path);
 };
 
 template <class Resource>
 class factory_file_resource_policy
 {
 public:
-    std::string file_name (const std::string& k)
-    {
-	return k;
-    }
+    std::string file_name(const std::string& k) { return k; }
 
-    ~factory_file_resource_policy ();
+    ~factory_file_resource_policy();
 
-    void attach_resource_factory (const std::string& ext,
-				  file_resource_factory<Resource>* factory);
+    void attach_resource_factory(const std::string& ext,
+                                 file_resource_factory<Resource>* factory);
 
     template <class Concrete>
-    void attach_default_factory (const std::string& ext);
+    void attach_default_factory(const std::string& ext);
 
-    boost::shared_ptr<Resource>
-    load_resource (const std::string& path, const std::string& key);
+    boost::shared_ptr<Resource> load_resource(const std::string& path,
+                                              const std::string& key);
 
 private:
-    typedef std::map <std::string, file_resource_factory<Resource>*> factory_map;
+    typedef std::map<std::string, file_resource_factory<Resource>*> factory_map;
     factory_map m_factory;
 };
 

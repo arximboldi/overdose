@@ -35,172 +35,168 @@
 #include "yage/geo/md2_model_impl.hpp"
 #include "yage/geo/ply_model.hpp"
 
-#include "yage/gra/scene.hpp"
 #include "graphic_system.hpp"
+#include "yage/gra/scene.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-YAGE_DEFINE_ERROR_WHERE (graphic_system_error, "graphic_system");
+YAGE_DEFINE_ERROR_WHERE(graphic_system_error, "graphic_system");
 
-graphic_system::graphic_system ()
-    : m_sc_width (DEFAULT_SCREEN_WIDTH)
-    , m_sc_height (DEFAULT_SCREEN_HEIGHT)
-    , m_win_width (DEFAULT_SCREEN_WIDTH)
-    , m_win_height (DEFAULT_SCREEN_HEIGHT)
-    , m_desktop_width (0)
-    , m_desktop_height (0)
-    , m_fullsc (DEFAULT_FULLSCREEN)
-    , m_grab (false)
-    , m_isinit (false)
-    , m_scene (new gra::scene)
+graphic_system::graphic_system()
+    : m_sc_width(DEFAULT_SCREEN_WIDTH)
+    , m_sc_height(DEFAULT_SCREEN_HEIGHT)
+    , m_win_width(DEFAULT_SCREEN_WIDTH)
+    , m_win_height(DEFAULT_SCREEN_HEIGHT)
+    , m_desktop_width(0)
+    , m_desktop_height(0)
+    , m_fullsc(DEFAULT_FULLSCREEN)
+    , m_grab(false)
+    , m_isinit(false)
+    , m_scene(new gra::scene)
 {
 }
 
-void graphic_system::init (int sc_w, int sc_h, bool fs, bool grab)
+void graphic_system::init(int sc_w, int sc_h, bool fs, bool grab)
 {
-    m_win_width = sc_w;
+    m_win_width  = sc_w;
     m_win_height = sc_h;
-    m_fullsc = fs;
-    m_grab = grab;
-    do_init ();
+    m_fullsc     = fs;
+    m_grab       = grab;
+    do_init();
 }
 
-void graphic_system::init (const std::string& title,
-			   int sc_w, int sc_h, bool fs, bool grab)
+void graphic_system::init(
+    const std::string& title, int sc_w, int sc_h, bool fs, bool grab)
 {
-    m_title = title;
-    m_win_width = sc_w;
+    m_title      = title;
+    m_win_width  = sc_w;
     m_win_height = sc_h;
-    m_fullsc = fs;
-    m_grab = grab;
-    do_init ();
+    m_fullsc     = fs;
+    m_grab       = grab;
+    do_init();
 }
 
-void graphic_system::do_init ()
+void graphic_system::do_init()
 {
     /* Inicializar sdl */
-    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-	throw graphic_system_error (
-	    std::string ("Could not init SDL: ") +
-	    SDL_GetError ());
-    std::atexit (SDL_Quit);
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+        throw graphic_system_error(std::string("Could not init SDL: ") +
+                                   SDL_GetError());
+    std::atexit(SDL_Quit);
 
     /* Inicializar ttf */
-    if (TTF_Init () < 0)
-	throw graphic_system_error (
-	    std::string ("Could not init SDL_ttf: ") + TTF_GetError ());
-    std::atexit (TTF_Quit);
+    if (TTF_Init() < 0)
+        throw graphic_system_error(std::string("Could not init SDL_ttf: ") +
+                                   TTF_GetError());
+    std::atexit(TTF_Quit);
 
     /* Parametros del contexto de Opengl */
-    SDL_GL_SetAttribute (SDL_GL_RED_SIZE, 5);
-    SDL_GL_SetAttribute (SDL_GL_GREEN_SIZE, 5);
-    SDL_GL_SetAttribute (SDL_GL_BLUE_SIZE, 5);
-    SDL_GL_SetAttribute (SDL_GL_DEPTH_SIZE, 16);
-    SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     /* Before a mode is set, this is the mode of the desktop. */
-    const SDL_VideoInfo* info = SDL_GetVideoInfo ();
-    m_desktop_width = info->current_w;
-    m_desktop_height = info->current_h;
+    const SDL_VideoInfo* info = SDL_GetVideoInfo();
+    m_desktop_width           = info->current_w;
+    m_desktop_height          = info->current_h;
 
-    set_video_mode ();
+    set_video_mode();
 
     /* TODO: Parametrizar key repeat? */
-    SDL_EnableKeyRepeat (300, 50);
-    SDL_WM_SetCaption (m_title.c_str (), 0);
+    SDL_EnableKeyRepeat(300, 50);
+    SDL_WM_SetCaption(m_title.c_str(), 0);
 
     /* Asociamos las extensiones a los tipos */
-    m_geometries.get_policy ().attach_default_factory<geo::md2_model_impl> ("md2");
-    m_geometries.get_policy ().attach_default_factory<geo::ply_model> ("ply");
+    m_geometries.get_policy().attach_default_factory<geo::md2_model_impl>(
+        "md2");
+    m_geometries.get_policy().attach_default_factory<geo::ply_model>("ply");
 
     /* Inicializamos algunos parametros de Opengl */
-    glClearColor (0, 0, 0, 1);
-    glEnable (GL_NORMALIZE);
-    glLightModeli (GL_LIGHT_MODEL_TWO_SIDE, 1);
+    glClearColor(0, 0, 0, 1);
+    glEnable(GL_NORMALIZE);
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
 
-    set_polygon_mode ();
-    set_shading_mode ();
+    set_polygon_mode();
+    set_shading_mode();
 
     m_isinit = true;
 }
 
-void graphic_system::close ()
+void graphic_system::close()
 {
     if (m_isinit) {
-	TTF_Quit ();
-	SDL_Quit ();
+        TTF_Quit();
+        SDL_Quit();
     }
     m_isinit = false;
 }
 
-graphic_system::~graphic_system ()
-{
-}
+graphic_system::~graphic_system() {}
 
-void graphic_system::set_video_mode ()
+void graphic_system::set_video_mode()
 {
     bool fullscreen = m_fullsc;
 #ifdef __EMSCRIPTEN__
     /* Browsers only go fullscreen when the user asks for it. */
     fullscreen = false;
 #endif
-    int width = m_win_width;
+    int width  = m_win_width;
     int height = m_win_height;
     if (fullscreen && m_desktop_width > 0 && m_desktop_height > 0) {
-	width = m_desktop_width;
-	height = m_desktop_height;
+        width  = m_desktop_width;
+        height = m_desktop_height;
     }
 
     /* TODO: Parametrizar SDL_RESIZABLE? */
-    SDL_Surface* screen = SDL_SetVideoMode (
-	width, height, 32, SDL_OPENGL | (fullscreen ? SDL_FULLSCREEN : 0));
+    SDL_Surface* screen = SDL_SetVideoMode(
+        width, height, 32, SDL_OPENGL | (fullscreen ? SDL_FULLSCREEN : 0));
     if (!screen)
-	throw graphic_system_error (
-	    std::string ("Could not create window: ") + SDL_GetError ());
+        throw graphic_system_error(std::string("Could not create window: ") +
+                                   SDL_GetError());
 
 #ifdef __EMSCRIPTEN__
     /* gl4es implements the fixed-function OpenGL we use on top of
        WebGL, and needs the context SDL just created. */
     static bool gl4es_ready = false;
     if (!gl4es_ready) {
-	initialize_gl4es ();
-	gl4es_ready = true;
+        initialize_gl4es();
+        gl4es_ready = true;
     }
 #endif
 
-    m_sc_width = screen->w;
+    m_sc_width  = screen->w;
     m_sc_height = screen->h;
-    glViewport (0, 0, m_sc_width, m_sc_height);
+    glViewport(0, 0, m_sc_width, m_sc_height);
 
-    SDL_ShowCursor (m_grab ? SDL_DISABLE : SDL_ENABLE);
-    SDL_WM_GrabInput (m_grab ? SDL_GRAB_ON : SDL_GRAB_OFF);
+    SDL_ShowCursor(m_grab ? SDL_DISABLE : SDL_ENABLE);
+    SDL_WM_GrabInput(m_grab ? SDL_GRAB_ON : SDL_GRAB_OFF);
 }
 
-void graphic_system::resize_window (int sc_w, int sc_h, bool fs, bool grab)
+void graphic_system::resize_window(int sc_w, int sc_h, bool fs, bool grab)
 {
 #ifndef WIN32
-    m_win_width = sc_w;
+    m_win_width  = sc_w;
     m_win_height = sc_h;
-    m_fullsc = fs;
-    m_grab = grab;
-    set_video_mode ();
+    m_fullsc     = fs;
+    m_grab       = grab;
+    set_video_mode();
 #else
-    throw graphic_system_error ("Resize not supported on windows platform.");
+    throw graphic_system_error("Resize not supported on windows platform.");
 #endif
 }
 
-void graphic_system::toggle_fullscreen ()
+void graphic_system::toggle_fullscreen()
 {
 #ifdef __EMSCRIPTEN__
-    EM_ASM ({
-	if (Module['toggleFullscreen'])
-	    Module['toggleFullscreen'] ();
+    EM_ASM({
+        if (Module['toggleFullscreen'])
+            Module['toggleFullscreen']();
     });
 #else
-    resize_window (m_win_width, m_win_height, !m_fullsc, m_grab);
+    resize_window(m_win_width, m_win_height, !m_fullsc, m_grab);
 #endif
 }
 
@@ -209,70 +205,68 @@ void graphic_system::toggle_fullscreen ()
  * The page sizes the canvas with CSS, e.g. to fill the screen when
  * it is fullscreen. Render at the resolution it is displayed at.
  */
-void graphic_system::fit_canvas ()
+void graphic_system::fit_canvas()
 {
     double css_width, css_height;
-    if (emscripten_get_element_css_size ("#canvas", &css_width, &css_height)
-	!= EMSCRIPTEN_RESULT_SUCCESS)
-	return;
+    if (emscripten_get_element_css_size("#canvas", &css_width, &css_height) !=
+        EMSCRIPTEN_RESULT_SUCCESS)
+        return;
 
-    double ratio = emscripten_get_device_pixel_ratio ();
-    int width = std::lround (css_width * ratio);
-    int height = std::lround (css_height * ratio);
+    double ratio = emscripten_get_device_pixel_ratio();
+    int width    = std::lround(css_width * ratio);
+    int height   = std::lround(css_height * ratio);
     if (width <= 0 || height <= 0 ||
-	(width == m_sc_width && height == m_sc_height))
-	return;
+        (width == m_sc_width && height == m_sc_height))
+        return;
 
-    emscripten_set_canvas_element_size ("#canvas", width, height);
-    m_sc_width = width;
+    emscripten_set_canvas_element_size("#canvas", width, height);
+    m_sc_width  = width;
     m_sc_height = height;
-    glViewport (0, 0, m_sc_width, m_sc_height);
+    glViewport(0, 0, m_sc_width, m_sc_height);
 }
 #endif
 
-bool graphic_system::handle_video_resize (SDL_Event& ev)
+bool graphic_system::handle_video_resize(SDL_Event& ev)
 {
-    m_sc_width = ev.resize.w;
+    m_sc_width  = ev.resize.w;
     m_sc_height = ev.resize.h;
 
-    glViewport (0, 0, m_sc_width, m_sc_height);
+    glViewport(0, 0, m_sc_width, m_sc_height);
     return false;
 }
 
-bool graphic_system::handle_video_update (SDL_Event& ev)
+bool graphic_system::handle_video_update(SDL_Event& ev)
 {
-    update ();
+    update();
     return false;
 }
 
-void graphic_system::update ()
+void graphic_system::update()
 {
 #ifdef __EMSCRIPTEN__
-    fit_canvas ();
+    fit_canvas();
 #endif
-    glEnable (GL_NORMALIZE);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glEnable(GL_NORMALIZE);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (m_scene)
-	m_scene->render (m_sc_width, m_sc_height, get_hud_width (), get_hud_height ());
+        m_scene->render(
+            m_sc_width, m_sc_height, get_hud_width(), get_hud_height());
 
-    SDL_GL_SwapBuffers ();
+    SDL_GL_SwapBuffers();
 }
 
-void graphic_system::set_polygon_mode (polygon_mode mode)
+void graphic_system::set_polygon_mode(polygon_mode mode)
 {
-    glPolygonMode (GL_BACK, mode);
-    glPolygonMode (GL_FRONT, mode);
+    glPolygonMode(GL_BACK, mode);
+    glPolygonMode(GL_FRONT, mode);
 }
 
-void graphic_system::set_shading_mode (shading_mode mode)
-{
-    glShadeModel (mode);
-}
+void graphic_system::set_shading_mode(shading_mode mode) { glShadeModel(mode); }
 
-void graphic_system::set_clear_color (const base::point4f& col)
+void graphic_system::set_clear_color(const base::point4f& col)
 {
-    glClearColor (col[0], col[1], col[2], col[3]);
+    glClearColor(col[0], col[1], col[2], col[3]);
 }
 
 } /* namespace core */

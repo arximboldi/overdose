@@ -26,49 +26,44 @@
 
 #include "collidable.hpp"
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (collision_error, "collision",
-			      "Undefined collision test.");
+YAGE_DEFINE_ERROR_WHERE_WHAT(collision_error,
+                             "collision",
+                             "Undefined collision test.");
 
-namespace
-{
+namespace {
 class collidable_translator : public boost::static_visitor<void>
 {
 public:
-    collidable_translator (const base::point3f& pos)
-	: m_pos (pos)
-    {}
-
-    void operator () (sphere& col) const
+    collidable_translator(const base::point3f& pos)
+        : m_pos(pos)
     {
-	col.center = col.center + m_pos;
     }
 
-    void operator () (capsule& col) const
+    void operator()(sphere& col) const { col.center = col.center + m_pos; }
+
+    void operator()(capsule& col) const
     {
-	col.p1 = col.p1 + m_pos;
-	col.p2 = col.p2 + m_pos;
+        col.p1 = col.p1 + m_pos;
+        col.p2 = col.p2 + m_pos;
     }
 
-    void operator () (aabb& col) const
+    void operator()(aabb& col) const
     {
-	col.max = col.max + m_pos;
-	col.min = col.min + m_pos;
+        col.max = col.max + m_pos;
+        col.min = col.min + m_pos;
     }
 
 private:
     base::point3f m_pos;
 };
-}
+} // namespace
 
-void translate_collidable (collidable& col,
-			   const base::point3f& pos)
+void translate_collidable(collidable& col, const base::point3f& pos)
 {
-    boost::apply_visitor (collidable_translator (pos), col);
+    boost::apply_visitor(collidable_translator(pos), col);
 }
 
 } /* namespace game */

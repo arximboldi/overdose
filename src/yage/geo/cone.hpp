@@ -29,15 +29,13 @@
 
 #include <yage/geo/multi_mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
 class cone : public multi_mesh
 {
 public:
-    cone (size_t division = 20);
+    cone(size_t division = 20);
 };
 
 } /* namespace geo*/

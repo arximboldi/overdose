@@ -26,12 +26,8 @@
 
 #include "sound_system.hpp"
 
-namespace yage
-{
-namespace core
-{
-
-
+namespace yage {
+namespace core {
 
 } /* namespace core */
 } /* namespace yage */

@@ -31,66 +31,43 @@
 #include <boost/shared_ptr.hpp>
 #include <yage/base/point4.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class fog
 {
 public:
     enum fog_mode
     {
-	EXP    = GL_EXP,
-	EXP2   = GL_EXP2,
-	LINEAR = GL_LINEAR
+        EXP    = GL_EXP,
+        EXP2   = GL_EXP2,
+        LINEAR = GL_LINEAR
     };
 
-    fog ();
-    void enable ();
-    void update ();
-    void disable ();
+    fog();
+    void enable();
+    void update();
+    void disable();
 
-    void set_color (const base::point4f& c)
-    {
-	m_color = c;
-    }
+    void set_color(const base::point4f& c) { m_color = c; }
 
-    const base::point4f& get_color () const
-    {
-	return m_color;
-    }
+    const base::point4f& get_color() const { return m_color; }
 
-    void set_mode (fog_mode mode)
-    {
-	m_mode = mode;
-    }
+    void set_mode(fog_mode mode) { m_mode = mode; }
 
-    void set_density (float density)
-    {
-	m_density = density;
-    }
+    void set_density(float density) { m_density = density; }
 
-    void set_start (float start)
-    {
-	m_start = start;
-    }
+    void set_start(float start) { m_start = start; }
 
-    void set_end (float end)
-    {
-	m_end = end;
-    }
+    void set_end(float end) { m_end = end; }
 
-    float get_density () const
-    {
-	return m_density;
-    }
+    float get_density() const { return m_density; }
 
 private:
     fog_mode m_mode;
-    float    m_density;
-    float    m_start;
-    float    m_end;
+    float m_density;
+    float m_start;
+    float m_end;
 
     base::point4f m_color;
 };

@@ -26,10 +26,10 @@
 
 #include "exception.hpp"
 
-namespace dose
-{
+namespace dose {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (overdose_error, "overdose",
-			      "Unknown overdose error");
+YAGE_DEFINE_ERROR_WHERE_WHAT(overdose_error,
+                             "overdose",
+                             "Unknown overdose error");
 
 } /* namespace dose */

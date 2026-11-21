@@ -26,22 +26,23 @@
 
 #include "mouse_observer.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-void mouse_subject::add_listener (mouse_listener& l)
+void mouse_subject::add_listener(mouse_listener& l)
 {
-    connect_slot (l, on_mouse_move, sigc::mem_fun (l, &mouse_listener::handle_mouse_move));
-    connect_slot (l, on_mouse_button_press, sigc::mem_fun (l, &mouse_listener::handle_mouse_button_press));
-    connect_slot (l, on_mouse_button_release, sigc::mem_fun (l, &mouse_listener::handle_mouse_button_release));
+    connect_slot(
+        l, on_mouse_move, sigc::mem_fun(l, &mouse_listener::handle_mouse_move));
+    connect_slot(l,
+                 on_mouse_button_press,
+                 sigc::mem_fun(l, &mouse_listener::handle_mouse_button_press));
+    connect_slot(
+        l,
+        on_mouse_button_release,
+        sigc::mem_fun(l, &mouse_listener::handle_mouse_button_release));
 }
 
-void mouse_subject::del_listener (mouse_listener& l)
-{
-    disconnect_listener (l);
-}
+void mouse_subject::del_listener(mouse_listener& l) { disconnect_listener(l); }
 
 } /* namespace core */
 } /* namespace yage */

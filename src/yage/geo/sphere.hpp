@@ -29,15 +29,13 @@
 
 #include <yage/geo/mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
 class sphere : public mesh
 {
 public:
-    sphere (size_t division = 20);
+    sphere(size_t division = 20);
 };
 
 } /* namespace geo */

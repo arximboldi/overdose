@@ -31,15 +31,13 @@
 #include <map>
 #include <typeinfo>
 
+#include <yage/base/exception.hpp>
 #include <yage/base/iterator.hpp>
 #include <yage/base/pointer.hpp>
-#include <yage/base/exception.hpp>
 #include <yage/base/threads.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 /**
  * Traits that provide additional information about how to
@@ -52,7 +50,7 @@ struct tree_node_traits
     typedef typename Key::value_type value_type;
 
     /** The value of the character used as separator for paths. */
-    static const value_type separator = value_type ();
+    static const value_type separator = value_type();
 };
 
 template <>
@@ -91,22 +89,22 @@ YAGE_DECLARE_ERROR(yage_error, tree_node_error);
  * @todo Fix string operations to be more generic.
  */
 template <class Node,
-	  class Key = std::string,
-	  class Traits = tree_node_traits<Key>,
-	  class ThreadingPolicy = YAGE_DEFAULT_THREADING <Node> >
+          class Key             = std::string,
+          class Traits          = tree_node_traits<Key>,
+          class ThreadingPolicy = YAGE_DEFAULT_THREADING<Node>>
 class tree_node
 {
 public:
     /**
      * Iterator to check the childs of this node.
      */
-    typedef ptr_iterator<map_iterator<Key, null_ptr<Node> > > iterator;
+    typedef ptr_iterator<map_iterator<Key, null_ptr<Node>>> iterator;
 
     /**
      * Iterator to check the childs of this node, const version.
      */
-    typedef ptr_const_iterator<map_const_iterator<Key, null_ptr<Node> > >
-    const_iterator;
+    typedef ptr_const_iterator<map_const_iterator<Key, null_ptr<Node>>>
+        const_iterator;
 
     /**
      * Traits being used in this instanciation.
@@ -114,97 +112,84 @@ public:
     typedef Traits traits;
 
     /** Constuctor. */
-    tree_node () :
-	m_parent(NULL), m_isinit(false)
-    {
-    };
+    tree_node()
+        : m_parent(NULL)
+        , m_isinit(false) {};
 
     /** Destructor */
-    virtual ~tree_node ();
+    virtual ~tree_node();
 
     /**
      * Returns an iterator to the first child of this node.
      * @note Using iterators is not thread safe with any threading model.
      */
-    iterator begin ()
-    {
-	return m_childs.begin();
-    }
+    iterator begin() { return m_childs.begin(); }
 
     /**
      * Returns an iterator to the first child of this node. Const version.
      * @note Using iterators is not thread safe with any threading model.
      */
-    const_iterator begin () const
-    {
-	return m_childs.begin ();
-    }
+    const_iterator begin() const { return m_childs.begin(); }
 
     /**
      * Returns an iterator to the end of this node childs.
      * @note Using iterators is not thread safe with any threading model.
      */
-    iterator end ()
-    {
-	return m_childs.end ();
-    }
+    iterator end() { return m_childs.end(); }
 
     /**
      * Returns an iterator to the end of this node childs. Const version.
      * @note Using iterators is not thread safe with any threading model.
      */
-    const_iterator end () const
+    const_iterator end() const { return m_childs.end(); }
+
+    /**
+     * Returns a pointer to the parent of this node or @c null if this is a root
+     * node.
+     */
+    const Node* get_parent() const
     {
-	return m_childs.end ();
+        tree_lock lock(this);
+        return m_parent;
     }
 
     /**
      * Returns a pointer to the parent of this node or @c null if this is a root
      * node.
      */
-    const Node* get_parent () const
+    Node* get_parent()
     {
-	tree_lock lock (this);
-	return m_parent;
-    }
-
-    /**
-     * Returns a pointer to the parent of this node or @c null if this is a root
-     * node.
-     */
-    Node* get_parent ()
-    {
-	tree_lock lock (this);
-	return m_parent;
+        tree_lock lock(this);
+        return m_parent;
     }
 
     /**
      * Returns the name of this node.
      */
-    const Key& get_name () const
+    const Key& get_name() const
     {
-	tree_lock lock (this);
-	return m_name;
+        tree_lock lock(this);
+        return m_name;
     }
 
     /**
      * Returns an iterator to a child given by its key or end () otherwise.
      * @param name The key name of the child.
      */
-    iterator find_child (const Key& name)
+    iterator find_child(const Key& name)
     {
-	tree_lock lock (this);
-	return m_childs.find (name);
+        tree_lock lock(this);
+        return m_childs.find(name);
     }
 
     /**
      * Returns an iterator to a child given by its key or end () otherwise.
      * @param name The key name of the child.
      */
-    const_iterator find_child (const Key& name) const
+    const_iterator find_child(const Key& name) const
     {
-	tree_lock lock (this);
-	return m_childs.find (name);
+        tree_lock lock(this);
+        return m_childs.find(name);
     }
 
     /**
@@ -214,20 +199,20 @@ public:
      *
      * @return A pointer to the detached node.
      */
-    Node& detach (const Key& name)
+    Node& detach(const Key& name)
     {
-	tree_lock lock (this);
-	return detach (m_childs.find (name));
+        tree_lock lock(this);
+        return detach(m_childs.find(name));
     }
 
     /**
      * Deletes a child of this node.
      * @return An iterator to the next child.
      */
-    iterator remove_child (const Key& name)
+    iterator remove_child(const Key& name)
     {
-	tree_lock lock (this);
-	return remove_child (m_childs.find (name));
+        tree_lock lock(this);
+        return remove_child(m_childs.find(name));
     }
 
     /**
@@ -237,7 +222,7 @@ public:
      *
      * @return true If the node was successfully attached and false otherwise.
      */
-    bool attach (const Key& name, Node& node);
+    bool attach(const Key& name, Node& node);
 
     /**
      * Detaches a node from the tree. Once detached you are responsible
@@ -247,123 +232,118 @@ public:
      * @return A pointer to the detached node.
      * @note This version of detach is not thread-safe.
      */
-    Node& detach (iterator iter);
+    Node& detach(iterator iter);
 
     /**
      * Returns the path of this node from the root to the node.
      */
-    Key get_path_name () const;
+    Key get_path_name() const;
 
     /**
      * Deletes a child of this node.
      * @return An iterator to the next child.
      * @return This version of remove child is not thread-safe.
      */
-    iterator remove_child (iterator& iter);
+    iterator remove_child(iterator& iter);
 
     /**
      * Removes all childs.
      */
-    void clear_childs ();
+    void clear_childs();
 
     /**
      * Returns a reference to the child of this node mathing a name. The child
      * is created if it does not exist yet.
      * @param name The name of the child.
      */
-    Node& get_child (const Key& name);
+    Node& get_child(const Key& name);
 
     /**
      * Returns a reference to the child of this node mathing a name,
      * throwing an exception if the node does not exist.
      * @param name The name of the child.
      */
-    Node& get_existing_child (const Key& name);
-
+    Node& get_existing_child(const Key& name);
 
     /**
      * Returns a reference to the child of this node mathing a name,
      * throwing an exception if the node does not exist.
      * @param name The name of the child.
      */
-    const Node& get_existing_child (const Key& name) const;
+    const Node& get_existing_child(const Key& name) const;
 
     /**
      * Returns a reference to the child matching a path. All nodes
      * in the path are created if they do not exist.
      */
-    Node& get_path (const Key& name);
+    Node& get_path(const Key& name);
 
     /**
      * Returns a reference to the child matching a path, an
      * exception is thrown if the path does not exist.
      * @param name The path to find.
      */
-    Node& get_existing_path (const Key& name);
+    Node& get_existing_path(const Key& name);
 
     /**
      * Returns a reference to the child matching a path, an
      * exception is thrown if the path does not exist.
      * @param name The path to find.
      */
-    const Node& get_existing_path (const Key& name) const;
+    const Node& get_existing_path(const Key& name) const;
 
 protected:
-    virtual void on_new_child (Node& node) {}
-    virtual void on_remove_child (Node& node) {}
-    virtual void on_init () {}
-    virtual void on_uninit () {}
+    virtual void on_new_child(Node& node) {}
+    virtual void on_remove_child(Node& node) {}
+    virtual void on_init() {}
+    virtual void on_uninit() {}
 
 private:
-    std::map<Key, null_ptr<Node> > m_childs;
+    std::map<Key, null_ptr<Node>> m_childs;
     Node* m_parent;
     Key m_name;
     bool m_isinit;
 
     template <typename InputIterator>
-    static void find_base (InputIterator& base_b, InputIterator& base_e);
+    static void find_base(InputIterator& base_b, InputIterator& base_e);
 
-    const Node&
-    get_existing_path (typename Key::const_iterator begin,
-		       typename Key::const_iterator end) const;
+    const Node& get_existing_path(typename Key::const_iterator begin,
+                                  typename Key::const_iterator end) const;
 
-    Node&
-    get_existing_path (typename Key::const_iterator begin,
-		       typename Key::const_iterator end);
+    Node& get_existing_path(typename Key::const_iterator begin,
+                            typename Key::const_iterator end);
 
-    Node& get_path (typename Key::const_iterator begin,
-		    typename Key::const_iterator end);
+    Node& get_path(typename Key::const_iterator begin,
+                   typename Key::const_iterator end);
 
-    void get_path_name (Key& prefix) const;
+    void get_path_name(Key& prefix) const;
 
-    bool is_init() const
+    bool is_init() const { return m_isinit; }
+
+    void init(const Key& name, Node* parent)
     {
-	return m_isinit;
+        m_isinit = true;
+        m_name   = name;
+        m_parent = parent;
+        on_init();
     }
 
-    void init (const Key& name, Node* parent)
+    void uninit()
     {
-	m_isinit = true;
-	m_name = name;
-	m_parent = parent;
-	on_init ();
-    }
-
-    void uninit ()
-    {
-	if (m_isinit) {
-	    m_isinit = false;
-	    m_name = Key ();
-	    m_parent = 0;
-	    on_uninit ();
-	}
+        if (m_isinit) {
+            m_isinit = false;
+            m_name   = Key();
+            m_parent = 0;
+            on_uninit();
+        }
     }
 
     struct tree_lock : public ThreadingPolicy::lock
     {
-	tree_lock (const tree_node* self)
-	    : ThreadingPolicy::lock (dynamic_cast<const Node*> (self))
-	{}
+        tree_lock(const tree_node* self)
+            : ThreadingPolicy::lock(dynamic_cast<const Node*>(self))
+        {
+        }
     };
 };
 

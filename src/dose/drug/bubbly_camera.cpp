@@ -24,33 +24,32 @@
  *
  */
 
-#include <cmath>
 #include "bubbly_camera.hpp"
+#include <cmath>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
-bubbly_camera::bubbly_camera (yage::gra::camera_ptr cam,
-			      float depth,
-			      float ratio_speed,
-			      float fov_speed)
-    : m_camera (cam)
-    , m_depth (depth)
-    , m_ratio_pos (0)
-    , m_fov_pos (0)
-    , m_ratio_speed (ratio_speed)
-    , m_fov_speed (fov_speed)
-    , m_orig_ratio (cam->get_ratio ())
-    , m_orig_fov (cam->get_fov ())
+bubbly_camera::bubbly_camera(yage::gra::camera_ptr cam,
+                             float depth,
+                             float ratio_speed,
+                             float fov_speed)
+    : m_camera(cam)
+    , m_depth(depth)
+    , m_ratio_pos(0)
+    , m_fov_pos(0)
+    , m_ratio_speed(ratio_speed)
+    , m_fov_speed(fov_speed)
+    , m_orig_ratio(cam->get_ratio())
+    , m_orig_fov(cam->get_fov())
 {
 }
 
-void bubbly_camera::update (int delta)
+void bubbly_camera::update(int delta)
 {
-    m_camera->set_ratio (m_orig_ratio + m_orig_ratio * m_depth * std::sin (m_ratio_pos));
-    m_camera->set_fov (m_orig_fov + m_orig_fov * m_depth * std::sin (m_fov_pos));
+    m_camera->set_ratio(m_orig_ratio +
+                        m_orig_ratio * m_depth * std::sin(m_ratio_pos));
+    m_camera->set_fov(m_orig_fov + m_orig_fov * m_depth * std::sin(m_fov_pos));
 
     m_ratio_pos += delta * m_ratio_speed;
     m_fov_pos += delta * m_fov_speed;

@@ -26,23 +26,22 @@
 
 #include <yage/app/game_app.hpp>
 
-namespace dose
-{
+namespace dose {
 
 class overdose : public yage::app::game_app
 {
 public:
     static float s_dope_level;
 
-    overdose ();
+    overdose();
 
-    void prepare (yage::base::arg_parser& args);
-    void register_states (boost::shared_ptr<yage::game::state_manager> mgr);
-    std::string initial_state ();
-    void print_help (std::ostream& out);
+    void prepare(yage::base::arg_parser& args);
+    void register_states(boost::shared_ptr<yage::game::state_manager> mgr);
+    std::string initial_state();
+    void print_help(std::ostream& out);
 
 private:
     std::string m_initial_state;
 };
 
-} /* namespace odose */
+} // namespace dose

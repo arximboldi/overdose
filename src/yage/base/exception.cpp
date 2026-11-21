@@ -29,28 +29,20 @@
 #include "exception.hpp"
 #include "logger.hpp"
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DEFINE_ERROR_WHERE (yage_error,   "yage");
+YAGE_DEFINE_ERROR_WHERE(yage_error, "yage");
 
-error::error (const std::string& where, const std::string& what) throw ()
-    : m_what (what)
-    , m_where (where)
+error::error(const std::string& where, const std::string& what) throw()
+    : m_what(what)
+    , m_where(where)
 {
 }
 
-std::string error::default_error ()
-{
-    return "unknown message";
-}
+std::string error::default_error() { return "unknown message"; }
 
-void error::log () const
-{
-    logger::self () (m_where, log::error, m_what);
-}
+void error::log() const { logger::self()(m_where, log::error, m_what); }
 
 } /* namespace base */
 } /* namespace yage */

@@ -31,41 +31,36 @@
 #include <yage/core/task.hpp>
 #include <yage/gra/scene_node.hpp>
 
-namespace dose
-{
+namespace dose {
 
-namespace st { class level; }
+namespace st {
+class level;
+}
 
-namespace drug
-{
+namespace drug {
 
 class dope;
 
-class dope_effect : public yage::core::task
-		  , public boost::enable_shared_from_this<dope_effect>
+class dope_effect
+    : public yage::core::task
+    , public boost::enable_shared_from_this<dope_effect>
 {
 public:
     typedef boost::shared_ptr<dope> dope_ptr;
     typedef boost::shared_ptr<st::level> level_ptr;
 
-    dope_effect (dope_ptr p);
-    ~dope_effect ();
+    dope_effect(dope_ptr p);
+    ~dope_effect();
 
-    void take ();
-    void accumulate (dope_ptr d);
-    void update (int delta);
-    const std::string& get_name () const;
-    void force_finish ();
+    void take();
+    void accumulate(dope_ptr d);
+    void update(int delta);
+    const std::string& get_name() const;
+    void force_finish();
 
-    yage::gra::scene_node& get_node ()
-    {
-	return m_node;
-    }
+    yage::gra::scene_node& get_node() { return m_node; }
 
-    dope_ptr get_dope ()
-    {
-	return m_dope;
-    }
+    dope_ptr get_dope() { return m_dope; }
 
 private:
     dope_ptr m_dope;

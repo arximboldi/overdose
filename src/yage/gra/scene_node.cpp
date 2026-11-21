@@ -28,31 +28,30 @@
 
 #include "scene_node.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-scene_node::scene_node ()
-    : m_position (0.0f, 0.0f, 0.0f)
-    , m_scale (1.0f, 1.0f, 1.0f)
-    , m_rotate (0, 0, 0, 0)
+scene_node::scene_node()
+    : m_position(0.0f, 0.0f, 0.0f)
+    , m_scale(1.0f, 1.0f, 1.0f)
+    , m_rotate(0, 0, 0, 0)
 {
 }
 
 void scene_node::draw()
 {
-    glPushMatrix ();
+    glPushMatrix();
 
-    glTranslatef (m_position[0], m_position[1], m_position[2]);
-    glRotatef (m_rotate[0], m_rotate[1], m_rotate[2], m_rotate[3]);
-    glScalef (m_scale[0], m_scale[1], m_scale[2]);
+    glTranslatef(m_position[0], m_position[1], m_position[2]);
+    glRotatef(m_rotate[0], m_rotate[1], m_rotate[2], m_rotate[3]);
+    glScalef(m_scale[0], m_scale[1], m_scale[2]);
 
-    for (scene_node::iterator iter = begin (); iter != end (); ++iter)
-	iter->draw ();
+    for (scene_node::iterator iter = begin(); iter != end(); ++iter)
+        iter->draw();
 
-    for (draw_list::iterator it = m_drawables.begin(); it != m_drawables.end(); ++it)
-	(*it)->draw ();
+    for (draw_list::iterator it = m_drawables.begin(); it != m_drawables.end();
+         ++it)
+        (*it)->draw();
 
     glPopMatrix();
 }

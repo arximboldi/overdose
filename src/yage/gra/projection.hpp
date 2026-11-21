@@ -25,13 +25,11 @@
 #ifndef YAGE_PROJECTION_H_
 #define YAGE_PROJECTION_H_
 
-#include <cmath>
 #include <SDL_opengl.h>
+#include <cmath>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 /**
  * Multiplies the current matrix by a perspective projection, exactly
@@ -43,11 +41,11 @@ namespace gra
  * @param znear  Distance to the near clipping plane.
  * @param zfar   Distance to the far clipping plane.
  */
-inline void perspective (double fovy, double aspect, double znear, double zfar)
+inline void perspective(double fovy, double aspect, double znear, double zfar)
 {
-    const double top = znear * std::tan (fovy * M_PI / 360.0);
+    const double top   = znear * std::tan(fovy * M_PI / 360.0);
     const double right = top * aspect;
-    glFrustum (-right, right, -top, top, znear, zfar);
+    glFrustum(-right, right, -top, top, znear, zfar);
 }
 
 } /* namespace gra */

@@ -29,13 +29,13 @@
 
 #include <dose/ent/pedestrian.hpp>
 
-namespace dose
-{
+namespace dose {
 
-namespace drug { class dope; }
+namespace drug {
+class dope;
+}
 
-namespace ent
-{
+namespace ent {
 
 class dealer : public pedestrian
 {
@@ -44,23 +44,23 @@ public:
 
     typedef boost::shared_ptr<drug::dope> dope_ptr;
 
-    dealer (const std::string& model,
-	    const std::string& texture,
-	    bool inverse_normals = false,
-	    float walk_speed = DEFAULT_WALK_SPEED,
-	    float rotate_speed = DEFAULT_ROTATE_SPEED);
+    dealer(const std::string& model,
+           const std::string& texture,
+           bool inverse_normals = false,
+           float walk_speed     = DEFAULT_WALK_SPEED,
+           float rotate_speed   = DEFAULT_ROTATE_SPEED);
 
-    void update (int delta);
+    void update(int delta);
 
-    void add_drug (dope_ptr d);
+    void add_drug(dope_ptr d);
 
-    dope_ptr current_offer ();
-    dope_ptr take_shit ();
-    bool has_shit () const;
+    dope_ptr current_offer();
+    dope_ptr take_shit();
+    bool has_shit() const;
 
 private:
-    bool player_near ();
-    void salute_state (int delta);
+    bool player_near();
+    void salute_state(int delta);
 
     std::list<dope_ptr> m_drugs;
 };

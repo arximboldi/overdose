@@ -26,28 +26,24 @@
 
 #include "font_manager.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-boost::shared_ptr<gra::font>
-font_manager::find (const std::string& font_name, int font_size)
+boost::shared_ptr<gra::font> font_manager::find(const std::string& font_name,
+                                                int font_size)
 {
-    return super::find (
-	font_manager_policy::key_type (font_name, font_size));
+    return super::find(font_manager_policy::key_type(font_name, font_size));
 }
 
-std::string font_manager_policy::file_name (const key_type& key)
+std::string font_manager_policy::file_name(const key_type& key)
 {
     return key.first;
 }
 
 boost::shared_ptr<gra::font>
-font_manager_policy::load_resource (const std::string& path,
-				    const key_type& key)
+font_manager_policy::load_resource(const std::string& path, const key_type& key)
 {
-    return boost::shared_ptr<gra::font> (new gra::font (path, key.second));
+    return boost::shared_ptr<gra::font>(new gra::font(path, key.second));
 }
 
 } /* namespace core */

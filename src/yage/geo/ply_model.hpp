@@ -29,17 +29,15 @@
 
 #include <yage/geo/mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-YAGE_DECLARE_ERROR (base::yage_error, ply_model_error);
+YAGE_DECLARE_ERROR(base::yage_error, ply_model_error);
 
 class ply_model : public mesh
 {
 public:
-    ply_model (const std::string& fname);
+    ply_model(const std::string& fname);
 };
 
 } /* namespace geo */

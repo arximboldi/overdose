@@ -26,83 +26,74 @@
 
 #include "light.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-light::light ()
-    : m_handle (GL_NONE)
-    , m_spot_exponent (0)
-    , m_spot_cutoff (180)
-    , m_constant_attenuation (1)
-    , m_linear_attenuation (0)
-    , m_quadratic_attenuation (0)
-    , m_directional (false)
-    , m_direction (0, 0, 1)
-    , m_ambient (1, 1, 1, 1)
-    , m_diffuse (1, 1, 1, 1)
-    , m_specular (1, 1, 1, 1)
-    , m_need_update (true)
+light::light()
+    : m_handle(GL_NONE)
+    , m_spot_exponent(0)
+    , m_spot_cutoff(180)
+    , m_constant_attenuation(1)
+    , m_linear_attenuation(0)
+    , m_quadratic_attenuation(0)
+    , m_directional(false)
+    , m_direction(0, 0, 1)
+    , m_ambient(1, 1, 1, 1)
+    , m_diffuse(1, 1, 1, 1)
+    , m_specular(1, 1, 1, 1)
+    , m_need_update(true)
 {
 }
 
-void light::draw ()
+void light::draw()
 {
-    if (m_handle != GL_NONE)
-    {
-	if (m_need_update) {
-	    glLighti (m_handle, GL_SPOT_EXPONENT, m_spot_exponent);
-	    glLightf (m_handle, GL_SPOT_CUTOFF, m_spot_cutoff);
+    if (m_handle != GL_NONE) {
+        if (m_need_update) {
+            glLighti(m_handle, GL_SPOT_EXPONENT, m_spot_exponent);
+            glLightf(m_handle, GL_SPOT_CUTOFF, m_spot_cutoff);
 
-	    glLightf (m_handle, GL_CONSTANT_ATTENUATION, m_constant_attenuation);
-	    glLightf (m_handle, GL_LINEAR_ATTENUATION, m_linear_attenuation);
-	    glLightf (m_handle, GL_QUADRATIC_ATTENUATION, m_quadratic_attenuation);
+            glLightf(m_handle, GL_CONSTANT_ATTENUATION, m_constant_attenuation);
+            glLightf(m_handle, GL_LINEAR_ATTENUATION, m_linear_attenuation);
+            glLightf(
+                m_handle, GL_QUADRATIC_ATTENUATION, m_quadratic_attenuation);
 
-	    glLightfv (m_handle, GL_AMBIENT, m_ambient.ptr ());
-	    glLightfv (m_handle, GL_DIFFUSE, m_diffuse.ptr ());
-	    glLightfv (m_handle, GL_SPECULAR, m_specular.ptr ());
+            glLightfv(m_handle, GL_AMBIENT, m_ambient.ptr());
+            glLightfv(m_handle, GL_DIFFUSE, m_diffuse.ptr());
+            glLightfv(m_handle, GL_SPECULAR, m_specular.ptr());
 
-	    m_need_update = false;
-	}
+            m_need_update = false;
+        }
 
-	/* Siempre hay que actualizar la posición ya que depende
-	   del estado actual de la matriz que puede haber cambiado */
-	if (m_directional) {
-	    base::point4f pos (m_direction.x (),
-			       m_direction.y (),
-			       m_direction.z (),
-			       0);
-	    glLightfv (m_handle, GL_POSITION,  pos.ptr ());
-	} else {
-	    base::point4f pos (0, 0, 0, 1);
-	    glLightfv (m_handle, GL_POSITION,  pos.ptr ());
-	}
+        /* Siempre hay que actualizar la posición ya que depende
+           del estado actual de la matriz que puede haber cambiado */
+        if (m_directional) {
+            base::point4f pos(
+                m_direction.x(), m_direction.y(), m_direction.z(), 0);
+            glLightfv(m_handle, GL_POSITION, pos.ptr());
+        } else {
+            base::point4f pos(0, 0, 0, 1);
+            glLightfv(m_handle, GL_POSITION, pos.ptr());
+        }
     }
 }
 
-light::~light ()
-{
-    disable ();
-}
+light::~light() { disable(); }
 
-void light::enable ()
+void light::enable()
 {
-    if (m_handle == GL_NONE)
-    {
-	m_handle = light_handle_allocator::self ().allocate ();
-	glEnable (m_handle);
-	m_need_update = true;
+    if (m_handle == GL_NONE) {
+        m_handle = light_handle_allocator::self().allocate();
+        glEnable(m_handle);
+        m_need_update = true;
     }
 }
 
-void light::disable ()
+void light::disable()
 {
-    if (m_handle != GL_NONE)
-    {
-	glDisable (m_handle);
-	light_handle_allocator::self ().release (m_handle);
-	m_handle = GL_NONE;
+    if (m_handle != GL_NONE) {
+        glDisable(m_handle);
+        light_handle_allocator::self().release(m_handle);
+        m_handle = GL_NONE;
     }
 }
 

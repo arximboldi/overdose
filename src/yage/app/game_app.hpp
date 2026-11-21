@@ -27,33 +27,31 @@
 #ifndef YAGE_GAME_APP_H_
 #define YAGE_GAME_APP_H_
 
-
-#include <yage/core/task.hpp>
 #include <yage/app/yage_app.hpp>
+#include <yage/core/task.hpp>
 #include <yage/game/state_manager.hpp>
 
-namespace yage
-{
-namespace app
-{
+namespace yage {
+namespace app {
 
 class game_app : public yage_app
 {
 public:
-    game_app (const std::string& name,
-	      const std::string& version,
-	      const std::string& description,
-	      const std::string& copyright_date,
-	      const std::string& author);
+    game_app(const std::string& name,
+             const std::string& version,
+             const std::string& description,
+             const std::string& copyright_date,
+             const std::string& author);
 
 protected:
-    virtual void register_states (boost::shared_ptr<game::state_manager> states) = 0;
-    virtual std::string initial_state () = 0;
+    virtual void
+    register_states(boost::shared_ptr<game::state_manager> states) = 0;
+    virtual std::string initial_state()                            = 0;
 
-    int execute ();
+    int execute();
 
 private:
-    void handle_state_manager_finish (game::state_manager&);
+    void handle_state_manager_finish(game::state_manager&);
 
     boost::shared_ptr<game::state_manager> m_game_states;
 };

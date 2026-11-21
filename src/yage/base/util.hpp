@@ -28,10 +28,8 @@
 #ifndef YAGE_UTIL_H_
 #define YAGE_UTIL_H_
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <template <class, class> class F, typename Y>
 struct tpl_bind_snd
@@ -60,18 +58,18 @@ protected:
      * Forbids the creation of instances of NoCopy but allows instances of
      * its derivated..
      */
-    non_copyable () {}
+    non_copyable() {}
 
 private:
     /**
      * Private copy constructor.
      */
-    non_copyable (const non_copyable&);
+    non_copyable(const non_copyable&);
 
     /**
      * Private assignment operator.
      */
-    non_copyable& operator= (const non_copyable&);
+    non_copyable& operator=(const non_copyable&);
 };
 
 } /* namespace base */

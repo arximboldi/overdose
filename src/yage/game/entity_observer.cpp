@@ -26,20 +26,22 @@
 
 #include "entity_observer.hpp"
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
-void entity_subject::add_listener (entity_listener& l)
+void entity_subject::add_listener(entity_listener& l)
 {
-    connect_slot (l, on_entity_move, sigc::mem_fun (l, &entity_listener::handle_entity_move));
-    connect_slot (l, on_entity_rotate, sigc::mem_fun (l, &entity_listener::handle_entity_rotate));
+    connect_slot(l,
+                 on_entity_move,
+                 sigc::mem_fun(l, &entity_listener::handle_entity_move));
+    connect_slot(l,
+                 on_entity_rotate,
+                 sigc::mem_fun(l, &entity_listener::handle_entity_rotate));
 }
 
-void entity_subject::del_listener (entity_listener& l)
+void entity_subject::del_listener(entity_listener& l)
 {
-    disconnect_listener (l);
+    disconnect_listener(l);
 }
 
 } /* namespace game */

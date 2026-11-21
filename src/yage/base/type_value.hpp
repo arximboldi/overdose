@@ -31,10 +31,8 @@
 
 #include <typeinfo>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 /**
  * A @a typeid wrapper that have value semantics. This class is analogous to
@@ -43,59 +41,50 @@ namespace base
 class type_value
 {
 public:
-    type_value ()
-	: _info (&typeid (void))
-    {};
+    type_value()
+        : _info(&typeid(void)) {};
 
-    type_value (const std::type_info& t)
-	: _info (&t)
-    {}
-
-    bool before (const type_value& t) const
+    type_value(const std::type_info& t)
+        : _info(&t)
     {
-	return _info->before (*t._info);
     }
 
-    const char* name () const
-    {
-	return _info->name ();
-    }
+    bool before(const type_value& t) const { return _info->before(*t._info); }
 
-    const std::type_info& get () const
-    {
-	return *_info;
-    }
+    const char* name() const { return _info->name(); }
+
+    const std::type_info& get() const { return *_info; }
 
 private:
     const std::type_info* _info;
 };
 
-inline bool operator== (const type_value& lhs, const type_value& rhs)
+inline bool operator==(const type_value& lhs, const type_value& rhs)
 {
-    return lhs.get () == rhs.get ();
+    return lhs.get() == rhs.get();
 }
 
-inline bool operator< (const type_value& lhs, const type_value& rhs)
+inline bool operator<(const type_value& lhs, const type_value& rhs)
 {
-    return lhs.before (rhs);
+    return lhs.before(rhs);
 }
 
-inline bool operator!= (const type_value& lhs, const type_value& rhs)
+inline bool operator!=(const type_value& lhs, const type_value& rhs)
 {
-    return ! (lhs == rhs);
+    return !(lhs == rhs);
 }
 
-inline bool operator> (const type_value& lhs, const type_value& rhs)
+inline bool operator>(const type_value& lhs, const type_value& rhs)
 {
     return rhs < lhs;
 }
 
-inline bool operator<= (const type_value& lhs, const type_value& rhs)
+inline bool operator<=(const type_value& lhs, const type_value& rhs)
 {
     return !(lhs > rhs);
 }
 
-inline bool operator>= (const type_value& lhs, const type_value& rhs)
+inline bool operator>=(const type_value& lhs, const type_value& rhs)
 {
     return !(lhs < rhs);
 }

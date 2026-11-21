@@ -29,10 +29,9 @@
 
 #include <yage/base/exception.hpp>
 
-namespace dose
-{
+namespace dose {
 
-YAGE_DECLARE_ERROR (yage::base::error, overdose_error);
+YAGE_DECLARE_ERROR(yage::base::error, overdose_error);
 
 } /* namespace dose */
 

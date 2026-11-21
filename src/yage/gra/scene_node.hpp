@@ -32,109 +32,77 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <yage/base/tree.hpp>
 #include <yage/base/point3.hpp>
 #include <yage/base/point4.hpp>
+#include <yage/base/tree.hpp>
 
 #include <yage/gra/drawable.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-class scene_node : public base::tree_node <scene_node>,
-		   public drawable,
-		   public YAGE_DEFAULT_THREADING <scene_node>
+class scene_node
+    : public base::tree_node<scene_node>
+    , public drawable
+    , public YAGE_DEFAULT_THREADING<scene_node>
 {
 public:
     typedef std::list<drawable_ptr>::iterator drawable_iterator;
 
-    scene_node ();
+    scene_node();
 
-    drawable_iterator drawable_begin ()
-    {
-	return m_drawables.begin ();
-    }
+    drawable_iterator drawable_begin() { return m_drawables.begin(); }
 
-    drawable_iterator drawable_end ()
-    {
-	return m_drawables.end ();
-    }
+    drawable_iterator drawable_end() { return m_drawables.end(); }
 
-    void clear_drawables ()
-    {
-	m_drawables.clear ();
-    }
+    void clear_drawables() { m_drawables.clear(); }
 
     template <typename Iterator>
-    void add_drawable (Iterator b, Iterator e)
+    void add_drawable(Iterator b, Iterator e)
     {
-	m_drawables.insert (m_drawables.end (), b, e);
+        m_drawables.insert(m_drawables.end(), b, e);
     }
 
-    void add_drawable (drawable_ptr d)
+    void add_drawable(drawable_ptr d) { m_drawables.push_back(d); }
+
+    void del_drawable(drawable_ptr d) { m_drawables.remove(d); }
+
+    void set_position(const base::point3f& pos) { m_position = pos; }
+
+    void set_scale(const base::point3f& scale) { m_scale = scale; }
+
+    void set_rotate(const base::point4f& rotate) { m_rotate = rotate; }
+
+    const base::point3f& get_scale() const { return m_scale; }
+
+    const base::point3f& get_position() const { return m_position; }
+
+    base::point3f get_world_position() const
     {
-	m_drawables.push_back (d);
+        return get_parent() ? m_position + get_parent()->get_world_position()
+                            : m_position;
     }
 
-    void del_drawable (drawable_ptr d)
+    float get_sq_distance(const scene_node& nod) const
     {
-	m_drawables.remove(d);
+        return nod.get_parent() == get_parent()
+                   ? (m_position - nod.m_position).sq_length()
+                   : (get_world_position() - nod.get_world_position()).length();
     }
 
-    void set_position (const base::point3f& pos)
+    float get_distance(const scene_node& nod) const
     {
-	m_position = pos;
+        return nod.get_parent() == get_parent()
+                   ? (m_position - nod.m_position).length()
+                   : (get_world_position() - nod.get_world_position()).length();
     }
 
-    void set_scale (const base::point3f& scale)
-    {
-	m_scale = scale;
-    }
-
-    void set_rotate (const base::point4f& rotate)
-    {
-	m_rotate = rotate;
-    }
-
-    const base::point3f& get_scale () const
-    {
-	return m_scale;
-    }
-
-    const base::point3f& get_position () const
-    {
-	return m_position;
-    }
-
-    base::point3f get_world_position () const
-    {
-	return get_parent () ?
-	    m_position + get_parent ()->get_world_position ():
-	    m_position;
-    }
-
-    float get_sq_distance (const scene_node& nod) const
-    {
-	return nod.get_parent () == get_parent () ?
-	    (m_position - nod.m_position).sq_length() :
-	    (get_world_position () - nod.get_world_position ()).length();
-    }
-
-    float get_distance (const scene_node& nod) const
-    {
-	return nod.get_parent () == get_parent () ?
-	    (m_position - nod.m_position).length() :
-	    (get_world_position () - nod.get_world_position ()).length();
-    }
-
-    void draw ();
+    void draw();
 
 private:
     typedef std::list<drawable_ptr> draw_list;
 
-    draw_list     m_drawables;
+    draw_list m_drawables;
     base::point3f m_position;
     base::point3f m_scale;
     base::point4f m_rotate;

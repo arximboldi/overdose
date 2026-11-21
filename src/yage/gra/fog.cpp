@@ -26,40 +26,35 @@
 
 #include "fog.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-fog::fog ()
-    : m_mode (EXP)
-    , m_density (1)
-    , m_start (0)
-    , m_end (1)
-    , m_color (0, 0, 0, 0)
+fog::fog()
+    : m_mode(EXP)
+    , m_density(1)
+    , m_start(0)
+    , m_end(1)
+    , m_color(0, 0, 0, 0)
 {
 }
 
-void fog::enable ()
+void fog::enable()
 {
-    update ();
-    glEnable (GL_FOG);
+    update();
+    glEnable(GL_FOG);
 }
 
-void fog::update ()
+void fog::update()
 {
-    glFogi (GL_FOG_MODE, m_mode);
-    glFogf (GL_FOG_DENSITY, m_density);
-    glFogf (GL_FOG_START, m_start);
-    glFogf (GL_FOG_END, m_end);
-    glFogfv (GL_FOG_COLOR, m_color.ptr ());
-    glHint (GL_FOG_HINT, GL_NICEST);
+    glFogi(GL_FOG_MODE, m_mode);
+    glFogf(GL_FOG_DENSITY, m_density);
+    glFogf(GL_FOG_START, m_start);
+    glFogf(GL_FOG_END, m_end);
+    glFogfv(GL_FOG_COLOR, m_color.ptr());
+    glHint(GL_FOG_HINT, GL_NICEST);
 }
 
-void fog::disable ()
-{
-    glDisable (GL_FOG);
-}
+void fog::disable() { glDisable(GL_FOG); }
 
 } /* namespace gra */
 } /* namespace yage */

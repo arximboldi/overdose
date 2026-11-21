@@ -28,83 +28,79 @@
 
 using namespace yage::base;
 
-namespace yage
+namespace yage {
+namespace geo {
+
+textured_hemisphere::textured_hemisphere(size_t division)
 {
-namespace geo
-{
+    begin(mesh::QUADS);
+    for (size_t i = 0; i < division; ++i) {
+        for (size_t j = 0; j < division; j++) {
+            point3f pn;
 
-textured_hemisphere::textured_hemisphere (size_t division)
-{
-    begin (mesh::QUADS);
-    for (size_t i = 0; i < division; ++i)
-    {
-	for (size_t j = 0; j < division; j++) {
-	    point3f pn;
+            point3f p0(sin(M_PI * (float) j / division) *
+                           cos(M_PI * (float) i / division),
+                       sin(M_PI * (float) j / division) *
+                           sin(M_PI * (float) i / division),
+                       cos(M_PI * (float) j / division));
+            pn = p0.normalize();
+            point2f t0(atan2f(pn.x(), pn.z()) / (M_PI * 2) + 0.5f,
+                       1 - asinf(pn.y()) / M_PI + 0.5f);
 
-	    point3f p0 (sin (M_PI * (float) j / division) *
-			cos (M_PI * (float) i / division),
-			sin (M_PI * (float) j / division) *
-			sin (M_PI * (float) i / division),
-			cos (M_PI * (float) j / division));
-	    pn = p0.normalize ();
-	    point2f t0 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
-			1 - asinf (pn.y ()) / M_PI + 0.5f);
+            point3f p1(sin(M_PI * (float) j / division) *
+                           cos(M_PI * (float) (i + 1) / division),
+                       sin(M_PI * (float) j / division) *
+                           sin(M_PI * (float) (i + 1) / division),
+                       cos(M_PI * (float) j / division));
+            pn = p1.normalize();
+            point2f t1(atan2f(pn.x(), pn.z()) / (M_PI * 2) + 0.5f,
+                       1 - asinf(pn.y()) / M_PI + 0.5f);
 
-	    point3f p1 (sin (M_PI * (float) j / division) *
-			cos (M_PI * (float) (i+1) /division),
-			sin (M_PI * (float) j / division) *
-			sin (M_PI * (float) (i+1) /division),
-			cos (M_PI * (float) j / division));
-	    pn = p1.normalize ();
-	    point2f t1 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
-			1 - asinf (pn.y ()) / M_PI + 0.5f);
+            point3f p2(sin(M_PI * (float) (j + 1) / division) *
+                           cos(M_PI * (float) (i + 1) / division),
+                       sin(M_PI * (float) (j + 1) / division) *
+                           sin(M_PI * (float) (i + 1) / division),
+                       cos(M_PI * (float) (j + 1) / division));
+            pn = p2.normalize();
+            point2f t2(atan2f(pn.x(), pn.z()) / (M_PI * 2) + 0.5f,
+                       1 - asinf(pn.y()) / M_PI + 0.5f);
 
-	    point3f p2 (sin (M_PI * (float) (j+1) / division) *
-			cos (M_PI * (float) (i+1) / division),
-			sin (M_PI * (float) (j+1) / division) *
-			sin (M_PI * (float) (i+1) / division),
-			cos (M_PI * (float) (j+1) / division));
-	    pn = p2.normalize ();
-	    point2f t2 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
-			1 - asinf (pn.y ()) / M_PI + 0.5f);
+            point3f p3(sin(M_PI * (float) (j + 1) / division) *
+                           cos(M_PI * (float) i / division),
+                       sin(M_PI * (float) (j + 1) / division) *
+                           sin(M_PI * (float) i / division),
+                       cos(M_PI * (float) (j + 1) / division));
+            pn = p3.normalize();
+            point2f t3(atan2f(pn.x(), pn.z()) / (M_PI * 2) + 0.5f,
+                       1 - asinf(pn.y()) / M_PI + 0.5f);
 
+#define FIX_TEX(t0, t1)                                                        \
+    if (t0[0] - t1[0] > 0.8)                                                   \
+        t1[0] += 1.0f;                                                         \
+    else if (t1[0] - t0[0] > 0.8)                                              \
+        t0[0] += 1.0f;                                                         \
+    if (t0[1] - t1[1] > 0.8)                                                   \
+        t1[1] += 1.0f;                                                         \
+    else if (t1[1] - t0[1] > 0.8)                                              \
+        t0[1] += 1.0f;
 
-	    point3f p3 (sin (M_PI * (float) (j+1) / division) *
-			cos (M_PI * (float) i / division),
-			sin (M_PI * (float) (j+1) / division) *
-			sin (M_PI * (float) i / division),
-			cos (M_PI * (float) (j+1) / division));
-	    pn = p3.normalize ();
-	    point2f t3 (atan2f (pn.x (), pn.z ()) / (M_PI * 2) + 0.5f,
-			1 - asinf (pn.y ()) / M_PI + 0.5f);
-
-#define FIX_TEX(t0, t1)				\
-	    if (t0[0] - t1[0] > 0.8)		\
-		t1[0] += 1.0f;			\
-	    else if (t1[0] - t0[0] > 0.8)	\
-		t0[0] += 1.0f;			\
-	    if (t0[1] - t1[1] > 0.8)		\
-		t1[1] += 1.0f;			\
-	    else if (t1[1] - t0[1] > 0.8)	\
-		t0[1] += 1.0f;
-
-	    FIX_TEX(t0, t1);
-	    FIX_TEX(t1, t2);
-	    FIX_TEX(t2, t3);
+            FIX_TEX(t0, t1);
+            FIX_TEX(t1, t2);
+            FIX_TEX(t2, t3);
 
 #undef FIX_TEX
 
-	    tex_coord (t0);
-	    point (p0);
-	    tex_coord (t1);
-	    point (p1);
-	    tex_coord (t2);
-	    point (p2);
-	    tex_coord (t3);
-	    point (p3);
-	}
+            tex_coord(t0);
+            point(p0);
+            tex_coord(t1);
+            point(p1);
+            tex_coord(t2);
+            point(p2);
+            tex_coord(t3);
+            point(p3);
+        }
     }
-    end ();
+    end();
 }
 
 } /* namespace geo */

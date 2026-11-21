@@ -38,10 +38,8 @@
 #ifndef YAGE_GEOMETRY_H_
 #define YAGE_GEOMETRY_H_
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class material;
 class texture;
@@ -49,9 +47,9 @@ class texture;
 class geometry : public drawable
 {
 public:
-    virtual void draw_raw () = 0;
-    virtual void set_material (boost::shared_ptr<material>) = 0;
-    virtual void set_texture (boost::shared_ptr<texture>) = 0;
+    virtual void draw_raw()                                = 0;
+    virtual void set_material(boost::shared_ptr<material>) = 0;
+    virtual void set_texture(boost::shared_ptr<texture>)   = 0;
 };
 
 typedef boost::shared_ptr<geometry> geometry_ptr;

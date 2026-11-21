@@ -34,93 +34,62 @@
 #include <yage/gra/animation.hpp>
 #include <yage/gra/function_animation.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-class animation_task : public core::task
-		     , public animation
+class animation_task
+    : public core::task
+    , public animation
 {
 public:
     static constexpr float DEFAULT_SPEED = 1;
 
-    animation_task (boost::shared_ptr<animation> anim,
-		    float speed = DEFAULT_SPEED,
-		    bool loop = false);
+    animation_task(boost::shared_ptr<animation> anim,
+                   float speed = DEFAULT_SPEED,
+                   bool loop   = false);
 
-    void update (int delta);
+    void update(int delta);
 
-    void seek (float pos)
-    {
-	m_pos = base::clamp (pos, 0.0f, 1.0f);
-    }
+    void seek(float pos) { m_pos = base::clamp(pos, 0.0f, 1.0f); }
 
-    void set_speed (float speed)
-    {
-	m_speed = speed;
-    }
+    void set_speed(float speed) { m_speed = speed; }
 
-    float get_speed () const
-    {
-	return m_speed;
-    }
+    float get_speed() const { return m_speed; }
 
-    void set_animation (animation_ptr anim)
-    {
-	m_anim = anim;
-    }
+    void set_animation(animation_ptr anim) { m_anim = anim; }
 
-    animation_ptr get_animation ()
-    {
-	return m_anim;
-    }
+    animation_ptr get_animation() { return m_anim; }
 
-    void animate (float position)
-    {
-	m_pos = position;
-    }
+    void animate(float position) { m_pos = position; }
 
-    void set_loop (bool loop)
-    {
-	m_loop = loop;
-    }
+    void set_loop(bool loop) { m_loop = loop; }
 
-    bool get_loop () const
-    {
-	return m_loop;
-    }
+    bool get_loop() const { return m_loop; }
 
-    float get_duration ()
-    {
-	return m_anim->get_duration () * m_speed;
-    }
+    float get_duration() { return m_anim->get_duration() * m_speed; }
 
-    void set_length (float len)
-    {
-	m_len = len;
-    }
+    void set_length(float len) { m_len = len; }
 
 private:
     animation_ptr m_anim;
     float m_len;
     float m_pos;
     float m_speed;
-    bool  m_loop;
+    bool m_loop;
 };
 
 typedef boost::shared_ptr<animation_task> animation_task_ptr;
 
-template<typename T>
+template <typename T>
 animation_task_ptr
-create_function_task (typename function_animation<T>::function_type func,
-		      float duration = 1.0f,
-		      bool loop = false)
+create_function_task(typename function_animation<T>::function_type func,
+                     float duration = 1.0f,
+                     bool loop      = false)
 {
-    animation_task_ptr ret (
-	new animation_task (create_function_animation<T> (func, duration),
-			    animation_task::DEFAULT_SPEED,
-			    loop));
+    animation_task_ptr ret(
+        new animation_task(create_function_animation<T>(func, duration),
+                           animation_task::DEFAULT_SPEED,
+                           loop));
     return ret;
 }
 

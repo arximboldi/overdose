@@ -29,18 +29,16 @@
 
 #include <yage/base/observer.hpp>
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
 class entity;
 
 class entity_listener : public yage::base::listener_base
 {
 public:
-    virtual void handle_entity_move (entity& p) = 0;
-    virtual void handle_entity_rotate (entity& p) = 0;
+    virtual void handle_entity_move(entity& p)   = 0;
+    virtual void handle_entity_rotate(entity& p) = 0;
 };
 
 class entity_subject : public yage::base::subject_base<entity_listener>
@@ -51,8 +49,8 @@ public:
     signal_type on_entity_move;
     signal_type on_entity_rotate;
 
-    void add_listener (entity_listener& l);
-    void del_listener (entity_listener& l);
+    void add_listener(entity_listener& l);
+    void del_listener(entity_listener& l);
 };
 
 } /* namespace game */

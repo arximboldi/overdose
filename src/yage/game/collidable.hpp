@@ -27,27 +27,27 @@
 #ifndef YAGE_COLLIDABLE_H_
 #define YAGE_COLLIDABLE_H_
 
-#include <yage/base/point3.hpp>
-#include <yage/base/exception.hpp>
 #include <boost/variant.hpp>
+#include <yage/base/exception.hpp>
+#include <yage/base/point3.hpp>
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
-YAGE_DECLARE_ERROR (base::yage_error, collision_error);
+YAGE_DECLARE_ERROR(base::yage_error, collision_error);
 
 struct aabb
 {
     base::point3f min;
     base::point3f max;
 
-    aabb () {}
+    aabb() {}
 
-    aabb (const base::point3f& min_, const base::point3f& max_)
-	: min (min_), max (max_)
-    {}
+    aabb(const base::point3f& min_, const base::point3f& max_)
+        : min(min_)
+        , max(max_)
+    {
+    }
 };
 
 struct capsule
@@ -55,29 +55,26 @@ struct capsule
 {
     base::point3f p1;
     base::point3f p2;
-    float         rad;
+    float rad;
 };
 
 struct sphere
 {
     base::point3f center;
-    float         rad;
+    float rad;
 
-    sphere () {}
+    sphere() {}
 
-    sphere (const base::point3f& center_, float rad_)
-	: center (center_), rad (rad_)
-    {}
+    sphere(const base::point3f& center_, float rad_)
+        : center(center_)
+        , rad(rad_)
+    {
+    }
 };
 
-typedef boost::variant <
-    capsule,
-    sphere,
-    aabb>
-collidable;
+typedef boost::variant<capsule, sphere, aabb> collidable;
 
-void translate_collidable (collidable& col,
-			   const base::point3f& pos);
+void translate_collidable(collidable& col, const base::point3f& pos);
 
 } /* namespace game */
 } /* namespace yage */

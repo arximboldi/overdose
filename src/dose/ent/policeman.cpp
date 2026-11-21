@@ -29,107 +29,92 @@
 #include <yage/game/entity_manager.hpp>
 
 #include "dose/st/level.hpp"
-#include "policeman.hpp"
 #include "player.hpp"
+#include "policeman.hpp"
 
 using namespace yage;
 using namespace yage::base;
 using namespace boost;
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
-policeman::policeman (float walk_speed,
-		      float rotate_speed)
-    : pedestrian ("swat.md2", "swat.png", true, walk_speed, rotate_speed)
-    , m_old_action (0)
+policeman::policeman(float walk_speed, float rotate_speed)
+    : pedestrian("swat.md2", "swat.png", true, walk_speed, rotate_speed)
+    , m_old_action(0)
 {
-    states ().add_state ("follow", bind (&policeman::follow_state, this, _1));
+    states().add_state("follow", bind(&policeman::follow_state, this, _1));
 }
 
-void policeman::handle_collision (yage::game::entity& other,
-				  yage::game::collidable& box,
-				  yage::game::dynamic_collision& col)
+void policeman::handle_collision(yage::game::entity& other,
+                                 yage::game::collidable& box,
+                                 yage::game::dynamic_collision& col)
 {
     try {
-	player& p = dynamic_cast<player&> (other);
-	if (!p.get_hud ().empty ())
-	    person::handle_collision (other, box, col);
-	else
-	    pedestrian::handle_collision (other, box, col);
-	p.handle_police ();
+        player& p = dynamic_cast<player&>(other);
+        if (!p.get_hud().empty())
+            person::handle_collision(other, box, col);
+        else
+            pedestrian::handle_collision(other, box, col);
+        p.handle_police();
     } catch (std::bad_cast&) {
-	pedestrian::handle_collision (other, box, col);
+        pedestrian::handle_collision(other, box, col);
     }
 }
 
-void policeman::update (int delta)
+void policeman::update(int delta)
 {
-    pedestrian::update (delta);
+    pedestrian::update(delta);
 
-    if (states ().current () != "follow")
-    {
-	if (!get_level ()->get_player ()->is_dead () &&
-	    player_has_drugs () &&
-	    player_in_distance () &&
-	    player_in_fov () &&
-	    player_in_line ())
-	{
-	    m_old_action = get_action ();
-	    set_action (RUN_FW);
-	    states ().push_state ("follow");
-	}
+    if (states().current() != "follow") {
+        if (!get_level()->get_player()->is_dead() && player_has_drugs() &&
+            player_in_distance() && player_in_fov() && player_in_line()) {
+            m_old_action = get_action();
+            set_action(RUN_FW);
+            states().push_state("follow");
+        }
     }
 }
 
-void policeman::follow_state (int delta)
+void policeman::follow_state(int delta)
 {
-    if (get_level ()->get_player ()->is_dead () ||
-	!player_has_drugs () ||
-	!player_in_distance () ||
-	!player_in_fov () ||
-	!player_in_line ())
-    {
-	states ().pop_state ();
-	set_action (m_old_action);
-    }
-    else
-	set_look_angle (angle_to_player ());
+    if (get_level()->get_player()->is_dead() || !player_has_drugs() ||
+        !player_in_distance() || !player_in_fov() || !player_in_line()) {
+        states().pop_state();
+        set_action(m_old_action);
+    } else
+        set_look_angle(angle_to_player());
 }
 
-bool policeman::player_in_fov ()
+bool policeman::player_in_fov()
 {
     const float fov = M_PI / 2.0f;
 
-    float a = base::normalize_angle (get_look_angle ());
-    float pa = angle_to_player ();
+    float a  = base::normalize_angle(get_look_angle());
+    float pa = angle_to_player();
 
-    return
-	std::abs (a - pa) < fov ||
-	std::abs (a - pa) > 2*M_PI - fov;
+    return std::abs(a - pa) < fov || std::abs(a - pa) > 2 * M_PI - fov;
 }
 
-bool policeman::player_in_line ()
+bool policeman::player_in_line()
 {
-    game::sphere colbox (get_node ().get_world_position (), 10);
+    game::sphere colbox(get_node().get_world_position(), 10);
     game::collidable camcol = colbox;
-    point3f line =
-	get_level ()->get_player ()->get_node ().get_world_position () - colbox.center;
-    return
-	! get_level ()->entities ()->find_dynamic_static_collisions (colbox, line);
+    point3f line = get_level()->get_player()->get_node().get_world_position() -
+                   colbox.center;
+    return !get_level()->entities()->find_dynamic_static_collisions(colbox,
+                                                                    line);
 }
 
-bool policeman::player_has_drugs ()
+bool policeman::player_has_drugs()
 {
-    return ! get_level ()->get_player ()->get_hud ().empty ();
+    return !get_level()->get_player()->get_hud().empty();
 }
 
-bool policeman::player_in_distance ()
+bool policeman::player_in_distance()
 {
     const float SQ_DISTANCE = 1000 * 1000;
-    return sq_distance_to_player () < SQ_DISTANCE;
+    return sq_distance_to_player() < SQ_DISTANCE;
 }
 
 } /* namespace ent */

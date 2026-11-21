@@ -30,10 +30,8 @@
 #include <dose/ent/person.hpp>
 #include <dose/ent/player_hud.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class dealer;
 
@@ -42,43 +40,31 @@ class player : public person
 public:
     typedef boost::shared_ptr<dealer> dealer_ptr;
 
-    player (const std::string& model,
-	    const std::string& texture,
-	    bool inverse_normals = false,
-	    float walk_speed = DEFAULT_WALK_SPEED,
-	    float rotate_speed = DEFAULT_ROTATE_SPEED);
+    player(const std::string& model,
+           const std::string& texture,
+           bool inverse_normals = false,
+           float walk_speed     = DEFAULT_WALK_SPEED,
+           float rotate_speed   = DEFAULT_ROTATE_SPEED);
 
-    void update (int delta);
+    void update(int delta);
 
-    player_hud& get_hud ()
-    {
-	return m_hud;
-    }
+    player_hud& get_hud() { return m_hud; }
 
-    void buy_some_shit ()
-    {
-	m_buy_shit = true;
-    }
+    void buy_some_shit() { m_buy_shit = true; }
 
-    void set_god (bool god)
-    {
-	m_god = god;
-    }
+    void set_god(bool god) { m_god = god; }
 
-    bool is_dead ()
-    {
-	return m_dead;
-    }
+    bool is_dead() { return m_dead; }
 
-    void kill ();
+    void kill();
 
-    void take_some_shit ();
-    void start_adrenaline ();
-    void finish_adrenaline ();
-    void handle_police ();
+    void take_some_shit();
+    void start_adrenaline();
+    void finish_adrenaline();
+    void handle_police();
 
 private:
-    void manage_dealer (dealer_ptr p);
+    void manage_dealer(dealer_ptr p);
 
     bool m_dead;
     bool m_god;

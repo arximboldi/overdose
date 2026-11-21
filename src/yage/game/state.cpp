@@ -24,40 +24,32 @@
  *
  */
 
-#include "yage/gra/scene.hpp"
 #include "state.hpp"
 #include "state_manager.hpp"
+#include "yage/gra/scene.hpp"
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
-state::state ()
-    : m_tasks (new core::task_manager)
-    , m_scene (new gra::scene)
+state::state()
+    : m_tasks(new core::task_manager)
+    , m_scene(new gra::scene)
 {
 }
 
-void state::update (int delta)
+void state::update(int delta) { m_tasks->update(delta); }
+
+void state::change_state(const std::string& name)
 {
-    m_tasks->update (delta);
+    get_state_parent()->change_state(name);
 }
 
-void state::change_state (const std::string& name)
+void state::enter_state(const std::string& name)
 {
-    get_state_parent ()->change_state (name);
+    get_state_parent()->enter_state(name);
 }
 
-void state::enter_state (const std::string& name)
-{
-    get_state_parent ()->enter_state (name);
-}
-
-void state::leave_state ()
-{
-    get_state_parent ()->leave_state ();
-}
+void state::leave_state() { get_state_parent()->leave_state(); }
 
 } /* namespace game */
 } /* namespace yage */

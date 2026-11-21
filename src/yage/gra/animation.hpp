@@ -29,19 +29,17 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class animation
 {
 public:
-    virtual ~animation () {}
+    virtual ~animation() {}
 
-    virtual void animate (float percent) = 0;
-    virtual float get_duration () = 0;
-    virtual float get_loop_offset () { return 1.0f; }
+    virtual void animate(float percent) = 0;
+    virtual float get_duration()        = 0;
+    virtual float get_loop_offset() { return 1.0f; }
 };
 
 typedef boost::shared_ptr<animation> animation_ptr;

@@ -25,101 +25,92 @@
  */
 
 #include <yage/core/system.hpp>
-#include <yage/gra/text.hpp>
 #include <yage/geo/textured_plane_2d.hpp>
+#include <yage/gra/text.hpp>
 
-#include "dose/st/level.hpp"
 #include "dope.hpp"
 #include "dope_effect.hpp"
+#include "dose/st/level.hpp"
 
 using namespace yage;
 using namespace yage::base;
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
-dope_effect::dope_effect (dope_ptr p)
-    : m_dope (p)
+dope_effect::dope_effect(dope_ptr p)
+    : m_dope(p)
 {
-    core::graphic_system& graphic = core::system::self ().graphic ();
+    core::graphic_system& graphic = core::system::self().graphic();
 
     /* Nombre de la droga */
     {
-	gra::scene_node& n = m_node.get_path ("bar.text");
+        gra::scene_node& n = m_node.get_path("bar.text");
 
-	gra::text_ptr t (new gra::text (graphic.fonts ().find ("DejaVuSans.ttf", 14),
-					p->get_name (),
-					point3f (1, 1, 1)));
-	n.add_drawable (t);
-	n.set_position (point3f (5, 2, 0));
+        gra::text_ptr t(
+            new gra::text(graphic.fonts().find("DejaVuSans.ttf", 14),
+                          p->get_name(),
+                          point3f(1, 1, 1)));
+        n.add_drawable(t);
+        n.set_position(point3f(5, 2, 0));
     }
 
     /* Barra de progreso */
     {
-	gra::scene_node& n = m_node.get_path ("bar.progress");
-	{
-	    gra::texture_ptr t = graphic.textures ().find ("effect-bg.png");
-	    t->set_blending (true);
-	    n.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (t)));
+        gra::scene_node& n = m_node.get_path("bar.progress");
+        {
+            gra::texture_ptr t = graphic.textures().find("effect-bg.png");
+            t->set_blending(true);
+            n.add_drawable(gra::drawable_ptr(new geo::textured_plane_2d(t)));
 
-
-	    /* Centred on the node, which player_hud places. */
-	    m_node.get_child ("bar").set_position (
-		point3f (-(t->get_width () / 2.0f), 0, 0));
-	}
-	gra::scene_node& ni = n.get_child ("level");
-	{
-	    gra::texture_ptr t = graphic.textures ().find ("effect.png");
-	    t->set_blending (true);
-	    ni.add_drawable (gra::drawable_ptr (new geo::textured_plane_2d (t)));
-	    ni.set_position (point3f (1, 1, 0.5));
-	}
-    }
-
-}
-
-dope_effect::~dope_effect ()
-{
-    if (m_node.get_parent ())
-	m_node.get_parent ()->detach (m_node.get_name ());
-}
-
-void dope_effect::take ()
-{
-    m_dope->take ();
-    m_dope->get_level ()->get_tasks ().add (shared_from_this ());
-}
-
-void dope_effect::accumulate (dope_ptr d)
-{
-    m_dope->accumulate (d);
-}
-
-void dope_effect::update (int delta)
-{
-    m_node.get_path ("bar.progress.level").set_scale (
-	base::point3f (std::min (1.0f, m_dope->get_progress ()), 1, 1));
-
-    m_dope->update (delta);
-    if (m_dope->get_progress () <= 0) {
-	m_dope->handle_finish ();
-	finish ();
+            /* Centred on the node, which player_hud places. */
+            m_node.get_child("bar").set_position(
+                point3f(-(t->get_width() / 2.0f), 0, 0));
+        }
+        gra::scene_node& ni = n.get_child("level");
+        {
+            gra::texture_ptr t = graphic.textures().find("effect.png");
+            t->set_blending(true);
+            ni.add_drawable(gra::drawable_ptr(new geo::textured_plane_2d(t)));
+            ni.set_position(point3f(1, 1, 0.5));
+        }
     }
 }
 
-void dope_effect::force_finish ()
+dope_effect::~dope_effect()
 {
-    m_dope->set_progress (0);
-    m_dope->handle_finish ();
-    finish ();
+    if (m_node.get_parent())
+        m_node.get_parent()->detach(m_node.get_name());
 }
 
-const std::string& dope_effect::get_name () const
+void dope_effect::take()
 {
-    return m_dope->get_name ();
+    m_dope->take();
+    m_dope->get_level()->get_tasks().add(shared_from_this());
 }
+
+void dope_effect::accumulate(dope_ptr d) { m_dope->accumulate(d); }
+
+void dope_effect::update(int delta)
+{
+    m_node.get_path("bar.progress.level")
+        .set_scale(base::point3f(std::min(1.0f, m_dope->get_progress()), 1, 1));
+
+    m_dope->update(delta);
+    if (m_dope->get_progress() <= 0) {
+        m_dope->handle_finish();
+        finish();
+    }
+}
+
+void dope_effect::force_finish()
+{
+    m_dope->set_progress(0);
+    m_dope->handle_finish();
+    finish();
+}
+
+const std::string& dope_effect::get_name() const { return m_dope->get_name(); }
 
 } /* namespace drug */
 } /* namespace dose */

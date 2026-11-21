@@ -31,18 +31,17 @@
 #include <yage/base/factory_manager.hpp>
 #include <yage/base/singleton.hpp>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
 class dope;
 
-class dope_factory_impl : yage::base::factory_manager<std::string, dope, boost::shared_ptr<dope> >
+class dope_factory_impl
+    : yage::base::factory_manager<std::string, dope, boost::shared_ptr<dope>>
 {
 public:
-    dope_factory_impl ();
-    ptr_type create_random ();
+    dope_factory_impl();
+    ptr_type create_random();
 };
 
 typedef yage::base::singleton_holder<dope_factory_impl> dope_factory;

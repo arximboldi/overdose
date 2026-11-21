@@ -28,127 +28,126 @@
 
 #include <yage/gra/animation_task.hpp>
 
-#include "dose/st/level.hpp"
-#include "dose/ent/player.hpp"
 #include "cocaine.hpp"
+#include "dose/ent/player.hpp"
+#include "dose/st/level.hpp"
 
 using namespace yage;
 using namespace boost;
 
-namespace dose
-{
+namespace dose {
 namespace drug
 
 {
 
-const float FX_WALK_SPEED = 0.4f;
+const float FX_WALK_SPEED   = 0.4f;
 const float FX_ROTATE_SPEED = 0.006f;
-const float FX_DURATION = 2000.0f;
+const float FX_DURATION     = 2000.0f;
 
-cocaine::cocaine ()
-    : dope ("cocaine", "cocaine.png", 0, 1, 2)
+cocaine::cocaine()
+    : dope("cocaine", "cocaine.png", 0, 1, 2)
 {
 }
 
-void cocaine::take ()
+void cocaine::take()
 {
     /* Alteramos los controles */
-    get_level ()->get_player_controller ().randomize_keys ();
+    get_level()->get_player_controller().randomize_keys();
 
-    ent::player_ptr player = get_level ()->get_player ();
+    ent::player_ptr player = get_level()->get_player();
 
     /* Alteramos la velocidad al andar */
     {
-	m_orig_walk_speed = player->get_walk_speed ();
+        m_orig_walk_speed = player->get_walk_speed();
 
-	float min = m_orig_walk_speed;
-	float max = FX_WALK_SPEED;
+        float min = m_orig_walk_speed;
+        float max = FX_WALK_SPEED;
 
-	get_level ()->get_tasks ().add (
-	    gra::create_function_task<float> (
-		bind (&ent::player::set_walk_speed, player,
-		      bind (gra::linear_function<float,float>, min, max, _1)),
-		FX_DURATION));
+        get_level()->get_tasks().add(gra::create_function_task<float>(
+            bind(&ent::player::set_walk_speed,
+                 player,
+                 bind(gra::linear_function<float, float>, min, max, _1)),
+            FX_DURATION));
     }
 
     /* Alteramos la velocidad al rotar */
     {
-	m_orig_rotate_speed = player->get_rotate_speed ();
+        m_orig_rotate_speed = player->get_rotate_speed();
 
-	float min = m_orig_rotate_speed;
-	float max = FX_ROTATE_SPEED;
+        float min = m_orig_rotate_speed;
+        float max = FX_ROTATE_SPEED;
 
-	get_level ()->get_tasks ().add (
-	    gra::create_function_task<float> (
-		bind (&ent::player::set_rotate_speed, player,
-		      bind (gra::linear_function<float,float>, min, max, _1)),
-		FX_DURATION));
+        get_level()->get_tasks().add(gra::create_function_task<float>(
+            bind(&ent::player::set_rotate_speed,
+                 player,
+                 bind(gra::linear_function<float, float>, min, max, _1)),
+            FX_DURATION));
     }
 }
 
-void cocaine::accumulate (dope_ptr d)
+void cocaine::accumulate(dope_ptr d)
 {
-    set_progress (get_progress () + 0.7);
+    set_progress(get_progress() + 0.7);
 
     /* Alteramos las teclas */
-    get_level ()->get_player_controller ().randomize_keys ();
+    get_level()->get_player_controller().randomize_keys();
 
-    ent::player_ptr player = get_level ()->get_player ();
+    ent::player_ptr player = get_level()->get_player();
 
     /* Alteramos la velocidad al caminar */
     {
-	float min = player->get_walk_speed ();
-	float max = min + (min - m_orig_walk_speed) / 2;
+        float min = player->get_walk_speed();
+        float max = min + (min - m_orig_walk_speed) / 2;
 
-	get_level ()->get_tasks ().add (
-	    gra::create_function_task<float> (
-		bind (&ent::player::set_walk_speed, player,
-		      bind (gra::linear_function<float,float>, min, max, _1)),
-		FX_DURATION));
+        get_level()->get_tasks().add(gra::create_function_task<float>(
+            bind(&ent::player::set_walk_speed,
+                 player,
+                 bind(gra::linear_function<float, float>, min, max, _1)),
+            FX_DURATION));
     }
 
     /* Alteramos la velocidad al rotar */
     {
-	float min = player->get_rotate_speed ();
-	float max = min + (min - m_orig_rotate_speed) / 2;
+        float min = player->get_rotate_speed();
+        float max = min + (min - m_orig_rotate_speed) / 2;
 
-	get_level ()->get_tasks ().add (
-	    gra::create_function_task<float> (
-		bind (&ent::player::set_rotate_speed, player,
-		      bind (gra::linear_function<float,float>, min, max, _1)),
-		FX_DURATION));
+        get_level()->get_tasks().add(gra::create_function_task<float>(
+            bind(&ent::player::set_rotate_speed,
+                 player,
+                 bind(gra::linear_function<float, float>, min, max, _1)),
+            FX_DURATION));
     }
 }
 
-void cocaine::handle_finish ()
+void cocaine::handle_finish()
 {
     /* Reestablecemos las teclas */
-    get_level ()->get_player_controller ().restore_keys ();
+    get_level()->get_player_controller().restore_keys();
 
-    ent::player_ptr player = get_level ()->get_player ();
+    ent::player_ptr player = get_level()->get_player();
 
     /* Restauramos la velocidad al caminar */
     {
-	float min = player->get_walk_speed ();
-	float max = ent::player::DEFAULT_WALK_SPEED;
+        float min = player->get_walk_speed();
+        float max = ent::player::DEFAULT_WALK_SPEED;
 
-	get_level ()->get_tasks ().add (
-	    gra::create_function_task<float> (
-		bind (&ent::player::set_walk_speed, player,
-		      bind (gra::linear_function<float,float>, min, max, _1)),
-		FX_DURATION));
+        get_level()->get_tasks().add(gra::create_function_task<float>(
+            bind(&ent::player::set_walk_speed,
+                 player,
+                 bind(gra::linear_function<float, float>, min, max, _1)),
+            FX_DURATION));
     }
 
     /* Restauramos la velocidad al rotar */
     {
-	float min = player->get_rotate_speed ();
-	float max = ent::player::DEFAULT_ROTATE_SPEED;
+        float min = player->get_rotate_speed();
+        float max = ent::player::DEFAULT_ROTATE_SPEED;
 
-	get_level ()->get_tasks ().add (
-	    gra::create_function_task<float> (
-		bind (&ent::player::set_rotate_speed, player,
-		      bind (gra::linear_function<float,float>, min, max, _1)),
-		FX_DURATION));
+        get_level()->get_tasks().add(gra::create_function_task<float>(
+            bind(&ent::player::set_rotate_speed,
+                 player,
+                 bind(gra::linear_function<float, float>, min, max, _1)),
+            FX_DURATION));
     }
 }
 

@@ -29,30 +29,24 @@
 
 #include <yage/gra/drawable.hpp>
 
-namespace yage
-{
+namespace yage {
 
-namespace gra
-{
+namespace gra {
 class texture;
 }
 
-namespace geo
-{
+namespace geo {
 
 class textured_plane_2d : public gra::drawable
 {
 public:
     typedef boost::shared_ptr<gra::texture> texture_ptr;
 
-    textured_plane_2d (texture_ptr ptr = texture_ptr ());
+    textured_plane_2d(texture_ptr ptr = texture_ptr());
 
-    void draw ();
+    void draw();
 
-    void set_texture (texture_ptr ptr)
-    {
-	m_tex = ptr;
-    }
+    void set_texture(texture_ptr ptr) { m_tex = ptr; }
 
 private:
     texture_ptr m_tex;

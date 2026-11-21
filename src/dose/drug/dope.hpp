@@ -31,13 +31,13 @@
 #include <boost/weak_ptr.hpp>
 #include <yage/gra/texture.hpp>
 
-namespace dose
-{
+namespace dose {
 
-namespace st { class level; }
+namespace st {
+class level;
+}
 
-namespace drug
-{
+namespace drug {
 
 class dope
 {
@@ -47,66 +47,39 @@ public:
     typedef boost::shared_ptr<st::level> level_ptr;
     typedef boost::shared_ptr<dope> dope_ptr;
 
-    dope (const std::string& name,
-	  const std::string& tex,
-	  float psychodelia,
-	  float ecstasy,
-	  float euphoria,
-	  float progress = 1.0f,
-	  float speed = DEFAULT_DOPE_SPEED);
+    dope(const std::string& name,
+         const std::string& tex,
+         float psychodelia,
+         float ecstasy,
+         float euphoria,
+         float progress = 1.0f,
+         float speed    = DEFAULT_DOPE_SPEED);
 
-    virtual ~dope () {}
+    virtual ~dope() {}
 
-    virtual void take () = 0;
-    virtual void accumulate (dope_ptr d) = 0;
-    virtual void handle_finish () = 0;
+    virtual void take()                 = 0;
+    virtual void accumulate(dope_ptr d) = 0;
+    virtual void handle_finish()        = 0;
 
-    void update (int delta);
+    void update(int delta);
 
-    float get_progress () const
-    {
-	return m_progress;
-    }
+    float get_progress() const { return m_progress; }
 
-    void set_progress (float progress)
-    {
-	m_progress = progress;
-    }
+    void set_progress(float progress) { m_progress = progress; }
 
-    const std::string& get_name () const
-    {
-	return m_name;
-    }
+    const std::string& get_name() const { return m_name; }
 
-    yage::gra::texture_ptr get_texture ()
-    {
-	return m_texture;
-    }
+    yage::gra::texture_ptr get_texture() { return m_texture; }
 
-    float get_psychodelia () const
-    {
-	return m_psychodelia;
-    }
+    float get_psychodelia() const { return m_psychodelia; }
 
-    float get_ecstasy () const
-    {
-	return m_ecstasy;
-    }
+    float get_ecstasy() const { return m_ecstasy; }
 
-    float get_euphoria () const
-    {
-	return m_euphoria;
-    }
+    float get_euphoria() const { return m_euphoria; }
 
-    level_ptr get_level ()
-    {
-	return level_ptr (m_level);
-    }
+    level_ptr get_level() { return level_ptr(m_level); }
 
-    void set_level (boost::weak_ptr<st::level> level)
-    {
-	m_level = level;
-    }
+    void set_level(boost::weak_ptr<st::level> level) { m_level = level; }
 
 private:
     boost::weak_ptr<st::level> m_level;

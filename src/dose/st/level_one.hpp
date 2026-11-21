@@ -27,27 +27,25 @@
 #ifndef DOSE_LEVEL_ONE_H_
 #define DOSE_LEVEL_ONE_H_
 
-#include <yage/game/collidable.hpp>
 #include <dose/st/level.hpp>
+#include <yage/game/collidable.hpp>
 
-namespace dose
-{
-namespace st
-{
+namespace dose {
+namespace st {
 
 class level_one : public level
 {
 public:
-    level_one ();
+    level_one();
 
-    void init ();
-    std::string loading ();
+    void init();
+    std::string loading();
 
 private:
-    void setup_floor ();
-    void setup_buildings ();
-    void setup_lights ();
-    void setup_people ();
+    void setup_floor();
+    void setup_buildings();
+    void setup_lights();
+    void setup_people();
 };
 
 } /* namespace st */

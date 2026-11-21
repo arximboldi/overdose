@@ -27,31 +27,29 @@
 #ifndef YAGE_RESOURCE_MANAGER_H_
 #define YAGE_RESOURCE_MANAGER_H_
 
-#include <map>
 #include <boost/shared_ptr.hpp>
+#include <map>
 
 #include <yage/base/exception.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-YAGE_DECLARE_ERROR (base::yage_error, resource_manager_error);
+YAGE_DECLARE_ERROR(base::yage_error, resource_manager_error);
 
-template<class Key, class Resource>
+template <class Key, class Resource>
 class resource_manager
 {
 public:
     typedef boost::shared_ptr<Resource> resource_ptr;
 
-    resource_ptr find (const Key& name);
-    void add (const Key& name, resource_ptr res);
-    void del (const Key& name);
-    void clear ();
+    resource_ptr find(const Key& name);
+    void add(const Key& name, resource_ptr res);
+    void del(const Key& name);
+    void clear();
 
 protected:
-    virtual resource_ptr handle_not_found (const Key& name);
+    virtual resource_ptr handle_not_found(const Key& name);
 
 private:
     typedef std::map<Key, resource_ptr> resource_map;

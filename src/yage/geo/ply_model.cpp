@@ -24,41 +24,35 @@
  *
  */
 
-#include <lib/file_ply_stl.h>
 #include "ply_model.hpp"
+#include <lib/file_ply_stl.h>
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-YAGE_DEFINE_ERROR_WHERE (ply_model_error, "ply");
+YAGE_DEFINE_ERROR_WHERE(ply_model_error, "ply");
 
-ply_model::ply_model (const std::string& fname)
+ply_model::ply_model(const std::string& fname)
 {
     vector<float> vert;
     vector<int> fac;
 
     _file_ply file1;
 
-    if (file1.open (fname.c_str ()) ||
-	file1.read (vert, fac))
-    {
-	file1.close ();
-	throw ply_model_error (std::string ("Error while loading: ") + fname);
+    if (file1.open(fname.c_str()) || file1.read(vert, fac)) {
+        file1.close();
+        throw ply_model_error(std::string("Error while loading: ") + fname);
     }
-    file1.close ();
+    file1.close();
 
-    begin (mesh::TRIANGLES);
-    for (size_t i = 0; i < fac.size(); i++)
-    {
-	point (point3f (vert[fac[i]*3],
-			vert[fac[i]*3+1],
-			vert[fac[i]*3+2]));
+    begin(mesh::TRIANGLES);
+    for (size_t i = 0; i < fac.size(); i++) {
+        point(point3f(
+            vert[fac[i] * 3], vert[fac[i] * 3 + 1], vert[fac[i] * 3 + 2]));
     }
-    end ();
+    end();
 }
 
 } /* namespace geo */

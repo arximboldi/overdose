@@ -29,19 +29,17 @@
 
 #include <dose/drug/dope.hpp>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
 class adrenaline : public dope
 {
 public:
-    adrenaline ();
+    adrenaline();
 
-    void take ();
-    void accumulate (dope_ptr p);
-    void handle_finish ();
+    void take();
+    void accumulate(dope_ptr p);
+    void handle_finish();
 };
 
 } /* namespace drug */

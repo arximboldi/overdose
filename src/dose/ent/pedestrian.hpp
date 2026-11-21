@@ -27,40 +27,35 @@
 #ifndef DOSE_PEDESTRIAN_H_
 #define DOSE_PEDESTRIAN_H_
 
-#include <yage/core/state_task.hpp>
 #include <dose/ent/person.hpp>
+#include <yage/core/state_task.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class pedestrian : public person
 {
 public:
-    pedestrian (const std::string& model,
-		const std::string& texture,
-		bool inverse_normals = false,
-		float walk_speed = DEFAULT_WALK_SPEED,
-		float rotate_speed = DEFAULT_ROTATE_SPEED);
-    void update (int delta);
-    void handle_collision (yage::game::entity& other,
-			   yage::game::collidable& box,
-			   yage::game::dynamic_collision& col);
+    pedestrian(const std::string& model,
+               const std::string& texture,
+               bool inverse_normals = false,
+               float walk_speed     = DEFAULT_WALK_SPEED,
+               float rotate_speed   = DEFAULT_ROTATE_SPEED);
+    void update(int delta);
+    void handle_collision(yage::game::entity& other,
+                          yage::game::collidable& box,
+                          yage::game::dynamic_collision& col);
 
 protected:
-    float angle_to_player ();
-    float sq_distance_to_player ();
+    float angle_to_player();
+    float sq_distance_to_player();
 
-    yage::core::state_task& states ()
-    {
-	return m_states;
-    }
+    yage::core::state_task& states() { return m_states; }
 
 private:
-    void rotate_state (int delta);
-    void walk_state (int delta);
-    void idle_state (int delta);
+    void rotate_state(int delta);
+    void walk_state(int delta);
+    void idle_state(int delta);
 
     yage::core::state_task m_states;
 

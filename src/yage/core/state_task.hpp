@@ -34,28 +34,25 @@
 #include <yage/base/exception.hpp>
 #include <yage/core/task.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-YAGE_DECLARE_ERROR (base::yage_error, state_task_error);
+YAGE_DECLARE_ERROR(base::yage_error, state_task_error);
 
 class state_task : public task
 {
 public:
-    typedef boost::function<void (int delta)> state_function;
+    typedef boost::function<void(int delta)> state_function;
 
-    void add_state (const std::string& name,
-		    const state_function& fun);
+    void add_state(const std::string& name, const state_function& fun);
 
-    void push_state (const std::string& name);
-    void pop_state ();
-    void change_state (const std::string& name);
+    void push_state(const std::string& name);
+    void pop_state();
+    void change_state(const std::string& name);
 
-    void update (int delta);
+    void update(int delta);
 
-    const std::string& current ();
+    const std::string& current();
 
 private:
     typedef std::map<std::string, state_function> state_map;

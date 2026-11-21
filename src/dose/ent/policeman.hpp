@@ -29,29 +29,27 @@
 
 #include <dose/ent/pedestrian.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class policeman : public pedestrian
 {
 public:
-    policeman (float walk_speed = DEFAULT_WALK_SPEED,
-	       float rotate_speed = DEFAULT_ROTATE_SPEED);
+    policeman(float walk_speed   = DEFAULT_WALK_SPEED,
+              float rotate_speed = DEFAULT_ROTATE_SPEED);
 
-    void handle_collision (yage::game::entity& other,
-			   yage::game::collidable& box,
-			   yage::game::dynamic_collision& col);
+    void handle_collision(yage::game::entity& other,
+                          yage::game::collidable& box,
+                          yage::game::dynamic_collision& col);
 
-    void update (int delta);
+    void update(int delta);
 
 private:
-    void follow_state (int delta);
-    bool player_in_fov ();
-    bool player_in_line ();
-    bool player_has_drugs ();
-    bool player_in_distance ();
+    void follow_state(int delta);
+    bool player_in_fov();
+    bool player_in_line();
+    bool player_has_drugs();
+    bool player_in_distance();
 
     int m_old_action;
 };

@@ -34,17 +34,15 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 
-#include <yage/base/type_value.hpp>
 #include <yage/base/config.hpp>
+#include <yage/base/type_value.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DECLARE_ERROR (config_error, config_xml_error)
-YAGE_DECLARE_ERROR (config_xml_error, config_xml_type_error)
-YAGE_DECLARE_ERROR (config_xml_error, config_xml_io_error)
+YAGE_DECLARE_ERROR(config_error, config_xml_error)
+YAGE_DECLARE_ERROR(config_xml_error, config_xml_type_error)
+YAGE_DECLARE_ERROR(config_xml_error, config_xml_io_error)
 
 /**
  * XML configuration backend that stores the config to an XML file. This
@@ -59,60 +57,55 @@ public:
      * @param file The name of the file where to store and load
      * the configuration.
      */
-    conf_backend_xml (const std::string& file)
-	: m_file(file)
-    {}
+    conf_backend_xml(const std::string& file)
+        : m_file(file)
+    {
+    }
 
     /** Constructor */
-    ~conf_backend_xml () {}
+    ~conf_backend_xml() {}
 
     /**
      * Changes the name of the file to use.
      * @param file The new file name to use.
      */
-    void set_file (const std::string& file)
-    {
-	m_file = file;
-    }
+    void set_file(const std::string& file) { m_file = file; }
 
     /**
      * Returns the name of the current filename.
      */
-    const std::string& get_file ()
-    {
-	return m_file;
-    }
+    const std::string& get_file() { return m_file; }
 
     /** Called when attached to a node. Does nothing. */
-    void attach (conf_node& node) {};
+    void attach(conf_node& node) {};
 
     /** Called when dattached from a node. Does nothing. */
-    void datach (conf_node& node) {};
+    void datach(conf_node& node) {};
 
     /**
      * Permanently stores the configuration in the currently set file.
      * @param node The configuration to store.
      */
-    void save (conf_node& node);
+    void save(conf_node& node);
 
     /**
      * Loads the conentent of the XML file into a node.
      * @param node The node where to store the config.
      */
-    void load (conf_node& node)
+    void load(conf_node& node)
     {
-	m_overwrite = true;
-	do_load (node);
+        m_overwrite = true;
+        do_load(node);
     }
 
     /**
      * Loads the content of the XML file into a node but preserving the node
      * values that are already set.
      */
-    void def_load (conf_node& node)
+    void def_load(conf_node& node)
     {
-	m_overwrite = false;
-	do_load (node);
+        m_overwrite = false;
+        do_load(node);
     }
 
 private:
@@ -121,16 +114,16 @@ private:
     std::string m_file;
     bool m_overwrite;
 
-    conf_node* process_new_element (xmlTextReaderPtr reader, conf_node* node);
-    conf_node* process_text (xmlTextReaderPtr reader, conf_node* node);
-    conf_node* process_end_element (xmlTextReaderPtr reader, conf_node* node);
-    conf_node* process (xmlTextReaderPtr reader, conf_node* node);
+    conf_node* process_new_element(xmlTextReaderPtr reader, conf_node* node);
+    conf_node* process_text(xmlTextReaderPtr reader, conf_node* node);
+    conf_node* process_end_element(xmlTextReaderPtr reader, conf_node* node);
+    conf_node* process(xmlTextReaderPtr reader, conf_node* node);
 
-    void do_load (conf_node& node);
+    void do_load(conf_node& node);
 
-    void expand (xmlTextWriterPtr writer, conf_node& node);
-    void expand_childs (xmlTextWriterPtr writer, conf_node& node);
-    void expand_value (xmlTextWriterPtr writer, conf_node& node);
+    void expand(xmlTextWriterPtr writer, conf_node& node);
+    void expand_childs(xmlTextWriterPtr writer, conf_node& node);
+    void expand_value(xmlTextWriterPtr writer, conf_node& node);
 };
 
 } /* namespace base */

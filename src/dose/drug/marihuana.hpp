@@ -29,10 +29,8 @@
 
 #include <dose/drug/dope.hpp>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
 class bubbly_camera;
 
@@ -41,10 +39,10 @@ class marihuana : public dope
 public:
     typedef boost::shared_ptr<bubbly_camera> bubbly_camera_ptr;
 
-    marihuana ();
-    void take ();
-    void accumulate (dope_ptr dp);
-    void handle_finish ();
+    marihuana();
+    void take();
+    void accumulate(dope_ptr dp);
+    void handle_finish();
 
 private:
     bubbly_camera_ptr m_camfx;

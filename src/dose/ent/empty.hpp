@@ -29,21 +29,21 @@
 
 #include <yage/game/entity.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class empty : public yage::game::entity
 {
 public:
-    void update (int) {}
-    void handle_collision (yage::game::entity&,
-			   yage::game::collidable&,
-			   yage::game::dynamic_collision&) {}
+    void update(int) {}
+    void handle_collision(yage::game::entity&,
+                          yage::game::collidable&,
+                          yage::game::dynamic_collision&)
+    {
+    }
 };
 
-} /* namespace dose */
-} /* namespace ent */
+} // namespace ent
+} // namespace dose
 
 #endif /* DOSE_EMPTY_H_ */

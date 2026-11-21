@@ -24,22 +24,20 @@
  *
  */
 
-#include <yage/game/collidable.hpp>
 #include "invisible.hpp"
+#include <yage/game/collidable.hpp>
 
 using namespace yage;
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
-invisible::invisible (const yage::base::point3f& min,
-		      const yage::base::point3f& max)
+invisible::invisible(const yage::base::point3f& min,
+                     const yage::base::point3f& max)
 {
-    game::aabb b ( min, max );
-    set_bounds (b);
+    game::aabb b(min, max);
+    set_bounds(b);
 }
 
-} /* namespace  ent en e   */
+} // namespace ent
 } /* namespace dose */

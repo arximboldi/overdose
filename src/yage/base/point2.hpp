@@ -27,43 +27,41 @@
 #ifndef YAGE_POINT2_H
 #define YAGE_POINT2_H
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class T>
 class point2
 {
 public:
-    inline point2 ();
-    inline point2 (T x, T y);
-    inline point2 (const point2& org);
+    inline point2();
+    inline point2(T x, T y);
+    inline point2(const point2& org);
 
-    inline void set (T nx, T ny);
-    inline void set_x (T x);
-    inline void set_y (T y);
-    inline T x () const;
-    inline T y () const;
+    inline void set(T nx, T ny);
+    inline void set_x(T x);
+    inline void set_y(T y);
+    inline T x() const;
+    inline T y() const;
 
-    inline T length () const;
-    inline T sq_length () const;
-    inline point2 dot (const point2 & p) const;
+    inline T length() const;
+    inline T sq_length() const;
+    inline point2 dot(const point2& p) const;
 
-    inline point2 & operator= (const point2 &p);
-    inline T& operator[] (const int indice);
-    inline T* ptr ();
-    inline const T* ptr () const;
+    inline point2& operator=(const point2& p);
+    inline T& operator[](const int indice);
+    inline T* ptr();
+    inline const T* ptr() const;
 
-    inline point2& operator+= (const point2 &p);
-    inline point2 operator+ (const point2 &p) const;
-    inline point2 operator- (const point2 &p) const;
-    inline point2 operator* (const T & t) const;
-    inline point2 operator* (const point2 & p) const;
+    inline point2& operator+=(const point2& p);
+    inline point2 operator+(const point2& p) const;
+    inline point2 operator-(const point2& p) const;
+    inline point2 operator*(const T& t) const;
+    inline point2 operator*(const point2& p) const;
 
-    inline bool operator< (const point2& p) const;
-    inline bool operator== (const point2<T> &p);
-    inline bool operator!= (const point2<T> &p);
+    inline bool operator<(const point2& p) const;
+    inline bool operator==(const point2<T>& p);
+    inline bool operator!=(const point2<T>& p);
 
 private:
     T p[2];

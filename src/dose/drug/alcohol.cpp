@@ -30,72 +30,70 @@
 #include <yage/gra/fog.hpp>
 #include <yage/gra/scene.hpp>
 
-#include "dose/st/level.hpp"
 #include "alcohol.hpp"
+#include "dose/st/level.hpp"
 
 using namespace yage;
 using namespace boost;
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
-
-const float FX_FOG = 0.006f;
+const float FX_FOG      = 0.006f;
 const float FX_DURATION = 2000.0f;
 
-alcohol::alcohol ()
-    : dope ("alcohol", "alcohol.png", 0, 1, 1)
+alcohol::alcohol()
+    : dope("alcohol", "alcohol.png", 0, 1, 1)
 {
 }
 
-void alcohol::take ()
+void alcohol::take()
 {
-    gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
-    m_orig_fog = fog->get_density ();
+    gra::fog_ptr fog = get_level()->get_scene()->get_fog();
+    m_orig_fog       = fog->get_density();
 
     float min = m_orig_fog;
     float max = FX_FOG;
 
-    get_level ()->get_tasks ().add (
-	gra::create_function_task<float> (
-	    bind (&gra::fog::set_density, fog,
-		  bind (gra::linear_function<float,float>, min, max,
-			bind (gra::sinusoid<float>, _1))),
-	    FX_DURATION
-	    ));
+    get_level()->get_tasks().add(gra::create_function_task<float>(
+        bind(&gra::fog::set_density,
+             fog,
+             bind(gra::linear_function<float, float>,
+                  min,
+                  max,
+                  bind(gra::sinusoid<float>, _1))),
+        FX_DURATION));
 }
 
-void alcohol::accumulate (dope_ptr d)
+void alcohol::accumulate(dope_ptr d)
 {
-    set_progress (get_progress () + 0.5);
+    set_progress(get_progress() + 0.5);
 
-    gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
+    gra::fog_ptr fog = get_level()->get_scene()->get_fog();
 
-    float min = fog->get_density ();
+    float min = fog->get_density();
     float max = min + (min - m_orig_fog) / 2;
 
-    get_level ()->get_tasks ().add (
-	gra::create_function_task<float> (
-	    bind (&gra::fog::set_density, fog,
-		  bind (gra::linear_function<float,float>, min, max, _1)),
-	    FX_DURATION));
+    get_level()->get_tasks().add(gra::create_function_task<float>(
+        bind(&gra::fog::set_density,
+             fog,
+             bind(gra::linear_function<float, float>, min, max, _1)),
+        FX_DURATION));
 }
 
-void alcohol::handle_finish ()
+void alcohol::handle_finish()
 {
-    gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
+    gra::fog_ptr fog = get_level()->get_scene()->get_fog();
 
     const float DEFAULT_FOG = 0.0005;
-    float min = fog->get_density ();
-    float max = DEFAULT_FOG;
+    float min               = fog->get_density();
+    float max               = DEFAULT_FOG;
 
-    get_level ()->get_tasks ().add (
-	gra::create_function_task<float> (
-	    bind (&gra::fog::set_density, fog,
-		  bind (gra::linear_function<float,float>, min, max, _1)),
-	    FX_DURATION));
+    get_level()->get_tasks().add(gra::create_function_task<float>(
+        bind(&gra::fog::set_density,
+             fog,
+             bind(gra::linear_function<float, float>, min, max, _1)),
+        FX_DURATION));
 }
 
 } /* namespace drug */

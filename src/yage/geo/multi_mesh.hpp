@@ -29,46 +29,39 @@
 
 #include <yage/geo/mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-YAGE_DECLARE_ERROR (base::yage_error, multi_mesh_error);
+YAGE_DECLARE_ERROR(base::yage_error, multi_mesh_error);
 
 class multi_mesh : public gra::geometry
 {
 public:
+    void set_material(boost::shared_ptr<gra::material> material);
+    void set_texture(boost::shared_ptr<gra::texture> texture);
 
+    void begin(mesh::polygon_type mode,
+               int n_vertex_est         = 0,
+               mesh::normal_type normal = mesh::VERTEX);
+    void end();
 
-    void set_material (boost::shared_ptr<gra::material> material);
-    void set_texture (boost::shared_ptr<gra::texture> texture);
+    void point(const base::point3f& p);
+    void tex_coord(const base::point2f& t);
+    void colour(const base::point3f& p);
 
-    void begin (mesh::polygon_type mode,
-		int n_vertex_est = 0,
-		mesh::normal_type normal = mesh::VERTEX);
-    void end ();
+    void draw();
+    void draw_raw();
 
-    void point (const base::point3f& p);
-    void tex_coord (const base::point2f & t);
-    void colour (const base::point3f& p);
-
-    void draw ();
-    void draw_raw ();
-
-    mesh& get (size_t index)
-    {
-	return m_mesh [index];
-    }
+    mesh& get(size_t index) { return m_mesh[index]; }
 
 private:
     std::vector<mesh> m_mesh;
 
-    void check_state (bool expected)
+    void check_state(bool expected)
     {
-	if ((!m_mesh.empty () && m_mesh.back ().get_state () != expected) ||
-	    (m_mesh.empty () && expected))
-	    throw multi_mesh_error ();
+        if ((!m_mesh.empty() && m_mesh.back().get_state() != expected) ||
+            (m_mesh.empty() && expected))
+            throw multi_mesh_error();
     }
 };
 

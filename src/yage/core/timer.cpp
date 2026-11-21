@@ -26,51 +26,47 @@
  *
  */
 
-#include <unistd.h>
 #include <iostream>
 #include <sys/time.h>
+#include <unistd.h>
 
 #include "timer.hpp"
 
 using namespace std;
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-timer::timer ()
+timer::timer()
 {
-    rate = -1;
+    rate      = -1;
     rateticks = 1;
-    reset ();
+    reset();
 }
 
-timer::~timer ()
-{
-}
+timer::~timer() {}
 
-void timer::force_fps (int fpsrate)
+void timer::force_fps(int fpsrate)
 {
     framecount = 0;
     if (fpsrate > 0) {
-	rate = fpsrate;
-	rateticks = (1000.0 / (float) rate);
+        rate      = fpsrate;
+        rateticks = (1000.0 / (float) rate);
     } else {
-	rate = -1;
-	rateticks = 1;
+        rate      = -1;
+        rateticks = 1;
     }
 }
 
-void timer::reset ()
+void timer::reset()
 {
     framecount = 0;
-    ms = 0;
-    totalms = 0;
-    mscount = lastticks = SDL_GetTicks ();
+    ms         = 0;
+    totalms    = 0;
+    mscount = lastticks = SDL_GetTicks();
 }
 
-void timer::update ()
+void timer::update()
 {
     Uint32 current_ticks;
     Uint32 target_ticks;
@@ -80,26 +76,26 @@ void timer::update ()
     if (rate > 0) {
         framecount++;
 
-        currms = current_ticks = SDL_GetTicks ();
-        ms = currms - mscount;
-        mscount = currms;
+        currms = current_ticks = SDL_GetTicks();
+        ms                     = currms - mscount;
+        mscount                = currms;
 
-        target_ticks = lastticks + Uint32 (framecount * rateticks);
+        target_ticks = lastticks + Uint32(framecount * rateticks);
 
         if (current_ticks <= target_ticks) {
             the_delay = target_ticks - current_ticks;
 #ifndef __EMSCRIPTEN__
             /* In a browser the frame rate is paced by the browser
                itself, and sleeping on its main thread is not allowed. */
-            SDL_Delay (the_delay);
+            SDL_Delay(the_delay);
 #endif
         } else {
             framecount = 0;
-            lastticks = SDL_GetTicks ();
+            lastticks  = SDL_GetTicks();
         }
     } else {
-        currms = SDL_GetTicks();
-        ms = currms - mscount;
+        currms  = SDL_GetTicks();
+        ms      = currms - mscount;
         mscount = currms;
     }
 }

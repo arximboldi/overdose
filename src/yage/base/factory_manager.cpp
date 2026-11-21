@@ -26,12 +26,10 @@
 
 #include "factory_manager.hpp"
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (factory_error, "factory", "Unknown product key.");
+YAGE_DEFINE_ERROR_WHERE_WHAT(factory_error, "factory", "Unknown product key.");
 
 } /* namespace base */
 } /* namespace yage */

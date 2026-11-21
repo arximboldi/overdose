@@ -27,13 +27,11 @@
 #ifndef YAGE_POINT3_T_
 #define YAGE_POINT3_T_
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <typename T>
-point3<T> point3<T>::rotate (float theta, const point3& r)
+point3<T> point3<T>::rotate(float theta, const point3& r)
 {
     /* La implementación se basa en matrices, pero como no quiero
        implementar mi propia clase matriz y ademas asi es mas eficiente.
@@ -43,11 +41,11 @@ point3<T> point3<T>::rotate (float theta, const point3& r)
 
        En esa web hay articulos muy interesantes de geometría. */
 
-    point3 q (0.0, 0.0, 0.0);
+    point3 q(0.0, 0.0, 0.0);
     double costheta, sintheta;
 
-    costheta = std::cos (theta);
-    sintheta = std::sin (theta);
+    costheta = std::cos(theta);
+    sintheta = std::sin(theta);
 
     q[0] += (costheta + (1 - costheta) * r[0] * r[0]) * p[0];
     q[0] += ((1 - costheta) * r[0] * r[1] - r[2] * sintheta) * p[1];
@@ -65,23 +63,23 @@ point3<T> point3<T>::rotate (float theta, const point3& r)
 }
 
 template <class T>
-inline std::ostream& operator<< (std::ostream& os, const point3<T>& p)
+inline std::ostream& operator<<(std::ostream& os, const point3<T>& p)
 {
-    return os << '(' << p.x() << ',' << p.y() << ',' << p.z() <<  ')';
+    return os << '(' << p.x() << ',' << p.y() << ',' << p.z() << ')';
 }
 
 template <class T>
-inline std::istream& operator>> (std::istream& is, point3<T>& p)
+inline std::istream& operator>>(std::istream& is, point3<T>& p)
 {
     char caracter;
-    T x,y,z;
+    T x, y, z;
     is >> caracter >> x >> caracter >> y >> caracter >> z >> caracter;
-    p = point3<T> (x,y,z);
+    p = point3<T>(x, y, z);
     return is;
 }
 
 template <class T>
-point3<T>::point3 ()
+point3<T>::point3()
 {
     p[0] = 0;
     p[1] = 0;
@@ -89,16 +87,15 @@ point3<T>::point3 ()
 }
 
 template <class T>
-point3<T>::point3 (T x, T y, T z)
+point3<T>::point3(T x, T y, T z)
 {
     p[0] = x;
     p[1] = y;
     p[2] = z;
-
 }
 
 template <class T>
-point3<T>::point3 (const point3<T> &orig)
+point3<T>::point3(const point3<T>& orig)
 {
     p[0] = orig.x();
     p[1] = orig.y();
@@ -106,15 +103,15 @@ point3<T>::point3 (const point3<T> &orig)
 }
 
 template <class T>
-point3<T>::point3 (const float* orig)
+point3<T>::point3(const float* orig)
 {
-    p[0] = orig [0];
-    p[1] = orig [1];
-    p[2] = orig [3];
+    p[0] = orig[0];
+    p[1] = orig[1];
+    p[2] = orig[3];
 }
 
 template <class T>
-void point3<T>::set (T x, T y, T z)
+void point3<T>::set(T x, T y, T z)
 {
     p[0] = x;
     p[1] = y;
@@ -122,94 +119,88 @@ void point3<T>::set (T x, T y, T z)
 }
 
 template <class T>
-void point3<T>::set_x (T x)
+void point3<T>::set_x(T x)
 {
     p[0] = x;
 }
 
 template <class T>
-void point3<T>::set_y (T y)
+void point3<T>::set_y(T y)
 {
     p[1] = y;
 }
 
 template <class T>
-void point3<T>::set_z (T z)
+void point3<T>::set_z(T z)
 {
     p[2] = z;
 }
 
 template <class T>
-T point3<T>::x () const
+T point3<T>::x() const
 {
     return p[0];
 }
 
 template <class T>
-T point3<T>::y () const
+T point3<T>::y() const
 {
     return p[1];
 }
 
 template <class T>
-T point3<T>::z () const
+T point3<T>::z() const
 {
     return p[2];
 }
 
 template <class T>
-T* point3<T>::ptr ()
+T* point3<T>::ptr()
 {
     return p;
 }
 
 template <class T>
-const T* point3<T>::ptr () const
+const T* point3<T>::ptr() const
 {
     return p;
 }
 
 template <class T>
-point3<T>& point3<T>::operator= (const point3<T>& po)
+point3<T>& point3<T>::operator=(const point3<T>& po)
 {
-    p[0] = po.x ();
-    p[1] = po.y ();
-    p[2] = po.z ();
+    p[0] = po.x();
+    p[1] = po.y();
+    p[2] = po.z();
     return *this;
 }
 
 template <class T>
-bool point3<T>::operator== (const point3<T>& po) const
+bool point3<T>::operator==(const point3<T>& po) const
 {
-    return
-	p[0] == po.x () &&
-	p[1] == po.y () &&
-	p[2] == po.z ();
+    return p[0] == po.x() && p[1] == po.y() && p[2] == po.z();
 }
 
 template <class T>
-bool point3<T>::operator!= (const point3<T>& po) const
+bool point3<T>::operator!=(const point3<T>& po) const
 {
-    return
-	p[0] != po.x () ||
-	p[1] != po.y () ||
-	p[2] != po.z ();
+    return p[0] != po.x() || p[1] != po.y() || p[2] != po.z();
 }
 
 template <class T>
-T& point3<T>::operator[] (const int indice)
+T& point3<T>::operator[](const int indice)
 {
     return p[indice];
 }
 
 template <class T>
-const T& point3<T>::operator[] (const int indice) const
+const T& point3<T>::operator[](const int indice) const
 {
     return p[indice];
 }
 
-template<class T>
-point3<T>& point3<T>::operator += (const point3<T>& v)
+template <class T>
+point3<T>& point3<T>::operator+=(const point3<T>& v)
 {
     p[0] += v.p[0];
     p[1] += v.p[1];
@@ -217,90 +208,87 @@ point3<T>& point3<T>::operator += (const point3<T>& v)
     return *this;
 }
 
-template<class T>
-point3<T> point3<T>::operator+ (const point3<T>& v) const
+template <class T>
+point3<T> point3<T>::operator+(const point3<T>& v) const
 {
     return point3<T>(v.p[0] + p[0], v.p[1] + p[1], v.p[2] + p[2]);
 }
 
-template<class T>
-point3<T> point3<T>::operator- (const point3 &v) const
+template <class T>
+point3<T> point3<T>::operator-(const point3& v) const
 {
-    return point3<T>(p[0] - v. p[0], p[1] - v.p[1], p[2] - v.p[2]);
+    return point3<T>(p[0] - v.p[0], p[1] - v.p[1], p[2] - v.p[2]);
 }
 
-template<class T>
-T point3<T>::length () const
+template <class T>
+T point3<T>::length() const
 {
-    return std::sqrt (p[0]*p[0] + p[1]*p[1] + p[2]*p[2]);
+    return std::sqrt(p[0] * p[0] + p[1] * p[1] + p[2] * p[2]);
 }
 
-template<class T>
-T point3<T>::sq_length () const
+template <class T>
+T point3<T>::sq_length() const
 {
-    return p[0]*p[0] + p[1]*p[1] + p[2]*p[2];
+    return p[0] * p[0] + p[1] * p[1] + p[2] * p[2];
 }
 
-template<class T>
-point3<T> point3<T>::operator* (const T& t) const
+template <class T>
+point3<T> point3<T>::operator*(const T& t) const
 {
     return point3<T>(t * p[0], t * p[1], t * p[2]);
 }
 
-template<class T>
-point3<T> point3<T>::operator* (const point3& v) const
+template <class T>
+point3<T> point3<T>::operator*(const point3& v) const
 {
     return point3<T>(v.p[0] * p[0], v.p[1] * p[1], v.p[2] * p[2]);
 }
 
-template<class T>
-T point3<T>::dot (const point3& v) const
+template <class T>
+T point3<T>::dot(const point3& v) const
 {
     return v.p[0] * p[0] + v.p[1] * p[1] + v.p[2] * p[2];
 }
 
-template<class T>
-point3<T> point3<T>::cross (const point3& v) const
+template <class T>
+point3<T> point3<T>::cross(const point3& v) const
 {
-    return point3<T>(p[1]*v.p[2] - p[2]*v.p[1],
-		     p[2]*v.p[0] - p[0]*v.p[2],
-		     p[0]*v.p[1] - p[1]*v.p[0]);
+    return point3<T>(p[1] * v.p[2] - p[2] * v.p[1],
+                     p[2] * v.p[0] - p[0] * v.p[2],
+                     p[0] * v.p[1] - p[1] * v.p[0]);
 }
 
-template<class T>
-point3<T> point3<T>::normalize () const
+template <class T>
+point3<T> point3<T>::normalize() const
 {
     float l = length();
-    if (l == 0.0f) return point3<T>(0,0,0);
+    if (l == 0.0f)
+        return point3<T>(0, 0, 0);
     return *this * (1.0f / l);
 }
 
-template<class T>
-point3<T> point3<T>::normal (const point3& v) const
+template <class T>
+point3<T> point3<T>::normal(const point3& v) const
 {
     point3<T> n = cross(v);
-    T l = n.length();
+    T l         = n.length();
     if (l == 0)
-	return point3<T>(0, 0, 0);
+        return point3<T>(0, 0, 0);
 
     return n * (1.0f / l);
 }
 
-template<class T>
-T point3<T>::cos (const point3& p) const
+template <class T>
+T point3<T>::cos(const point3& p) const
 {
-    return dot (p) / length () / p.length ();
+    return dot(p) / length() / p.length();
 }
 
-template<class T>
-bool point3<T>::operator< (const point3<T>& v) const
+template <class T>
+bool point3<T>::operator<(const point3<T>& v) const
 {
-    return
-	p[0] == v.p[0] ?
-	p[1] == v.p[1] ?
-	p[2] <  v.p[2] :
-	p[1] <  v.p[1] :
-	p[0] <  v.p[0];
+    return p[0] == v.p[0] ? p[1] == v.p[1] ? p[2] < v.p[2] : p[1] < v.p[1]
+                          : p[0] < v.p[0];
 }
 
 } /* namespace base */
