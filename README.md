@@ -86,18 +86,17 @@ served by any web server:
     nix build .#web
 
 The site ends up in `./result`: `index.html`, the compiled game, and
-`overdose.data` with all the game data (about 75 MB). To try it
-locally, serve that directory, for example with:
+`overdose.data` with all the game data (about 75 MB). To build it and
+try it locally, run:
 
-    python3 -m http.server -d result
+    nix run .#serve-web
 
-and open <http://localhost:8000>. Command line options can be passed in
-the URL, for example `?args=-l%205` to start with half the maximum
-amount of drugs in the blood.
-
-After rebuilding, reload the page with `Ctrl+Shift+R`: everything Nix
-builds is dated 1970, so this server tells the browser that nothing
-has changed, and it would go on running the version it has cached.
+and open <http://localhost:8000>. A different port can be given with
+`nix run .#serve-web -- 8001`. Unlike `python3 -m http.server`, this
+server tells the browser not to cache the game, so after rebuilding a
+normal reload is enough. Command line options can be passed in the URL,
+for example `?args=-l%205` to start with half the maximum amount of
+drugs in the blood.
 
 In the browser, clicking the game grabs the mouse, so that the camera
 can turn freely, and `Escape` lets go of it.
@@ -105,13 +104,16 @@ can turn freely, and `Escape` lets go of it.
 The browser build relies on Emscripten's own implementation of SDL 1.2
 and on [gl4es](https://github.com/ptitSeb/gl4es) to run the game's
 OpenGL code on WebGL. Text is drawn with the same SDL_ttf and FreeType
-as on the desktop, built for the web. For working on it, `nix develop .#web` opens a
-shell with Emscripten and these dependencies, where:
+as on the desktop, built for the web. For working on it,
+`nix develop .#web` opens a shell with Emscripten and these
+dependencies, where:
 
     emcmake cmake -S . -B build-web -G Ninja $cmakeFlags
     cmake --build build-web
+    serve-web
 
-builds the site into `build-web/src`.
+builds the game into `build-web/src` and serves it at
+<http://localhost:8000/overdose.html>.
 
 
 ## Playing

@@ -2,12 +2,18 @@
 #
 #   emcmake cmake -S . -B build-web -G Ninja $cmakeFlags
 #   cmake --build build-web
-{ mkShell, overdose-web }:
+#   serve-web
+{
+  mkShell,
+  callPackage,
+  overdose-web,
+}:
 let
   inherit (overdose-web) emscripten;
 in
 mkShell {
   inputsFrom = [ overdose-web ];
+  packages = [ (callPackage ./serve.nix { root = "build-web/src"; }) ];
   inherit (overdose-web) cmakeFlags;
   env.PKG_CONFIG_PATH = overdose-web.pkgConfigPath;
 

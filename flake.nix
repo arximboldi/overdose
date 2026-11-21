@@ -18,6 +18,7 @@
       {
         packages.default = overdose;
         packages.web = overdose-web;
+        packages.serve-web = pkgs.callPackage ./nix/web/serve.nix { root = overdose-web; };
         devShells.default = pkgs.callPackage ./nix/devshell.nix { inherit overdose; };
         devShells.web = pkgs.callPackage ./nix/web/devshell.nix { inherit overdose-web; };
       }
