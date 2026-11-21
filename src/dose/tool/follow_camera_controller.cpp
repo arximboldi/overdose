@@ -117,7 +117,7 @@ bool follow_camera_controller::handle_mouse_move (SDL_Event& ev)
 {
     const float EPSILON = 0.001;
     m_angle = base::clamp<float> (m_angle + ev.motion.yrel * m_speed, -M_PI/2+EPSILON, M_PI/2-EPSILON);
-    m_hangle += ev.motion.xrel * m_speed;
+    m_hangle -= ev.motion.xrel * m_speed;
 
     recalculate ();
 
