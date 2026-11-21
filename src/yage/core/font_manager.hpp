@@ -30,29 +30,28 @@
 #include <yage/core/file_resource_manager.hpp>
 #include <yage/gra/font.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 class font_manager_policy
 {
 public:
     typedef std::pair<std::string, int> key_type;
 
-    std::string file_name (const key_type& key);
+    std::string file_name(const key_type& key);
 
-    boost::shared_ptr<gra::font>
-    load_resource (const std::string& path, const key_type& key);
+    boost::shared_ptr<gra::font> load_resource(const std::string& path,
+                                               const key_type& key);
 };
 
-class font_manager : public file_resource_manager<std::pair<std::string, int>,
-						  gra::font,
-						  font_manager_policy>
+class font_manager
+    : public file_resource_manager<std::pair<std::string, int>,
+                                   gra::font,
+                                   font_manager_policy>
 {
 public:
-    boost::shared_ptr<gra::font>
-    find (const std::string& font_name, int font_size);
+    boost::shared_ptr<gra::font> find(const std::string& font_name,
+                                      int font_size);
 };
 
 } /* namespace core */

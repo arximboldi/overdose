@@ -44,20 +44,20 @@
 #ifndef YAGE_THREADS_H_
 #define YAGE_THREADS_H_
 
+#include <cassert>
+
 #include <yage/base/util.hpp>
 
-#define YAGE_DEFAULT_THREADING         yage::base::no_threading
-#define YAGE_DEFAULT_NONOBJ_THREADING  yage::base::no_threading
+#define YAGE_DEFAULT_THREADING yage::base::no_threading
+#define YAGE_DEFAULT_NONOBJ_THREADING yage::base::no_threading
 
 #ifndef YAGE_DEFAULT_MUTEX
-#include <boost/thread/recursive_mutex.hpp>
-#define YAGE_DEFAULT_MUTEX             boost::recursive_mutex
+#include <mutex>
+#define YAGE_DEFAULT_MUTEX std::recursive_mutex
 #endif
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class T>
 class no_threading
@@ -67,9 +67,9 @@ public:
 
     struct lock
     {
-	lock () {}
-	explicit lock (const no_threading& host) {}
-	explicit lock (const no_threading* host) {}
+        lock() {}
+        explicit lock(const no_threading& host) {}
+        explicit lock(const no_threading* host) {}
     };
 
 private:
@@ -89,25 +89,22 @@ public:
     class lock : public non_copyable
     {
     public:
-	lock (const object_lockable& host)
-	    : m_host (host)
-	{
-	    m_host.m_mutex.lock ();
-	}
+        lock(const object_lockable& host)
+            : m_host(host)
+        {
+            m_host.m_mutex.lock();
+        }
 
-	lock (const object_lockable* host)
-	    : m_host (*host)
-	{
-	    m_host.m_mutex.lock ();
-	}
+        lock(const object_lockable* host)
+            : m_host(*host)
+        {
+            m_host.m_mutex.lock();
+        }
 
-	~lock ()
-	{
-	    m_host.m_mutex.unlock ();
-	}
+        ~lock() { m_host.m_mutex.unlock(); }
 
     private:
-	const object_lockable& m_host;
+        const object_lockable& m_host;
     };
 
 private:
@@ -121,58 +118,40 @@ public:
     class lock : public non_copyable
     {
     public:
-	lock ()
-	{
-	    s_init.m_mutex.lock ();
-	}
+        lock() { s_init.m_mutex.lock(); }
 
-	lock (const class_lockable& host)
-	{
-	    s_init.m_mutex.lock ();
-	}
+        lock(const class_lockable& host) { s_init.m_mutex.lock(); }
 
-	lock (const class_lockable* host)
-	{
-	    s_init.m_mutex.lock ();
-	}
+        lock(const class_lockable* host) { s_init.m_mutex.lock(); }
 
-	~lock ()
-	{
-	    s_init.m_mutex.unlock ();
-	}
+        ~lock() { s_init.m_mutex.unlock(); }
     };
 
 private:
     struct initializer
     {
-	bool  m_is_init;
-	Mutex m_mutex;
+        bool m_is_init;
+        Mutex m_mutex;
 
-	initializer ()
-	    : m_is_init (false)
-	{
-	    m_is_init = true;
-	}
+        initializer()
+            : m_is_init(false)
+        {
+            m_is_init = true;
+        }
 
-	~initializer ()
-	{
-	    assert (m_is_init);
-	}
+        ~initializer() { assert(m_is_init); }
     };
 
     static initializer s_init;
 };
 
-template<class T, class M>
+template <class T, class M>
 typename class_lockable<T, M>::initializer class_lockable<T, M>::s_init;
 
-typedef
-tpl_bind_snd<object_lockable, YAGE_DEFAULT_MUTEX>
-default_object_lockable;
+typedef tpl_bind_snd<object_lockable, YAGE_DEFAULT_MUTEX>
+    default_object_lockable;
 
-typedef
-tpl_bind_snd<class_lockable, YAGE_DEFAULT_MUTEX>
-default_class_lockable;
+typedef tpl_bind_snd<class_lockable, YAGE_DEFAULT_MUTEX> default_class_lockable;
 
 } /* namespace base */
 } /* namespace yage */

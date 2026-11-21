@@ -29,21 +29,20 @@
 
 #include <yage/game/entity.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class invisible : public yage::game::entity
 {
 public:
-    invisible (const yage::base::point3f& min,
-	       const yage::base::point3f& max);
+    invisible(const yage::base::point3f& min, const yage::base::point3f& max);
 
-    void update (int delta) {}
-    void handle_collision (yage::game::entity&,
-			   yage::game::collidable&,
-			   yage::game::dynamic_collision&) {}
+    void update(int delta) {}
+    void handle_collision(yage::game::entity&,
+                          yage::game::collidable&,
+                          yage::game::dynamic_collision&)
+    {
+    }
 };
 
 } /* namespace ent */

@@ -24,40 +24,38 @@
  *
  */
 
-#include <iostream>
-#include <cmath>
 #include "animation_task.hpp"
+#include <cmath>
+#include <iostream>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-animation_task::animation_task (boost::shared_ptr<animation> anim,
-				float speed,
-				bool loop)
-    : m_anim (anim)
-    , m_len (1.0f)
-    , m_pos (0.0f)
-    , m_speed (speed)
-    , m_loop (loop)
+animation_task::animation_task(boost::shared_ptr<animation> anim,
+                               float speed,
+                               bool loop)
+    : m_anim(anim)
+    , m_len(1.0f)
+    , m_pos(0.0f)
+    , m_speed(speed)
+    , m_loop(loop)
 {
 }
 
-void animation_task::update (int delta)
+void animation_task::update(int delta)
 {
-    m_anim->animate (m_pos);
-    m_pos += (float) delta * m_speed / m_anim->get_duration ();
+    m_anim->animate(m_pos);
+    m_pos += (float) delta * m_speed / m_anim->get_duration();
 
     if (m_loop) {
-	if (m_pos >= m_anim->get_loop_offset ())
-	    m_pos = m_pos - m_anim->get_loop_offset ();
+        if (m_pos >= m_anim->get_loop_offset())
+            m_pos = m_pos - m_anim->get_loop_offset();
     } else if (m_pos >= m_len) {
-	static int i = 0;
-	++i;
-	m_pos = m_len;
-	finish ();
-	m_anim->animate (m_pos);
+        static int i = 0;
+        ++i;
+        m_pos = m_len;
+        finish();
+        m_anim->animate(m_pos);
     }
 }
 

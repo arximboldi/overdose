@@ -29,19 +29,17 @@
 
 #include <dose/drug/dope.hpp>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
 class cocaine : public dope
 {
 public:
-    cocaine ();
+    cocaine();
 
-    void take ();
-    void accumulate (dope_ptr dp);
-    void handle_finish ();
+    void take();
+    void accumulate(dope_ptr dp);
+    void handle_finish();
 
 private:
     float m_orig_walk_speed;

@@ -30,39 +30,37 @@
 #include <boost/function.hpp>
 #include <yage/base/factory.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class K, class B, class P>
 template <class Concrete>
-void factory_manager<K, B, P>::add (const K& k)
+void factory_manager<K, B, P>::add(const K& k)
 {
-    m_map [k] = factory_functor<B, Concrete> ();
+    m_map[k] = factory_functor<B, Concrete>();
 }
 
 template <class K, class B, class P>
-void factory_manager<K, B, P>::add (const K& k, factory_method fn)
+void factory_manager<K, B, P>::add(const K& k, factory_method fn)
 {
-    m_map [k] = fn;
+    m_map[k] = fn;
 }
 
 template <class K, class B, class P>
-void factory_manager<K, B, P>::del (const K& k)
+void factory_manager<K, B, P>::del(const K& k)
 {
-    m_map.erase (k);
+    m_map.erase(k);
 }
 
 template <class K, class B, class P>
-P factory_manager<K, B, P>::create (const K& k)
+P factory_manager<K, B, P>::create(const K& k)
 {
-    typename factory_map::iterator it = m_map.find (k);
+    typename factory_map::iterator it = m_map.find(k);
 
-    if (it == m_map.end ())
-	throw factory_error ();
+    if (it == m_map.end())
+        throw factory_error();
 
-    return P ((it->second) ());
+    return P((it->second)());
 }
 
 } /* namespace base */

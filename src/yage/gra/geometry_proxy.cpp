@@ -28,32 +28,30 @@
 #include "material.hpp"
 #include "texture.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-geometry_proxy::geometry_proxy (boost::shared_ptr<geometry> proxy)
-    : m_proxy (proxy)
+geometry_proxy::geometry_proxy(boost::shared_ptr<geometry> proxy)
+    : m_proxy(proxy)
 {
 }
 
-void geometry_proxy::draw ()
+void geometry_proxy::draw()
 {
     if (m_material)
-	m_material->apply ();
+        m_material->apply();
     if (m_texture)
-	m_texture->enable ();
+        m_texture->enable();
     if (m_proxy)
-	m_proxy->draw_raw ();
+        m_proxy->draw_raw();
     if (m_texture)
-	m_texture->disable ();
+        m_texture->disable();
 }
 
-void geometry_proxy::draw_raw ()
+void geometry_proxy::draw_raw()
 {
     if (m_proxy)
-	m_proxy->draw_raw ();
+        m_proxy->draw_raw();
 }
 
 } /* namespace gra */

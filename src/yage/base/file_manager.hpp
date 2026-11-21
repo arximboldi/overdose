@@ -30,13 +30,11 @@
 #define YAGE_FILEMANAGER_H
 
 #include <yage/base/file_finder.hpp>
-#include <yage/base/tree.hpp>
 #include <yage/base/singleton.hpp>
+#include <yage/base/tree.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 /**
  * @note This class is thread-safe.
@@ -44,33 +42,32 @@ namespace base
  * @todo Make thread-safety optional?
  * @todo Document.
  */
-class file_mgr_node : public file_finder,
-		      public tree_node <file_mgr_node>,
-		      public YAGE_DEFAULT_THREADING <file_mgr_node>,
-		      public non_copyable
+class file_mgr_node
+    : public file_finder
+    , public tree_node<file_mgr_node>
+    , public YAGE_DEFAULT_THREADING<file_mgr_node>
+    , public non_copyable
 {
-    friend class tree_node <file_mgr_node>;
+    friend class tree_node<file_mgr_node>;
 
 public:
     template <class PathPredicate>
-    void find_if_all (PathPredicate pred,
-		      file_finder::path_list& res) const;
+    void find_if_all(PathPredicate pred, file_finder::path_list& res) const;
 
-    boost::filesystem::path
-    find_all (const boost::filesystem::path& file) const;
+    std::filesystem::path find_all(const std::filesystem::path& file) const;
 };
 
-template<class StringPredicate>
-void file_mgr_node::find_if_all (StringPredicate pred,
-				 file_finder::path_list& res) const
+template <class StringPredicate>
+void file_mgr_node::find_if_all(StringPredicate pred,
+                                file_finder::path_list& res) const
 {
-    lock lock (this);
+    lock lock(this);
     const_iterator it;
 
-    res = find_if (pred, res);
+    res = find_if(pred, res);
 
     for (it = begin(); it != end(); ++it)
-      it->find_if_all (pred, res);
+        it->find_if_all(pred, res);
 }
 
 typedef singleton_holder<file_mgr_node> file_manager;

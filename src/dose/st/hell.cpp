@@ -26,8 +26,8 @@
 
 #include <yage/core/system.hpp>
 
-#include <yage/gra/light.hpp>
 #include <yage/gra/fog.hpp>
+#include <yage/gra/light.hpp>
 #include <yage/gra/scene.hpp>
 
 #include "dose/ent/invisible.hpp"
@@ -37,102 +37,101 @@
 using namespace yage;
 using namespace yage::base;
 
-namespace dose
-{
-namespace st
-{
+namespace dose {
+namespace st {
 
-void hell::setup_floor ()
+void hell::setup_floor()
 {
-    add_floor ("floor2.png", 20000, 20000, 0, 50, 50, point3f (0, -2, 0));
+    add_floor("floor2.png", 20000, 20000, 0, 50, 50, point3f(0, -2, 0));
 }
 
-void hell::setup_buildings ()
+void hell::setup_buildings()
 {
-    add_entity ("bounds_south", game::entity_ptr (
-		    new ent::invisible (point3f (-5000, 0, -5000), point3f (-5000, 0, 5000))));
-    add_entity ("bounds_north", game::entity_ptr (
-		    new ent::invisible (point3f (5000, 0, -5000), point3f (5000, 0, 5000))));
-    add_entity ("bounds_east", game::entity_ptr (
-		    new ent::invisible (point3f (-5000, 0, 5000), point3f (5000, 0, 5000))));
-    add_entity ("bounds_west", game::entity_ptr (
-		    new ent::invisible (point3f (-5000, 0, -5000), point3f (5000, 0, -5000))));
+    add_entity("bounds_south",
+               game::entity_ptr(new ent::invisible(point3f(-5000, 0, -5000),
+                                                   point3f(-5000, 0, 5000))));
+    add_entity("bounds_north",
+               game::entity_ptr(new ent::invisible(point3f(5000, 0, -5000),
+                                                   point3f(5000, 0, 5000))));
+    add_entity("bounds_east",
+               game::entity_ptr(new ent::invisible(point3f(-5000, 0, 5000),
+                                                   point3f(5000, 0, 5000))));
+    add_entity("bounds_west",
+               game::entity_ptr(new ent::invisible(point3f(-5000, 0, -5000),
+                                                   point3f(5000, 0, -5000))));
 }
 
-void hell::setup_lights ()
+void hell::setup_lights()
 {
     {
-	gra::light_ptr lit (new gra::light);
+        gra::light_ptr lit(new gra::light);
 
-	lit->enable ();
-	lit->set_diffuse (base::point4f (1, 0.2, 0.2, 1));
-	lit->set_ambient (base::point4f (0.3, 0.1, 0.1, 1));
-	lit->set_specular (base::point4f (1, 0.9, 0.9, 1));
+        lit->enable();
+        lit->set_diffuse(base::point4f(1, 0.2, 0.2, 1));
+        lit->set_ambient(base::point4f(0.3, 0.1, 0.1, 1));
+        lit->set_specular(base::point4f(1, 0.9, 0.9, 1));
 
-	get_scene ()->get_root ().get_child ("light0").add_drawable (lit);
-	get_scene ()->get_root ().get_child ("light0").set_position (base::point3f (0, -1000, 0));
+        get_scene()->get_root().get_child("light0").add_drawable(lit);
+        get_scene()->get_root().get_child("light0").set_position(
+            base::point3f(0, -1000, 0));
     }
 
     {
-	gra::light_ptr lit (new gra::light);
+        gra::light_ptr lit(new gra::light);
 
-	lit->enable ();
-	lit->set_diffuse (base::point4f (1, 0.2, 0.2, 1));
-	lit->set_ambient (base::point4f (0.3, 0.1, 0.1, 1));
-	lit->set_specular (base::point4f (1, 0.9, 0.9, 1));
+        lit->enable();
+        lit->set_diffuse(base::point4f(1, 0.2, 0.2, 1));
+        lit->set_ambient(base::point4f(0.3, 0.1, 0.1, 1));
+        lit->set_specular(base::point4f(1, 0.9, 0.9, 1));
 
-	get_scene ()->get_root ().get_child ("light1").add_drawable (lit);
-	get_scene ()->get_root ().get_child ("light1").set_position (base::point3f (0, 1000, 0));
+        get_scene()->get_root().get_child("light1").add_drawable(lit);
+        get_scene()->get_root().get_child("light1").set_position(
+            base::point3f(0, 1000, 0));
     }
 
-    get_scene ()->get_fog ()->set_color (point4f (0, 0, 0, 1));
-    core::system::self ().graphic ().set_clear_color (
-	get_scene ()->get_fog ()->get_color ());
+    get_scene()->get_fog()->set_color(point4f(0, 0, 0, 1));
+    core::system::self().graphic().set_clear_color(
+        get_scene()->get_fog()->get_color());
 }
 
-void hell::setup_people ()
+void hell::setup_people()
 {
-    const play_area area = { -2000, -2000, 2000, 2000};
+    const play_area area = {-2000, -2000, 2000, 2000};
 
-    const int num_pedestrian_models = 2;
-    const md2_id pedestrian_models [] =
-	{ {"momia.md2", "momia.tga", true},
-	  {"bauul.md2", "bauul.png", true}};
+    const int num_pedestrian_models  = 2;
+    const md2_id pedestrian_models[] = {{"momia.md2", "momia.tga", true},
+                                        {"bauul.md2", "bauul.png", true}};
 
-    const int num_dealer_models = 2;
-    const md2_id dealer_models [] =
-	{ {"beelzabub.md2", "beelzabub.png", true},
-	  {"jack.md2", "jack_demon.pcx", false} };
+    const int num_dealer_models  = 2;
+    const md2_id dealer_models[] = {{"beelzabub.md2", "beelzabub.png", true},
+                                    {"jack.md2", "jack_demon.png", false}};
 
     const int max_drug = 20;
 
-    const int num_dealer = 30;
+    const int num_dealer     = 30;
     const int num_pedestrian = 30;
 
     for (int i = 0; i < num_pedestrian; ++i)
-	add_random_pedestrian (num_pedestrian_models, pedestrian_models, area);
+        add_random_pedestrian(num_pedestrian_models, pedestrian_models, area);
     for (int i = 0; i < num_dealer; ++i)
-	add_random_dealer (num_dealer_models, dealer_models, area, max_drug);
+        add_random_dealer(num_dealer_models, dealer_models, area, max_drug);
 }
 
-void hell::init ()
+void hell::init()
 {
-    set_sky ("hell_mid_fog.png");
+    set_sky("hell_mid_fog.png");
 
-    setup_buildings ();
-    setup_lights ();
-    setup_people ();
+    setup_buildings();
+    setup_lights();
+    setup_people();
 
-    setup_floor ();
-    finish_setup ();
+    setup_floor();
+    finish_setup();
 
-    get_player ()->set_god (true);
+    get_player()->set_god(true);
 }
 
-std::string hell::loading ()
-{
-    return "hell.png";
-}
+std::string hell::loading() { return "hell.png"; }
 
 } /* namespace st */
 } /* namespace dose */

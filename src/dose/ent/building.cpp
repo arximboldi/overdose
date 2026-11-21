@@ -31,49 +31,45 @@
 
 using namespace yage;
 
-namespace dose
+namespace dose {
+namespace ent {
+
+building::building(float wide,
+                   float deep,
+                   float high,
+                   const std::string& f_tex,
+                   const std::string& s_tex,
+                   const std::string& t_tex,
+                   float tile_f,
+                   float tile_s,
+                   float tile_t)
 {
-namespace ent
-{
+    core::graphic_system& graphic = core::system::self().graphic();
 
+    boost::shared_ptr<geo::multi_textured_cube> model(
+        new geo::multi_textured_cube(tile_f, tile_s, tile_t));
+    model->set_front_back(graphic.textures().find(f_tex));
+    model->set_left_right(graphic.textures().find(s_tex));
+    model->set_top_bottom(graphic.textures().find(t_tex));
 
-building::building (float wide,
-		    float deep,
-		    float high,
-		    const std::string& f_tex,
-		    const std::string& s_tex,
-		    const std::string& t_tex,
-		    float tile_f,
-		    float tile_s,
-		    float tile_t)
-{
-    core::graphic_system& graphic = core::system::self ().graphic ();
-
-    boost::shared_ptr<geo::multi_textured_cube> model (
-	new geo::multi_textured_cube (tile_f, tile_s, tile_t));
-    model->set_front_back (graphic.textures ().find (f_tex));
-    model->set_left_right (graphic.textures ().find (s_tex));
-    model->set_top_bottom (graphic.textures ().find (t_tex));
-
-    gra::scene_node& node = get_node ().get_child ("building");
-    node.set_scale (base::point3f (deep, high, wide));
-    node.set_position (base::point3f (0, high/2, 0));
-    node.add_drawable (model);
+    gra::scene_node& node = get_node().get_child("building");
+    node.set_scale(base::point3f(deep, high, wide));
+    node.set_position(base::point3f(0, high / 2, 0));
+    node.add_drawable(model);
 
     game::aabb bbox;
-    bbox.min = base::point3f (-deep/2, 0, -wide/2);
-    bbox.max = base::point3f ( deep/2, high,  wide/2);
-    set_bounds (bbox);
+    bbox.min = base::point3f(-deep / 2, 0, -wide / 2);
+    bbox.max = base::point3f(deep / 2, high, wide / 2);
+    set_bounds(bbox);
 }
 
-void building::handle_collision (entity& col, game::collidable& box,
-				 game::dynamic_collision& delta)
+void building::handle_collision(entity& col,
+                                game::collidable& box,
+                                game::dynamic_collision& delta)
 {
 }
 
-void building::update (int delta)
-{
-}
+void building::update(int delta) {}
 
 } /* namespace ent */
 } /* namespace dose */

@@ -24,142 +24,208 @@
  *
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <cstring>
 
-#include "yage/core/sdl_wrapper.hpp"
 #include "texture.hpp"
+#include "yage/core/sdl_wrapper.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-YAGE_DEFINE_ERROR_WHERE (texture_error, "texture");
+YAGE_DEFINE_ERROR_WHERE(texture_error, "texture");
 
 static int power_of_two(int input)
 {
     int value = 1;
 
     while (value < input)
-	value <<= 1;
+        value <<= 1;
     return value;
 }
 
-/* TODO: Mejorar el control de errores aquí. */
-void texture::make_texture (SDL_Surface* surf, GLint filter)
+/*
+ * SDL only guarantees that SDL_Surface::pixels is valid while the
+ * surface is locked. Emscripten's SDL keeps surfaces in canvases:
+ * locking copies the canvas into pixels, and unlocking copies it back,
+ * which it refuses to do once OpenGL is in use. There, surfaces stay
+ * locked; it is harmless, as the engine frees them right after.
+ */
+static void lock_pixels(SDL_Surface* surf) { SDL_LockSurface(surf); }
+
+static void unlock_pixels(SDL_Surface* surf)
 {
-    m_width = surf->w;
-    m_height = surf->h;
+#ifndef __EMSCRIPTEN__
+    SDL_UnlockSurface(surf);
+#endif
+}
 
-    m_real_width  = power_of_two (surf->w);
-    m_real_height = power_of_two (surf->h);
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    core::sdl_surface_ptr conv (
-	SDL_CreateRGBSurface (SDL_SWSURFACE, m_real_width, m_real_height, 32,
-			      0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff));
-#else
-    core::sdl_surface_ptr conv (
-	SDL_CreateRGBSurface (SDL_SWSURFACE, m_real_width, m_real_height, 32,
-			      0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000));
+#ifdef __EMSCRIPTEN__
+static Uint8 channel(Uint32 pixel, Uint32 mask)
+{
+    return mask ? (pixel & mask) >> __builtin_ctz(mask) : 0xff;
+}
 #endif
 
-    Uint32 saved_flags;
-    Uint8 saved_alpha;
-    saved_flags = surf->flags;
-    saved_alpha = surf->format->alpha;
+/* Copies src into dst, an RGBA surface, including its alpha channel as is. */
+static void copy_surface(SDL_Surface* src, SDL_Surface* dst)
+{
+#ifdef __EMSCRIPTEN__
+    /* Emscripten's SDL keeps every surface at 32 bits per pixel, in the
+       channel order it was created with: RGBA for images, ARGB for
+       SDL_ttf's text. Images loaded while OpenGL is in use come with
+       their pixels but without the canvas SDL_BlitSurface draws with,
+       so convert the pixels here. */
+    const SDL_PixelFormat* format = src->format;
+    lock_pixels(dst);
+    for (int y = 0; y < src->h; ++y) {
+        const Uint8* in =
+            static_cast<const Uint8*>(src->pixels) + y * src->pitch;
+        Uint8* out = static_cast<Uint8*>(dst->pixels) + y * dst->pitch;
+        for (int x = 0; x < src->w; ++x, in += 4, out += 4) {
+            Uint32 pixel;
+            std::memcpy(&pixel, in, 4);
+            out[0] = channel(pixel, format->Rmask);
+            out[1] = channel(pixel, format->Gmask);
+            out[2] = channel(pixel, format->Bmask);
+            out[3] = channel(pixel, format->Amask);
+        }
+    }
+    unlock_pixels(dst);
+#else
+    /* With SDL_SRCALPHA set, SDL would blend src onto dst using its
+       alpha channel instead of copying it. */
+    Uint32 saved_flags = src->flags;
+    Uint8 saved_alpha  = src->format->alpha;
 
     if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
- 	SDL_SetAlpha (surf, 0, 0);
+        SDL_SetAlpha(src, 0, 0);
 
-    SDL_BlitSurface (surf, 0, conv.get (), 0);
+    SDL_BlitSurface(src, 0, dst, 0);
 
     if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
- 	SDL_SetAlpha (surf, saved_flags, saved_alpha);
-
-    glGenTextures (1, &m_glid);
-    glBindTexture (GL_TEXTURE_2D, m_glid);
-
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glPixelStorei (GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
-    glTexImage2D (GL_TEXTURE_2D, 0, 4, m_real_width, m_real_height, 0,
-		  GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
-    glPixelStorei (GL_UNPACK_ROW_LENGTH, 0);
+        SDL_SetAlpha(src, saved_flags, saved_alpha);
+#endif
 }
 
-texture::texture (const std::string& fname)
-    : m_blending (false)
+/* TODO: Mejorar el control de errores aquí. */
+void texture::make_texture(SDL_Surface* surf, GLint filter)
 {
-    SDL_Surface* tex_image = IMG_Load (const_cast<char*> (fname.c_str ()));
+    m_width  = surf->w;
+    m_height = surf->h;
+
+    m_real_width  = power_of_two(surf->w);
+    m_real_height = power_of_two(surf->h);
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    core::sdl_surface_ptr conv(SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                                    m_real_width,
+                                                    m_real_height,
+                                                    32,
+                                                    0xff000000,
+                                                    0x00ff0000,
+                                                    0x0000ff00,
+                                                    0x000000ff));
+#else
+    core::sdl_surface_ptr conv(SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                                    m_real_width,
+                                                    m_real_height,
+                                                    32,
+                                                    0x000000ff,
+                                                    0x0000ff00,
+                                                    0x00ff0000,
+                                                    0xff000000));
+#endif
+
+    copy_surface(surf, conv.get());
+
+    glGenTextures(1, &m_glid);
+    glBindTexture(GL_TEXTURE_2D, m_glid);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    lock_pixels(conv.get());
+    glPixelStorei(GL_UNPACK_ROW_LENGTH,
+                  conv->pitch / conv->format->BytesPerPixel);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 4,
+                 m_real_width,
+                 m_real_height,
+                 0,
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+                 conv->pixels);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    unlock_pixels(conv.get());
+}
+
+texture::texture(const std::string& fname)
+    : m_blending(false)
+{
+    SDL_Surface* tex_image = IMG_Load(const_cast<char*>(fname.c_str()));
 
     if (tex_image) {
-	make_texture (tex_image, GL_LINEAR);
-	SDL_FreeSurface (tex_image);
+        make_texture(tex_image, GL_LINEAR);
+        SDL_FreeSurface(tex_image);
     } else {
-	throw texture_error (std::string ("Error while loading texture: ") + fname +
-			     " | " + IMG_GetError ());
+        throw texture_error(std::string("Error while loading texture: ") +
+                            fname + " | " + IMG_GetError());
     }
 }
 
-texture::texture (SDL_Surface* surf)
-{
-    make_texture (surf, GL_LINEAR);
-}
+texture::texture(SDL_Surface* surf) { make_texture(surf, GL_LINEAR); }
 
-void texture::reload (const std::string& fname)
+void texture::reload(const std::string& fname)
 {
-    glDeleteTextures (1, &m_glid);
+    glDeleteTextures(1, &m_glid);
 
-    SDL_Surface* tex_image = IMG_Load (const_cast<char*> (fname.c_str ()));
+    SDL_Surface* tex_image = IMG_Load(const_cast<char*>(fname.c_str()));
 
     if (tex_image) {
-	make_texture (tex_image, GL_LINEAR);
-	SDL_FreeSurface (tex_image);
+        make_texture(tex_image, GL_LINEAR);
+        SDL_FreeSurface(tex_image);
     } else {
-	throw texture_error (std::string ("Error while loading texture: ") + fname +
-			     " | " + IMG_GetError ());
+        throw texture_error(std::string("Error while loading texture: ") +
+                            fname + " | " + IMG_GetError());
     }
 }
 
-void texture::reload (SDL_Surface* surf)
+void texture::reload(SDL_Surface* surf)
 {
-    glDeleteTextures (1, &m_glid);
-    make_texture (surf, GL_LINEAR);
+    glDeleteTextures(1, &m_glid);
+    make_texture(surf, GL_LINEAR);
 }
 
-texture::~texture ()
-{
-    glDeleteTextures (1, &m_glid);
-}
+texture::~texture() { glDeleteTextures(1, &m_glid); }
 
-void texture::enable ()
+void texture::enable()
 {
-    glEnable (GL_TEXTURE_2D);
-    glBindTexture (GL_TEXTURE_2D, m_glid);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, m_glid);
 
     if (!m_blending) {
-	glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     } else {
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable (GL_DEPTH_TEST);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
     }
 }
 
-void texture::disable ()
+void texture::disable()
 {
     if (m_blending) {
-	glEnable (GL_DEPTH_TEST);
-	glDisable (GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
     }
 
-    glDisable (GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
 }
 
 } /* namespace gra */

@@ -24,46 +24,44 @@
  *
  */
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 #include "cone.hpp"
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-cone::cone (size_t division)
+cone::cone(size_t division)
 {
     /* La base*/
-    begin (mesh::TRIANGLES);
+    begin(mesh::TRIANGLES);
     for (size_t i = 0; i <= division; ++i) {
-	point (point3f (0, 0, 0));
-	point (point3f (cos (2 * M_PI * (float) i / division),
-			0.0f,
-			sin (2 * M_PI * (float) i / division)));
-	point (point3f (cos (2 * M_PI * (float) (i+1) / division),
-			0.0f,
-			sin (2 * M_PI * (float) (i+1) / division)));
+        point(point3f(0, 0, 0));
+        point(point3f(cos(2 * M_PI * (float) i / division),
+                      0.0f,
+                      sin(2 * M_PI * (float) i / division)));
+        point(point3f(cos(2 * M_PI * (float) (i + 1) / division),
+                      0.0f,
+                      sin(2 * M_PI * (float) (i + 1) / division)));
     }
-    end ();
+    end();
 
     /* Los lados */
-    begin (mesh::TRIANGLES);
+    begin(mesh::TRIANGLES);
     for (size_t i = 0; i <= division; ++i) {
-     	point (point3f (cos (2 * M_PI * (float) (i+1) / division),
-			0.0f,
-			sin (2 * M_PI * (float) (i+1) / division)));
-	point (point3f (cos (2 * M_PI * (float) i / division),
-			0.0f,
-			sin (2 * M_PI * (float) i / division)));
+        point(point3f(cos(2 * M_PI * (float) (i + 1) / division),
+                      0.0f,
+                      sin(2 * M_PI * (float) (i + 1) / division)));
+        point(point3f(cos(2 * M_PI * (float) i / division),
+                      0.0f,
+                      sin(2 * M_PI * (float) i / division)));
 
-	point (point3f (0, 1, 0));
+        point(point3f(0, 1, 0));
     }
-    end ();
+    end();
 }
 
 } /* namespace geo */

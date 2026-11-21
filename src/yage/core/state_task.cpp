@@ -26,53 +26,50 @@
 
 #include "state_task.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-YAGE_DEFINE_ERROR_WHERE (state_task_error, "state_task");
+YAGE_DEFINE_ERROR_WHERE(state_task_error, "state_task");
 
-void state_task::add_state (const std::string& name,
-			    const state_function& fun)
+void state_task::add_state(const std::string& name, const state_function& fun)
 {
-    m_state_map.insert (state_map::value_type (name, fun));
+    m_state_map.insert(state_map::value_type(name, fun));
 }
 
-void state_task::change_state (const std::string& name)
+void state_task::change_state(const std::string& name)
 {
-    pop_state ();
-    push_state (name);
+    pop_state();
+    push_state(name);
 }
 
-void state_task::push_state (const std::string& name)
+void state_task::push_state(const std::string& name)
 {
-    state_map::iterator it = m_state_map.find (name);
+    state_map::iterator it = m_state_map.find(name);
 
-    if (it == m_state_map.end ())
-	throw state_task_error (std::string ("Unknown state: ") + name);
+    if (it == m_state_map.end())
+        throw state_task_error(std::string("Unknown state: ") + name);
 
-    m_states.push (*it);
+    m_states.push(*it);
 }
 
-void state_task::pop_state ()
+void state_task::pop_state()
 {
-    if (m_states.empty ())
-	throw state_task_error ("Can not pop empty state task.");
-    m_states.pop ();
+    if (m_states.empty())
+        throw state_task_error("Can not pop empty state task.");
+    m_states.pop();
 }
 
-void state_task::update (int delta)
+void state_task::update(int delta)
 {
-    if (!m_states.empty ())
-	m_states.top ().second (delta);
+    if (!m_states.empty())
+        m_states.top().second(delta);
 }
 
-const std::string& state_task::current ()
+const std::string& state_task::current()
 {
-    if (m_states.empty ())
-	throw state_task_error ("Can not pop empty state task.");
-    return m_states.top ().first;
+    if (m_states.empty())
+        throw state_task_error("Can not pop empty state task.");
+    return m_states.top().first;
 }
 
 } /* namespace core */

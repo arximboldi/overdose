@@ -29,36 +29,31 @@
 
 #include <yage/gra/geometry.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class geometry_proxy : public geometry
 {
 public:
-    geometry_proxy (boost::shared_ptr<geometry> proxy);
+    geometry_proxy(boost::shared_ptr<geometry> proxy);
 
-    void draw ();
-    void draw_raw ();
+    void draw();
+    void draw_raw();
 
-    void set_proxy (boost::shared_ptr<geometry> proxy)
+    void set_proxy(boost::shared_ptr<geometry> proxy) { m_proxy = proxy; }
+
+    void set_material(boost::shared_ptr<material> material)
     {
-	m_proxy = proxy;
+        m_material = material;
     }
 
-    void set_material (boost::shared_ptr<material> material)
+    void set_texture(boost::shared_ptr<texture> texture)
     {
-	m_material = material;
-    }
-
-    void set_texture (boost::shared_ptr<texture> texture)
-    {
-	m_texture = texture;
+        m_texture = texture;
     }
 
 private:
-    boost::shared_ptr<texture>  m_texture;
+    boost::shared_ptr<texture> m_texture;
     boost::shared_ptr<material> m_material;
     boost::shared_ptr<geometry> m_proxy;
 };

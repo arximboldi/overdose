@@ -29,28 +29,26 @@
 
 #include <yage/game/entity.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class building : public yage::game::entity
 {
 public:
-    building (float wide,
-	      float deep,
-	      float high,
-	      const std::string& f_tex,
-	      const std::string& s_tex,
-	      const std::string& t_tex,
-	      float tile_f = 1,
-	      float tile_s = 1,
-	      float tile_t = 1);
+    building(float wide,
+             float deep,
+             float high,
+             const std::string& f_tex,
+             const std::string& s_tex,
+             const std::string& t_tex,
+             float tile_f = 1,
+             float tile_s = 1,
+             float tile_t = 1);
 
-    void handle_collision (yage::game::entity&,
-			   yage::game::collidable&,
-			   yage::game::dynamic_collision&);
-    void update (int delta);
+    void handle_collision(yage::game::entity&,
+                          yage::game::collidable&,
+                          yage::game::dynamic_collision&);
+    void update(int delta);
 };
 
 } /* namespace ent */

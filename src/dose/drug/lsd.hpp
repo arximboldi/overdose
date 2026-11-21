@@ -27,26 +27,24 @@
 #ifndef DOSE_LSD_H_
 #define DOSE_LSD_H_
 
-#include <yage/base/point4.hpp>
 #include <dose/drug/dope.hpp>
+#include <yage/base/point4.hpp>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
 class lsd : public dope
 {
 public:
-    lsd ();
+    lsd();
 
-    void take ();
-    void accumulate (dope_ptr dp);
-    void handle_finish ();
+    void take();
+    void accumulate(dope_ptr dp);
+    void handle_finish();
 
 private:
-    void randomize_models ();
-    void restore_models ();
+    void randomize_models();
+    void restore_models();
 
     yage::base::point4f m_orig_fog_color;
 };

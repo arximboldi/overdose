@@ -34,10 +34,8 @@
 #include <yage/base/arg_parser.hpp>
 #include <yage/base/config.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 /**
  * An arg_parser option that receives an argument and stores it in a conf_node.
@@ -55,8 +53,10 @@ public:
      * Constructor.
      * @param node The node to fill with the option argument.
      */
-    option_conf(conf_node& node) :
-	m_node(node) {}
+    option_conf(conf_node& node)
+        : m_node(node)
+    {
+    }
 
     /**
      * Parse an argument.
@@ -64,12 +64,12 @@ public:
      */
     bool parse(const char* arg)
     {
-	T val;
-	std::istringstream str(arg);
-	str >> val;
-	m_node.set(val);
+        T val;
+        std::istringstream str(arg);
+        str >> val;
+        m_node.set(val);
 
-	return true;
+        return true;
     }
 };
 
@@ -86,8 +86,10 @@ public:
      * Constructor.
      * @param node The node to fill with the option argument.
      */
-    option_conf(conf_node& node) :
-	m_node(node) {}
+    option_conf(conf_node& node)
+        : m_node(node)
+    {
+    }
 
     /**
      * Parse an argument.
@@ -95,8 +97,8 @@ public:
      */
     bool parse(const char* arg)
     {
-	m_node.set (std::string(arg));
-	return true;
+        m_node.set(std::string(arg));
+        return true;
     }
 };
 
@@ -106,7 +108,7 @@ public:
  * type option, it just sets the node to a value if the option is present
  * and leaves it unchanged otherwise.
  */
-template<class T>
+template <class T>
 class option_conf_value : public option
 {
 public:
@@ -115,8 +117,11 @@ public:
      * @param val The value to set the node to if the argument is present.
      * @param node The node to change if the the argument is present.
      */
-    option_conf_value(const T& val, conf_node& node) :
-	m_val(val), m_node(node) {}
+    option_conf_value(const T& val, conf_node& node)
+        : m_val(val)
+        , m_node(node)
+    {
+    }
 
     /**
      * Parse the argument.
@@ -124,8 +129,8 @@ public:
      */
     bool parse()
     {
-	m_node.set(m_val);
-	return true;
+        m_node.set(m_val);
+        return true;
     }
 
 private:

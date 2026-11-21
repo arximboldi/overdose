@@ -27,58 +27,56 @@
 #ifndef YAGE_POINT3_H
 #define YAGE_POINT3_H
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class T>
 class point3
 {
 public:
-    inline point3 ();
-    inline point3 (T x, T y, T z);
-    inline point3 (const point3& org);
-    inline point3 (const float* org);
+    inline point3();
+    inline point3(T x, T y, T z);
+    inline point3(const point3& org);
+    inline point3(const float* org);
 
-    inline void set (T nx, T ny, T nz);
-    inline void set_x (T x);
-    inline void set_y (T y);
-    inline void set_z (T z);
+    inline void set(T nx, T ny, T nz);
+    inline void set_x(T x);
+    inline void set_y(T y);
+    inline void set_z(T z);
 
-    inline T x () const;
-    inline T y () const;
-    inline T z () const;
+    inline T x() const;
+    inline T y() const;
+    inline T z() const;
 
-    inline T* ptr ();
-    inline const T* ptr () const;
+    inline T* ptr();
+    inline const T* ptr() const;
 
-    inline T length () const;
-    inline T sq_length () const;
-    inline point3 cross (const point3& p) const;
-    inline T dot (const point3& p) const;
-    inline point3 normalize () const;
-    inline point3 normal (const point3& p) const;
-    inline T cos (const point3& p) const;
+    inline T length() const;
+    inline T sq_length() const;
+    inline point3 cross(const point3& p) const;
+    inline T dot(const point3& p) const;
+    inline point3 normalize() const;
+    inline point3 normal(const point3& p) const;
+    inline T cos(const point3& p) const;
 
-    inline point3& operator+= (const point3& p);
-    inline point3 operator+ (const point3& p) const;
-    inline point3 operator- (const point3& p) const;
-    inline point3 operator* (const T& t) const;
-    inline point3 operator* (const point3& p) const;
+    inline point3& operator+=(const point3& p);
+    inline point3 operator+(const point3& p) const;
+    inline point3 operator-(const point3& p) const;
+    inline point3 operator*(const T& t) const;
+    inline point3 operator*(const point3& p) const;
 
-    inline bool operator< (const point3& p) const;
+    inline bool operator<(const point3& p) const;
     inline bool operator==(const point3& p) const;
     inline bool operator!=(const point3& p) const;
 
     inline point3& operator=(const point3& p);
-    inline T& operator[] (int indice);
-    inline const T& operator[] (const int indice) const;
+    inline T& operator[](int indice);
+    inline const T& operator[](const int indice) const;
 
-    point3 rotate (float angle, const point3& axis);
+    point3 rotate(float angle, const point3& axis);
 
 private:
     T p[3];
@@ -86,7 +84,7 @@ private:
 
 typedef point3<float> point3f;
 
-} /* namespaec base */
+} // namespace base
 } /* namespace yage */
 
 #include <yage/base/point3.tpp>

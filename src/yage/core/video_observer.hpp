@@ -30,41 +30,34 @@
 #include <yage/base/observer.hpp>
 #include <yage/core/sdl_wrapper.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 class video_listener : public base::listener_base
 {
 public:
-    virtual bool handle_video_update (SDL_Event& ev) = 0;
-    virtual bool handle_video_resize (SDL_Event& ev) = 0;
+    virtual bool handle_video_update(SDL_Event& ev) = 0;
+    virtual bool handle_video_resize(SDL_Event& ev) = 0;
 };
 
-class video_subject : public base::subject_base <video_listener>
+class video_subject : public base::subject_base<video_listener>
 {
 public:
     sdl_signal_type on_video_update;
     sdl_signal_type on_video_resize;
 
-    void add_listener (video_listener& l);
-    void del_listener (video_listener& l);
+    void add_listener(video_listener& l);
+    void del_listener(video_listener& l);
 };
 
-class video_forwarder : public video_listener
-		      , public video_subject
+class video_forwarder
+    : public video_listener
+    , public video_subject
 {
 public:
-    bool handle_video_update (SDL_Event& ev)
-    {
-	return on_video_update (ev);
-    }
+    bool handle_video_update(SDL_Event& ev) { return on_video_update(ev); }
 
-    bool handle_video_resize (SDL_Event& ev)
-    {
-	return on_video_resize (ev);
-    }
+    bool handle_video_resize(SDL_Event& ev) { return on_video_resize(ev); }
 };
 
 } /* namespace core */

@@ -28,61 +28,48 @@
 #define DOSE_TESTER_H_
 
 #include <yage/core/system.hpp>
-#include <yage/gra/light.hpp>
-#include <yage/gra/scene.hpp>
-#include <yage/gra/camera.hpp>
-#include <yage/gra/texture.hpp>
-#include <yage/gra/text.hpp>
-#include <yage/gra/fog.hpp>
-#include <yage/gra/material.hpp>
+#include <yage/game/state.hpp>
 #include <yage/geo/md2_model.hpp>
 #include <yage/geo/sphere.hpp>
-#include <yage/geo/textured_plane.hpp>
 #include <yage/geo/textured_hemisphere.hpp>
+#include <yage/geo/textured_plane.hpp>
 #include <yage/gra/animation_task.hpp>
-#include <yage/game/state.hpp>
+#include <yage/gra/camera.hpp>
+#include <yage/gra/fog.hpp>
+#include <yage/gra/light.hpp>
+#include <yage/gra/material.hpp>
+#include <yage/gra/scene.hpp>
+#include <yage/gra/text.hpp>
+#include <yage/gra/texture.hpp>
 
-namespace dose
-{
-namespace st
-{
+namespace dose {
+namespace st {
 
-class tester : public yage::game::state
-	     , public yage::core::key_listener
-	     , public yage::core::mouse_listener
+class tester
+    : public yage::game::state
+    , public yage::core::key_listener
+    , public yage::core::mouse_listener
 {
 public:
-    tester ();
+    tester();
 
-    bool handle_key_press (SDL_Event& ev);
+    bool handle_key_press(SDL_Event& ev);
 
-    bool handle_key_release (SDL_Event& ev)
-    {
-	return false;
-    }
+    bool handle_key_release(SDL_Event& ev) { return false; }
 
-    bool handle_mouse_move (SDL_Event& ev)
-    {
-	return false;
-    }
+    bool handle_mouse_move(SDL_Event& ev) { return false; }
 
-    bool handle_mouse_button_press (SDL_Event& ev)
-    {
-	return false;
-    }
+    bool handle_mouse_button_press(SDL_Event& ev) { return false; }
 
-    bool handle_mouse_button_release (SDL_Event& ev)
-    {
-	return false;
-    }
+    bool handle_mouse_button_release(SDL_Event& ev) { return false; }
 
 private:
     float m_rad;
     float m_angle, m_angle2;
     boost::shared_ptr<yage::geo::md2_model> m_model;
-    boost::shared_ptr<yage::gra::light>     m_light;
-    boost::shared_ptr<yage::gra::camera>    m_camera;
-    boost::shared_ptr<yage::gra::text>      m_text;
+    boost::shared_ptr<yage::gra::light> m_light;
+    boost::shared_ptr<yage::gra::camera> m_camera;
+    boost::shared_ptr<yage::gra::text> m_text;
 };
 
 } /* namespace st */

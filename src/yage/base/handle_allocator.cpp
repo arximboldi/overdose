@@ -26,13 +26,12 @@
 
 #include "handle_allocator.hpp"
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (handle_allocator_error, "handle_allocator",
-			      "Resource exhausted.");
+YAGE_DEFINE_ERROR_WHERE_WHAT(handle_allocator_error,
+                             "handle_allocator",
+                             "Resource exhausted.");
 
 } /* namespace base*/
 } /* namespace yage */

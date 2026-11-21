@@ -39,10 +39,8 @@
 #include <yage/base/exception.hpp>
 #include <yage/base/threads.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 /* Default parameters forward declaration. */
 template <class T>
@@ -62,12 +60,11 @@ class lifetime_static_dtor;
  * @param ThreadingPolicy Wether you want the implementation to be thread-safe
  *                        or not.
  */
-template <
-    class T,
-    template <class> class CreationPolicy  = create_with_new,
-    template <class> class LifetimePolicy  = lifetime_static_dtor,
-    template <class> class ThreadingPolicy = YAGE_DEFAULT_NONOBJ_THREADING
-    >
+template <class T,
+          template <class> class CreationPolicy = create_with_new,
+          template <class> class LifetimePolicy = lifetime_static_dtor,
+          template <class> class ThreadingPolicy =
+              YAGE_DEFAULT_NONOBJ_THREADING>
 class singleton_holder
 {
 public:
@@ -80,17 +77,17 @@ public:
      * Access the singleton only instance.
      * @return The singleton instance.
      */
-    static T& self ();
+    static T& self();
 
 protected:
     /** Hidden constructor. */
-    singleton_holder () {};
+    singleton_holder() {};
     /** Hidden destructor. */
-    ~singleton_holder () {};
+    ~singleton_holder() {};
     /** Hidden copy constructor. */
-    singleton_holder (singleton_holder const&) {};
+    singleton_holder(singleton_holder const&) {};
     /** Hidden copy operator. */
-    singleton_holder& operator= (singleton_holder const&) {};
+    singleton_holder& operator=(singleton_holder const&) {};
 
 private:
     /** The single instance pointer type. */
@@ -101,7 +98,7 @@ private:
     static bool m_destroyed;
 
     /** The destroy handler */
-    static void destroy_singleton ();
+    static void destroy_singleton();
 };
 
 /**
@@ -111,15 +108,9 @@ private:
 template <typename T>
 struct create_with_new
 {
-    static T* create ()
-    {
-	return new T;
-    }
+    static T* create() { return new T; }
 
-    static void destroy (T* var)
-    {
-	delete var;
-    }
+    static void destroy(T* var) { delete var; }
 };
 
 /**
@@ -130,20 +121,20 @@ template <typename T>
 struct create_with_malloc
 {
     /** Creator function. */
-    static T* create ()
+    static T* create()
     {
-	T* mem = std::malloc (sizeof (T));
-	if (!mem)
-	    return 0;
-	mem = new (mem) T;
-	return mem;
+        T* mem = std::malloc(sizeof(T));
+        if (!mem)
+            return 0;
+        mem = new (mem) T;
+        return mem;
     }
 
     /** Destroyer function. */
-    static void destroy (T* obj)
+    static void destroy(T* obj)
     {
-	obj->~T ();
-	std::free (obj);
+        obj->~T();
+        std::free(obj);
     }
 };
 
@@ -154,17 +145,14 @@ template <typename T>
 struct create_with_static
 {
     /** Creator function. */
-    static T* create ()
+    static T* create()
     {
-	static T object; /* Should we use Loki's MaxAlign trick? */
-	return &object;
+        static T object; /* Should we use Loki's MaxAlign trick? */
+        return &object;
     }
 
     /** Destroyer function */
-    static void destroy (T* obj)
-    {
-	obj->~T ();
-    }
+    static void destroy(T* obj) { obj->~T(); }
 };
 
 /**
@@ -173,7 +161,7 @@ struct create_with_static
  * to instantiate it.
  * @param Alloc the actual allocator to use.
  */
-template<template<class> class Alloc>
+template <template <class> class Alloc>
 struct create_with
 {
     /**
@@ -182,20 +170,17 @@ struct create_with
     template <class T>
     struct alloc
     {
-	static Alloc<T> allocator;
+        static Alloc<T> allocator;
 
-	/** The creator function */
-	static T* create()
-	{
-	    return new (allocator.allocate (1)) T;
-	}
+        /** The creator function */
+        static T* create() { return new (allocator.allocate(1)) T; }
 
-	/** The destroyer function */
-	static void destroy(T* p)
-	{
-	    p->~T();
-	    allocator.deallocate (p, 1);
-	}
+        /** The destroyer function */
+        static void destroy(T* p)
+        {
+            p->~T();
+            allocator.deallocate(p, 1);
+        }
     };
 };
 
@@ -209,7 +194,7 @@ typedef void (*destroy_func_t)();
  * The error that lifetime policies should throw in case of dead
  * reference access.
  */
-YAGE_DECLARE_ERROR (yage_error, singleton_error);
+YAGE_DECLARE_ERROR(yage_error, singleton_error);
 
 /**
  * Lifetime singleton policy that destroys the singleton in the
@@ -222,16 +207,10 @@ template <class T>
 struct lifetime_atexit
 {
     /** Scheduler function. */
-    static void schedule (T*, destroy_func_t fun)
-    {
-	std::atexit (fun);
-    }
+    static void schedule(T*, destroy_func_t fun) { std::atexit(fun); }
 
     /** Error handler function. */
-    static void on_dead_reference ()
-    {
-	throw singleton_error ();
-    }
+    static void on_dead_reference() { throw singleton_error(); }
 };
 
 /**
@@ -246,31 +225,26 @@ template <class T>
 struct lifetime_static_dtor
 {
     /** Scheduler function. */
-    static void schedule (T*, destroy_func_t fun)
+    static void schedule(T*, destroy_func_t fun)
     {
-	static scheduler sched (fun);
+        static scheduler sched(fun);
     }
 
     /** Error handler function. */
-    static void on_dead_reference ()
-    {
-	throw singleton_error ();
-    }
+    static void on_dead_reference() { throw singleton_error(); }
 
 private:
     /** Helper object. */
     struct scheduler
     {
-	scheduler (destroy_func_t fun)
-	    : m_fun (fun)
-	{}
+        scheduler(destroy_func_t fun)
+            : m_fun(fun)
+        {
+        }
 
-	~scheduler ()
-	{
-	    m_fun ();
-	}
+        ~scheduler() { m_fun(); }
 
-	destroy_func_t m_fun;
+        destroy_func_t m_fun;
     };
 };
 
@@ -285,19 +259,19 @@ class lifetime_phoenix
 {
 public:
     /** Scheduler funcion */
-    static void schedule (T*, destroy_func_t pFun)
+    static void schedule(T*, destroy_func_t pFun)
     {
 #ifndef YAGE_ATEXIT_FIXED
-	if (!m_destroyed)
+        if (!m_destroyed)
 #endif
-	    std::atexit(pFun);
+            std::atexit(pFun);
     }
 
     /** Error handler function */
-    static void on_dead_reference ()
+    static void on_dead_reference()
     {
 #ifndef YAGE_ATEXIT_FIXED
-	m_destroyed = true;
+        m_destroyed = true;
 #endif
     }
 
@@ -314,14 +288,10 @@ template <class T>
 struct lifetime_no_destroy
 {
     /** Scheduler function */
-    static void schedule (T*, destroy_func_t)
-    {}
+    static void schedule(T*, destroy_func_t) {}
 
     /** Error handler funcion */
-    static void on_dead_reference ()
-    {
-	throw singleton_error ();
-    }
+    static void on_dead_reference() { throw singleton_error(); }
 };
 
 } /* namespace base */

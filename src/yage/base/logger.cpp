@@ -31,28 +31,28 @@
 
 using namespace std;
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 log::~log()
 {
     for (list<log_sink*>::iterator it = m_dumpers.begin();
-	 it != m_dumpers.end(); ++it) {
-	delete *it;
+         it != m_dumpers.end();
+         ++it) {
+        delete *it;
     }
 }
 
-void log::operator () (log& l, int level, const string& msg)
+void log::operator()(log& l, int level, const string& msg)
 {
     for (list<log_sink*>::iterator it = m_dumpers.begin();
-	 it != m_dumpers.end(); ++it) {
-	(*it)->dump (l, level, msg);
+         it != m_dumpers.end();
+         ++it) {
+        (*it)->dump(l, level, msg);
     }
 
-    if (get_parent ())
-	get_parent ()->operator () (l, level, msg);
+    if (get_parent())
+        get_parent()->operator()(l, level, msg);
 }
 
 } /* namespace base */

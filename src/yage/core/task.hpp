@@ -31,68 +31,53 @@
 #include <boost/weak_ptr.hpp>
 #include <list>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 class task_manager;
 
 class task
 {
 public:
-    typedef std::list<boost::shared_ptr<task> > task_list;
+    typedef std::list<boost::shared_ptr<task>> task_list;
 
-    task ();
+    task();
 
-    virtual ~task () {}
+    virtual ~task() {}
 
-    virtual void update (int ms) = 0;
+    virtual void update(int ms) = 0;
 
-    void finish ();
+    void finish();
 
-    bool is_finished ()
+    bool is_finished() { return m_is_finished; }
+
+    bool toggle_pause() { return (m_is_paused = !m_is_paused); }
+
+    bool is_paused() { return m_is_paused; }
+
+    boost::shared_ptr<task> add_next(boost::shared_ptr<task> next)
     {
-	return m_is_finished;
+        m_next.push_back(next);
+        return next;
     }
 
-    bool toggle_pause ()
+    const task_list& get_next() { return m_next; }
+
+    void set_task_parent(boost::weak_ptr<task_manager> parent)
     {
-	return (m_is_paused = !m_is_paused);
+        m_parent = parent;
     }
 
-    bool is_paused ()
+    boost::shared_ptr<task_manager> get_task_parent()
     {
-	return m_is_paused;
-    }
-
-    boost::shared_ptr<task>
-    add_next (boost::shared_ptr<task> next)
-    {
-	m_next.push_back (next);
-	return next;
-    }
-
-    const task_list& get_next ()
-    {
-	return m_next;
-    }
-
-    void set_task_parent (boost::weak_ptr<task_manager> parent)
-    {
-	m_parent = parent;
-    }
-
-    boost::shared_ptr<task_manager> get_task_parent ()
-    {
-	return boost::shared_ptr<task_manager> (m_parent);
+        return boost::shared_ptr<task_manager>(m_parent);
     }
 
 private:
     bool m_is_finished;
     bool m_is_paused;
 
-    std::list<boost::shared_ptr<task> > m_next;
+    std::list<boost::shared_ptr<task>> m_next;
     boost::weak_ptr<task_manager> m_parent;
 };
 

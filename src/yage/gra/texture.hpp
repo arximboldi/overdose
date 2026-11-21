@@ -27,60 +27,43 @@
 #ifndef YAGE_TEXTURE_H_
 #define YAGE_TEXTURE_H_
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
 
 #include <boost/shared_ptr.hpp>
 
 #include <yage/base/exception.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-YAGE_DECLARE_ERROR (base::yage_error, texture_error);
+YAGE_DECLARE_ERROR(base::yage_error, texture_error);
 
 class texture
 {
 public:
-    texture (const std::string& fname);
-    texture (SDL_Surface* surf);
-    ~texture ();
+    texture(const std::string& fname);
+    texture(SDL_Surface* surf);
+    ~texture();
 
-    void reload (const std::string& fname);
-    void reload (SDL_Surface* surf);
+    void reload(const std::string& fname);
+    void reload(SDL_Surface* surf);
 
-    void enable ();
-    void disable ();
+    void enable();
+    void disable();
 
-    size_t get_real_width () const
-    {
-	return m_real_width;
-    }
+    size_t get_real_width() const { return m_real_width; }
 
-    size_t get_real_height () const
-    {
-	return m_real_height;
-    }
+    size_t get_real_height() const { return m_real_height; }
 
-    size_t get_width () const
-    {
-	return m_width;
-    }
+    size_t get_width() const { return m_width; }
 
-    size_t get_height () const
-    {
-	return m_height;
-    }
+    size_t get_height() const { return m_height; }
 
-    void set_blending (bool blend)
-    {
-	m_blending = blend;
-    }
+    void set_blending(bool blend) { m_blending = blend; }
 
 private:
-    void make_texture (SDL_Surface* surf, GLint filter);
+    void make_texture(SDL_Surface* surf, GLint filter);
 
     GLuint m_glid;
     size_t m_width;

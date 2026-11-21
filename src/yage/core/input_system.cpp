@@ -24,56 +24,54 @@
  *
  */
 
-#include <iostream>
 #include "input_system.hpp"
+#include <iostream>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-bool input_system::update ()
+bool input_system::update()
 {
     bool cont = true;
     SDL_Event ev;
 
-    while (SDL_PollEvent (&ev)) {
-	switch (ev.type) {
-	case SDL_VIDEOEXPOSE:
-	    on_video_update (ev);
-	    break;
+    while (SDL_PollEvent(&ev)) {
+        switch (ev.type) {
+        case SDL_VIDEOEXPOSE:
+            on_video_update(ev);
+            break;
 
-	case SDL_VIDEORESIZE:
-	    on_video_resize (ev);
-	    break;
+        case SDL_VIDEORESIZE:
+            on_video_resize(ev);
+            break;
 
-	case SDL_KEYDOWN:
-	    on_key_press (ev);
-	    break;
+        case SDL_KEYDOWN:
+            on_key_press(ev);
+            break;
 
-	case SDL_KEYUP:
-	    on_key_release (ev);
-	    break;
+        case SDL_KEYUP:
+            on_key_release(ev);
+            break;
 
-	case SDL_MOUSEBUTTONDOWN:
-	    on_mouse_button_press (ev);
-	    break;
+        case SDL_MOUSEBUTTONDOWN:
+            on_mouse_button_press(ev);
+            break;
 
-	case SDL_MOUSEBUTTONUP:
-	    on_mouse_button_release (ev);
-	    break;
+        case SDL_MOUSEBUTTONUP:
+            on_mouse_button_release(ev);
+            break;
 
-	case SDL_MOUSEMOTION:
-	    on_mouse_move (ev);
-	    break;
+        case SDL_MOUSEMOTION:
+            on_mouse_move(ev);
+            break;
 
-	case SDL_QUIT:
-	    cont = false;
-	    break;
+        case SDL_QUIT:
+            cont = false;
+            break;
 
-	default:
-	    break;
-	}
+        default:
+            break;
+        }
     }
 
     return cont;

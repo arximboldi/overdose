@@ -26,9 +26,9 @@
 
 #include <map>
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_opengl.h>
 
 #include "yage/gra/material.hpp"
 #include "yage/gra/texture.hpp"
@@ -37,218 +37,206 @@
 
 using namespace std;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (mesh_error, "mesh", "Invalid mesh state.");
+YAGE_DEFINE_ERROR_WHERE_WHAT(mesh_error, "mesh", "Invalid mesh state.");
 
-mesh::mesh ()
-    : m_working (false)
-    , m_faces_normal (false)
-    , m_vertex_normal (false)
+mesh::mesh()
+    : m_working(false)
+    , m_faces_normal(false)
+    , m_vertex_normal(false)
 {
 }
 
-void mesh::begin (polygon_type poly,
-		  int n_vertex_est,
-		  normal_type norm)
+void mesh::begin(polygon_type poly, int n_vertex_est, normal_type norm)
 {
-    check_state (false);
+    check_state(false);
 
     m_poly_type = poly;
     m_norm_type = norm;
 
-    m_vertex.clear ();
-    m_faces.clear ();
-    m_vertex.reserve (n_vertex_est);
-    m_faces.reserve (n_vertex_est / 3);
+    m_vertex.clear();
+    m_faces.clear();
+    m_vertex.reserve(n_vertex_est);
+    m_faces.reserve(n_vertex_est / 3);
 
     m_working = true;
 
-    m_curr.has_tex = false;
+    m_curr.has_tex    = false;
     m_curr.has_colour = false;
 }
 
-void mesh::point (const base::point3f& p)
+void mesh::point(const base::point3f& p)
 {
-    check_state (true);
+    check_state(true);
 
     m_curr.point = p;
-    m_vertex.push_back (m_curr);
+    m_vertex.push_back(m_curr);
 
-    switch (m_poly_type)
-    {
+    switch (m_poly_type) {
     case TRIANGLES:
-	if (m_vertex.size () % 3 == 0)
-	{
-	    mesh_face face;
-	    face.tri [0] = (m_vertex.end () - 3)->point;
-	    face.tri [1] = (m_vertex.end () - 2)->point;
-	    face.tri [2] = (m_vertex.end () - 1)->point;
-	    m_faces.push_back (face);
-	}
-	break;
+        if (m_vertex.size() % 3 == 0) {
+            mesh_face face;
+            face.tri[0] = (m_vertex.end() - 3)->point;
+            face.tri[1] = (m_vertex.end() - 2)->point;
+            face.tri[2] = (m_vertex.end() - 1)->point;
+            m_faces.push_back(face);
+        }
+        break;
 
     case QUADS:
-	if (m_vertex.size () % 6 == 4)
-	{
-	    m_vertex.push_back (*(m_vertex.end ()-4));
-	    m_vertex.push_back (*(m_vertex.end ()-3));
+        if (m_vertex.size() % 6 == 4) {
+            m_vertex.push_back(*(m_vertex.end() - 4));
+            m_vertex.push_back(*(m_vertex.end() - 3));
 
-	    mesh_face face;
-	    face.tri [0] = (m_vertex.end () - 6)->point;
-	    face.tri [1] = (m_vertex.end () - 5)->point;
-	    face.tri [2] = (m_vertex.end () - 4)->point;
-	    m_faces.push_back (face);
+            mesh_face face;
+            face.tri[0] = (m_vertex.end() - 6)->point;
+            face.tri[1] = (m_vertex.end() - 5)->point;
+            face.tri[2] = (m_vertex.end() - 4)->point;
+            m_faces.push_back(face);
 
-	    face.tri [0] = (m_vertex.end () - 3)->point;
-	    face.tri [1] = (m_vertex.end () - 2)->point;
-	    face.tri [2] = (m_vertex.end () - 1)->point;
-	    m_faces.push_back (face);
-	}
-	break;
+            face.tri[0] = (m_vertex.end() - 3)->point;
+            face.tri[1] = (m_vertex.end() - 2)->point;
+            face.tri[2] = (m_vertex.end() - 1)->point;
+            m_faces.push_back(face);
+        }
+        break;
 
     default:
-	break;
+        break;
     }
 
-    m_curr.has_tex = false;
+    m_curr.has_tex    = false;
     m_curr.has_colour = false;
 }
 
-void mesh::tex_coord (const base::point2f& tex)
+void mesh::tex_coord(const base::point2f& tex)
 {
-    check_state (true);
+    check_state(true);
 
     m_curr.has_tex = true;
-    m_curr.tex = tex;
+    m_curr.tex     = tex;
 }
 
-void mesh::colour (const base::point3f& col)
+void mesh::colour(const base::point3f& col)
 {
-    check_state (true);
+    check_state(true);
 
     m_curr.has_colour = true;
-    m_curr.colour = col;
+    m_curr.colour     = col;
 }
 
-void mesh::end ()
+void mesh::end()
 {
-    check_state (true);
+    check_state(true);
 
     m_working = false;
 
     switch (m_norm_type) {
     case VERTEX:
-	normalize_vertex ();
-	break;
+        normalize_vertex();
+        break;
 
     case FACE:
-	normalize_faces ();
-	break;
+        normalize_faces();
+        break;
 
     default:
-	break;
+        break;
     }
 }
 
-void mesh::draw_raw ()
+void mesh::draw_raw()
 {
-    check_state (false);
+    check_state(false);
 
-    glBegin (GL_TRIANGLES);
-    for (size_t j = 0; j < m_vertex.size (); ++j)
-    {
-	if (m_vertex[j].has_colour)
-	    glColor3fv (&m_vertex[j].colour[0]);
-	if (m_vertex[j].has_tex)
-	    glTexCoord2f (m_vertex[j].tex[0], m_vertex[j].tex[1]);
+    glBegin(GL_TRIANGLES);
+    for (size_t j = 0; j < m_vertex.size(); ++j) {
+        if (m_vertex[j].has_colour)
+            glColor3fv(&m_vertex[j].colour[0]);
+        if (m_vertex[j].has_tex)
+            glTexCoord2f(m_vertex[j].tex[0], m_vertex[j].tex[1]);
 
-	if (m_vertex_normal)
-	    glNormal3fv (m_vertex[j].norm.ptr ());
-	else if (m_faces_normal && j % 3 == 0)
-	    glNormal3fv (m_faces[j/3].norm.ptr ());
+        if (m_vertex_normal)
+            glNormal3fv(m_vertex[j].norm.ptr());
+        else if (m_faces_normal && j % 3 == 0)
+            glNormal3fv(m_faces[j / 3].norm.ptr());
 
-	glVertex3fv (m_vertex[j].point.ptr ());
+        glVertex3fv(m_vertex[j].point.ptr());
     }
-    glEnd ();
+    glEnd();
 }
 
-void mesh::draw ()
+void mesh::draw()
 {
-    check_state (false);
+    check_state(false);
 
     if (m_texture)
-	m_texture->enable ();
+        m_texture->enable();
     if (m_material)
-	m_material->apply ();
+        m_material->apply();
 
-    draw_raw ();
+    draw_raw();
 
     if (m_texture)
-	m_texture->disable ();
+        m_texture->disable();
 }
 
-void mesh::normalize_faces ()
+void mesh::normalize_faces()
 {
-    if (!m_faces_normal)
-    {
-	for (size_t j = 0; j < m_faces.size(); j++ )
-	{
-	    base::point3f* tri = m_faces [j].tri;
-	    m_faces[j].norm =
-		(tri [1] - tri [0]).normal (tri [2] - tri [0]);
-	}
+    if (!m_faces_normal) {
+        for (size_t j = 0; j < m_faces.size(); j++) {
+            base::point3f* tri = m_faces[j].tri;
+            m_faces[j].norm    = (tri[1] - tri[0]).normal(tri[2] - tri[0]);
+        }
 
-	m_faces_normal = true;
+        m_faces_normal = true;
     }
 }
 
-namespace
-{
+namespace {
 struct comparator
 {
-    bool operator () (const base::point3f& a, const base::point3f& b)
+    bool operator()(const base::point3f& a, const base::point3f& b) const
     {
-	const float epsilon = 0.0001;
+        const float epsilon = 0.0001;
 
-	float diff_x = std::abs (a[0] - b[0]);
-	float diff_y = std::abs (a[1] - b[1]);
-	float diff_z = std::abs (a[2] - b[2]);
+        float diff_x = std::abs(a[0] - b[0]);
+        float diff_y = std::abs(a[1] - b[1]);
+        float diff_z = std::abs(a[2] - b[2]);
 
-	if (diff_x < epsilon && diff_y < epsilon && diff_z < epsilon)
-	    return false;
-	return a < b;
+        if (diff_x < epsilon && diff_y < epsilon && diff_z < epsilon)
+            return false;
+        return a < b;
     }
 };
-}
+} // namespace
 
-void mesh::normalize_vertex ()
+void mesh::normalize_vertex()
 {
-    if (!m_vertex_normal)
-    {
-	normalize_faces ();
+    if (!m_vertex_normal) {
+        normalize_faces();
 
-	std::map <base::point3f, std::pair<base::point3f, int>, comparator> norm;
+        std::map<base::point3f, std::pair<base::point3f, int>, comparator> norm;
 
-	for (vector<mesh_face>::iterator it = m_faces.begin();
-	     it != m_faces.end();
-	     ++it)
-	{
-	    norm [it->tri[0]].first += it->norm; ++norm[it->tri[0]].second;
-	    norm [it->tri[1]].first += it->norm; ++norm[it->tri[1]].second;
-	    norm [it->tri[2]].first += it->norm; ++norm[it->tri[2]].second;
-	}
+        for (vector<mesh_face>::iterator it = m_faces.begin();
+             it != m_faces.end();
+             ++it) {
+            norm[it->tri[0]].first += it->norm;
+            ++norm[it->tri[0]].second;
+            norm[it->tri[1]].first += it->norm;
+            ++norm[it->tri[1]].second;
+            norm[it->tri[2]].first += it->norm;
+            ++norm[it->tri[2]].second;
+        }
 
-	for (size_t i = 0; i < m_vertex.size (); ++i)
-	{
-	    m_vertex [i].norm =
-		norm [m_vertex[i].point].first * (1.0f / norm [m_vertex[i].point].second);
-	}
+        for (size_t i = 0; i < m_vertex.size(); ++i) {
+            m_vertex[i].norm = norm[m_vertex[i].point].first *
+                               (1.0f / norm[m_vertex[i].point].second);
+        }
 
-	m_vertex_normal = true;
+        m_vertex_normal = true;
     }
 }
 

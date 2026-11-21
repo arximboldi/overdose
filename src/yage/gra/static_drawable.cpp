@@ -26,30 +26,25 @@
 
 #include "static_drawable.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-static_drawable::static_drawable (drawable& d)
+static_drawable::static_drawable(drawable& d)
 {
-    m_handle = display_list_handle_allocator::self ().allocate ();
+    m_handle = display_list_handle_allocator::self().allocate();
 
-    glNewList (m_handle, GL_COMPILE);
-    d.draw ();
-    glEndList ();
+    glNewList(m_handle, GL_COMPILE);
+    d.draw();
+    glEndList();
 }
 
-static_drawable::~static_drawable ()
+static_drawable::~static_drawable()
 {
-    glDeleteLists (m_handle, 1);
-    display_list_handle_allocator::self ().release (m_handle);
+    glDeleteLists(m_handle, 1);
+    display_list_handle_allocator::self().release(m_handle);
 }
 
-void static_drawable::draw ()
-{
-    glCallList (m_handle);
-}
+void static_drawable::draw() { glCallList(m_handle); }
 
 } /* namespace gra */
 } /* namespace yage */

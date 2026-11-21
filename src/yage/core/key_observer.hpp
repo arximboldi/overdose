@@ -30,41 +30,34 @@
 #include <yage/base/observer.hpp>
 #include <yage/core/sdl_wrapper.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 class key_listener : public base::listener_base
 {
 public:
-    virtual bool handle_key_press (SDL_Event& event) = 0;
-    virtual bool handle_key_release (SDL_Event& event) = 0;
+    virtual bool handle_key_press(SDL_Event& event)   = 0;
+    virtual bool handle_key_release(SDL_Event& event) = 0;
 };
 
-class key_subject : public base::subject_base <key_listener>
+class key_subject : public base::subject_base<key_listener>
 {
 public:
     sdl_signal_type on_key_press;
     sdl_signal_type on_key_release;
 
-    void add_listener (key_listener& l);
-    void del_listener (key_listener& l);
+    void add_listener(key_listener& l);
+    void del_listener(key_listener& l);
 };
 
-class key_forwarder : public key_listener
-		    , public key_subject
+class key_forwarder
+    : public key_listener
+    , public key_subject
 {
 public:
-    bool handle_key_press (SDL_Event& event)
-    {
-	return on_key_press (event);
-    }
+    bool handle_key_press(SDL_Event& event) { return on_key_press(event); }
 
-    bool handle_key_release (SDL_Event& event)
-    {
-	return on_key_release (event);
-    }
+    bool handle_key_release(SDL_Event& event) { return on_key_release(event); }
 };
 
 } /* namespace core */

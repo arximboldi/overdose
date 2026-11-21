@@ -30,84 +30,72 @@
 #include <boost/shared_ptr.hpp>
 
 #include <yage/base/point3.hpp>
-#include <yage/gra/font.hpp>
 #include <yage/gra/drawable.hpp>
+#include <yage/gra/font.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-YAGE_DECLARE_ERROR (base::yage_error, text_error);
+YAGE_DECLARE_ERROR(base::yage_error, text_error);
 
 class text : public drawable
 {
 public:
-    text (font_ptr font,
-	  const std::string& str = "",
-	  const base::point3f& color = base::point3f (1, 1, 1),
-	  font::render_mode mode = font::BLENDED);
+    text(font_ptr font,
+         const std::string& str     = "",
+         const base::point3f& color = base::point3f(1, 1, 1),
+         font::render_mode mode     = font::BLENDED);
 
-    font::texture_ptr get_texture ();
-    void draw ();
-    size_t get_width ();
-    size_t get_height ();
+    font::texture_ptr get_texture();
+    void draw();
+    size_t get_width();
+    size_t get_height();
 
-    const std::string& get_text () const
+    const std::string& get_text() const { return m_str; }
+
+    void set_text(const std::string& str)
     {
-	return m_str;
+        m_str         = str;
+        m_need_update = true;
     }
 
-    void set_text (const std::string& str)
+    const base::point3f& get_color() const { return m_color; }
+
+    void set_color(const base::point3f& color)
     {
-	m_str = str;
-	m_need_update = true;
+        m_color       = color;
+        m_need_update = true;
     }
 
-    const base::point3f& get_color () const
+    font::render_mode get_mode() const { return m_mode; }
+
+    void set_mode(font::render_mode mode)
     {
-	return m_color;
+        m_mode        = mode;
+        m_need_update = true;
     }
 
-    void set_color (const base::point3f& color)
-    {
-	m_color = color;
-	m_need_update = true;
-    }
+    boost::shared_ptr<font> get_font() { return m_font; }
 
-    font::render_mode get_mode () const
+    void set_font(font_ptr font)
     {
-	return m_mode;
-    }
-
-    void set_mode (font::render_mode mode)
-    {
-	m_mode = mode;
-	m_need_update = true;
-    }
-
-    boost::shared_ptr<font> get_font ()
-    {
-	return m_font;
-    }
-
-    void set_font (font_ptr font)
-    {
-	m_font = font;
-	m_need_update = true;
+        m_font        = font;
+        m_raster_size = font ? font->get_point_size() : 0;
+        m_need_update = true;
     }
 
 public:
-    void update_texture ();
+    void update_texture();
 
     bool m_need_update;
+    int m_raster_size;
     font_ptr m_font;
     std::string m_str;
     base::point3f m_color;
     font::render_mode m_mode;
 
-    size_t m_real_width;
-    size_t m_real_height;
+    float m_real_width;
+    float m_real_height;
     size_t m_width;
     size_t m_height;
     font::texture_ptr m_tex;

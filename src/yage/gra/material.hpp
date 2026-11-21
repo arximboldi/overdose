@@ -30,60 +30,34 @@
 #include <boost/shared_ptr.hpp>
 #include <yage/base/point4.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class material
 {
 public:
-    material (const base::point4f& ambient  = base::point4f (1.0, 1.0, 1.0, 1.0),
-	      const base::point4f& diffuse  = base::point4f (1.0, 1.0, 1.0, 1.0),
-	      const base::point4f& specular = base::point4f (1.0, 1.0, 1.0, 1.0),
-	      int shininess = 128);
+    material(const base::point4f& ambient  = base::point4f(1.0, 1.0, 1.0, 1.0),
+             const base::point4f& diffuse  = base::point4f(1.0, 1.0, 1.0, 1.0),
+             const base::point4f& specular = base::point4f(1.0, 1.0, 1.0, 1.0),
+             int shininess                 = 128);
 
-    void apply ();
+    void apply();
 
-    void set_ambient (const base::point4f& ambient)
-    {
-	m_ambient = ambient;
-    }
+    void set_ambient(const base::point4f& ambient) { m_ambient = ambient; }
 
-    void set_diffuse (const base::point4f& diffuse)
-    {
-	m_diffuse = diffuse;
-    }
+    void set_diffuse(const base::point4f& diffuse) { m_diffuse = diffuse; }
 
-    void set_specular (const base::point4f& specular)
-    {
-	m_specular = specular;
-    }
+    void set_specular(const base::point4f& specular) { m_specular = specular; }
 
-    void set_shininess (int shininess)
-    {
-	m_shininess = shininess;
-    }
+    void set_shininess(int shininess) { m_shininess = shininess; }
 
-    const base::point4f& get_ambient () const
-    {
-	return m_ambient;
-    }
+    const base::point4f& get_ambient() const { return m_ambient; }
 
-    const base::point4f& get_diffuse () const
-    {
-	return m_diffuse;
-    }
+    const base::point4f& get_diffuse() const { return m_diffuse; }
 
-    const base::point4f& get_specular () const
-    {
-	return m_specular;
-    }
+    const base::point4f& get_specular() const { return m_specular; }
 
-    int get_shininess () const
-    {
-	return m_shininess;
-    }
+    int get_shininess() const { return m_shininess; }
 
 private:
     base::point4f m_ambient;
@@ -96,7 +70,5 @@ typedef boost::shared_ptr<material> material_ptr;
 
 } /* namespace gra */
 } /* namespace yage */
-
-
 
 #endif /* YAGE_MATERIAL_H_ */

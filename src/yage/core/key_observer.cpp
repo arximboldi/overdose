@@ -26,22 +26,18 @@
 
 #include "key_observer.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-void key_subject::add_listener (key_listener& l)
+void key_subject::add_listener(key_listener& l)
 {
-    on_key_press.connect (sigc::mem_fun (l, &key_listener::handle_key_press));
-    on_key_release.connect (sigc::mem_fun (l, &key_listener::handle_key_release));
+    connect_slot(
+        l, on_key_press, sigc::mem_fun(l, &key_listener::handle_key_press));
+    connect_slot(
+        l, on_key_release, sigc::mem_fun(l, &key_listener::handle_key_release));
 }
 
-void key_subject::del_listener (key_listener& l)
-{
-    remove_slot (on_key_press, sigc::mem_fun (l, &key_listener::handle_key_press));
-    remove_slot (on_key_release, sigc::mem_fun (l, &key_listener::handle_key_release));
-}
+void key_subject::del_listener(key_listener& l) { disconnect_listener(l); }
 
 } /* namespace core */
 } /* namespace yage */

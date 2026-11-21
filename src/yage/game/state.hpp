@@ -27,73 +27,58 @@
 #ifndef YAGE_STATE_H_
 #define YAGE_STATE_H_
 
-#include <boost/weak_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/weak_ptr.hpp>
 
-#include <yage/core/mouse_observer.hpp>
 #include <yage/core/key_observer.hpp>
+#include <yage/core/mouse_observer.hpp>
 #include <yage/core/task.hpp>
 #include <yage/core/task_manager.hpp>
 
-namespace yage
-{
+namespace yage {
 
-namespace gra
-{
+namespace gra {
 class scene;
 }
 
-namespace game
-{
+namespace game {
 
 class state_manager;
 
 class state : public boost::enable_shared_from_this<state>
 {
 public:
-    state ();
-    virtual ~state () {}
+    state();
+    virtual ~state() {}
 
-    virtual void init () {}
-    virtual void pause () {}
-    virtual void resume () {}
+    virtual void init() {}
+    virtual void pause() {}
+    virtual void resume() {}
 
     /* TODO: hacer mas generico esto: */
-    virtual std::string loading () { return ""; }
+    virtual std::string loading() { return ""; }
 
-    void change_state (const std::string& name);
-    void enter_state (const std::string& name);
-    void leave_state ();
-    void update (int delta);
+    void change_state(const std::string& name);
+    void enter_state(const std::string& name);
+    void leave_state();
+    void update(int delta);
 
-    boost::shared_ptr<gra::scene> get_scene ()
+    boost::shared_ptr<gra::scene> get_scene() { return m_scene; }
+
+    core::task_manager& get_tasks() { return *m_tasks; }
+
+    core::key_forwarder& get_keys() { return m_keys; }
+
+    core::mouse_forwarder& get_mouse() { return m_mouse; }
+
+    void set_state_parent(boost::weak_ptr<state_manager> parent)
     {
-	return m_scene;
+        m_parent = parent;
     }
 
-    core::task_manager& get_tasks ()
+    boost::shared_ptr<state_manager> get_state_parent()
     {
-	return *m_tasks;
-    }
-
-    core::key_forwarder& get_keys ()
-    {
-	return m_keys;
-    }
-
-    core::mouse_forwarder& get_mouse ()
-    {
-	return m_mouse;
-    }
-
-    void set_state_parent (boost::weak_ptr<state_manager> parent)
-    {
-	m_parent = parent;
-    }
-
-    boost::shared_ptr<state_manager> get_state_parent ()
-    {
-	return boost::shared_ptr<state_manager> (m_parent);
+        return boost::shared_ptr<state_manager>(m_parent);
     }
 
 private:

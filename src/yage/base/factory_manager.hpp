@@ -27,17 +27,15 @@
 #ifndef YAGE_FACTORY_MANAGER_H_
 #define YAGE_FACTORY_MANAGER_H_
 
-#include <map>
 #include <boost/function.hpp>
+#include <map>
 #include <yage/base/exception.hpp>
 #include <yage/base/iterator.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DECLARE_ERROR (yage_error, factory_error);
+YAGE_DECLARE_ERROR(yage_error, factory_error);
 
 template <class Key, class Base, typename Pointer = Base*>
 class factory_manager
@@ -48,25 +46,16 @@ public:
     typedef map_key_iterator<Key, factory_method> iterator;
 
     template <class Concrete>
-    void add (const Key& k);
-    void add (const Key& k, factory_method fn);
-    void del (const Key& k);
-    Pointer create (const Key&);
+    void add(const Key& k);
+    void add(const Key& k, factory_method fn);
+    void del(const Key& k);
+    Pointer create(const Key&);
 
-    size_t size ()
-    {
-	return m_map.size ();
-    }
+    size_t size() { return m_map.size(); }
 
-    iterator begin ()
-    {
-	return m_map.begin ();
-    }
+    iterator begin() { return m_map.begin(); }
 
-    iterator end ()
-    {
-	return m_map.end ();
-    }
+    iterator end() { return m_map.end(); }
 
 private:
     typedef std::map<Key, factory_method> factory_map;

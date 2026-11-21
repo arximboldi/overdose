@@ -28,80 +28,78 @@
 
 using namespace std;
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DEFINE_ERROR_WHERE (config_error, "config");
-YAGE_DEFINE_ERROR_WHAT  (config_type_error, "Config node type mismatch.");
-YAGE_DEFINE_ERROR_WHAT  (config_backend_error, "Config node has no backend.");
+YAGE_DEFINE_ERROR_WHERE(config_error, "config");
+YAGE_DEFINE_ERROR_WHAT(config_type_error, "Config node type mismatch.");
+YAGE_DEFINE_ERROR_WHAT(config_backend_error, "Config node has no backend.");
 
-void conf_subject::add_listener (conf_listener& l)
+void conf_subject::add_listener(conf_listener& l)
 {
-    on_change.connect (sigc::mem_fun (l, &conf_listener::handle_conf_change));
-    on_nudge.connect (sigc::mem_fun (l, &conf_listener::handle_conf_nudge));
-    on_add_child.connect (sigc::mem_fun (l, &conf_listener::handle_conf_add_child));
-    on_del_child.connect (sigc::mem_fun (l, &conf_listener::handle_conf_del_child));
+    connect_slot(
+        l, on_change, sigc::mem_fun(l, &conf_listener::handle_conf_change));
+    connect_slot(
+        l, on_nudge, sigc::mem_fun(l, &conf_listener::handle_conf_nudge));
+    connect_slot(l,
+                 on_add_child,
+                 sigc::mem_fun(l, &conf_listener::handle_conf_add_child));
+    connect_slot(l,
+                 on_del_child,
+                 sigc::mem_fun(l, &conf_listener::handle_conf_del_child));
 }
 
-void conf_subject::del_listener (conf_listener& l)
-{
-    remove_slot (on_change, sigc::mem_fun (l, &conf_listener::handle_conf_change));
-    remove_slot (on_nudge, sigc::mem_fun (l, &conf_listener::handle_conf_nudge));
-    remove_slot (on_add_child, sigc::mem_fun (l, &conf_listener::handle_conf_add_child));
-    remove_slot (on_del_child, sigc::mem_fun (l, &conf_listener::handle_conf_del_child));
-}
+void conf_subject::del_listener(conf_listener& l) { disconnect_listener(l); }
 
-void conf_node::save ()
+void conf_node::save()
 {
-    lock lock (this);
+    lock lock(this);
 
     if (m_backend)
-	m_backend->save (*this);
+        m_backend->save(*this);
     else
-	throw config_backend_error ();
+        throw config_backend_error();
 }
 
-void conf_node::load ()
+void conf_node::load()
 {
-    lock lock (this);
+    lock lock(this);
 
     if (m_backend)
-	m_backend->load (*this);
+        m_backend->load(*this);
     else
-	throw config_backend_error ();
+        throw config_backend_error();
 }
 
-void conf_node::def_load ()
+void conf_node::def_load()
 {
-    lock lock (this);
+    lock lock(this);
 
     if (m_backend)
-	m_backend->def_load (*this);
+        m_backend->def_load(*this);
     else
-	throw config_backend_error ();
+        throw config_backend_error();
 }
 
-void conf_node::attach_backend (conf_backend* backend)
+void conf_node::attach_backend(conf_backend* backend)
 {
-    lock lock (this);
+    lock lock(this);
 
     if (m_backend)
-	datach_backend ();
+        datach_backend();
     m_backend = backend;
-    m_backend->attach (*this);
+    m_backend->attach(*this);
 }
 
-void conf_node::datach_backend ()
+void conf_node::datach_backend()
 {
-    lock lock (this);
+    lock lock(this);
 
     if (m_backend) {
-	m_backend->datach (*this);
-	m_backend = NULL;
+        m_backend->datach(*this);
+        m_backend = NULL;
     } else
-	throw config_backend_error ();
+        throw config_backend_error();
 }
 
 } /* namespace base */

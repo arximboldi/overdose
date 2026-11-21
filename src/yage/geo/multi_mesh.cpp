@@ -28,71 +28,70 @@
 
 using namespace std;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-YAGE_DEFINE_ERROR_WHERE_WHAT (multi_mesh_error, "multi_mesh",
-			      "Invalid multi_mesh state.");
+YAGE_DEFINE_ERROR_WHERE_WHAT(multi_mesh_error,
+                             "multi_mesh",
+                             "Invalid multi_mesh state.");
 
-void multi_mesh::set_material (boost::shared_ptr<gra::material> material)
+void multi_mesh::set_material(boost::shared_ptr<gra::material> material)
 {
-    for (vector<mesh>::iterator it = m_mesh.begin (); it != m_mesh.end (); ++it)
-	it->set_material (material);
+    for (vector<mesh>::iterator it = m_mesh.begin(); it != m_mesh.end(); ++it)
+        it->set_material(material);
 }
 
-void multi_mesh::set_texture (boost::shared_ptr<gra::texture> texture)
+void multi_mesh::set_texture(boost::shared_ptr<gra::texture> texture)
 {
-    for (vector<mesh>::iterator it = m_mesh.begin (); it != m_mesh.end (); ++it)
-	it->set_texture (texture);
+    for (vector<mesh>::iterator it = m_mesh.begin(); it != m_mesh.end(); ++it)
+        it->set_texture(texture);
 }
 
-void multi_mesh::begin (mesh::polygon_type mode,
-			int n_vertex_est,
-			mesh::normal_type normal)
+void multi_mesh::begin(mesh::polygon_type mode,
+                       int n_vertex_est,
+                       mesh::normal_type normal)
 {
-    check_state (false);
-    m_mesh.push_back (mesh ());
-    m_mesh.back ().begin (mode, n_vertex_est, normal);
+    check_state(false);
+    m_mesh.push_back(mesh());
+    m_mesh.back().begin(mode, n_vertex_est, normal);
 }
 
-void multi_mesh::end ()
+void multi_mesh::end()
 {
-    check_state (true);
-    m_mesh.back ().end ();
+    check_state(true);
+    m_mesh.back().end();
 }
 
-void multi_mesh::point (const base::point3f& p)
+void multi_mesh::point(const base::point3f& p)
 {
-    check_state (true);
-    m_mesh.back ().point (p);
+    check_state(true);
+    m_mesh.back().point(p);
 }
 
-void multi_mesh::tex_coord (const base::point2f & t)
+void multi_mesh::tex_coord(const base::point2f& t)
 {
-    check_state (true);
-    m_mesh.back ().tex_coord (t);
+    check_state(true);
+    m_mesh.back().tex_coord(t);
 }
 
-void multi_mesh::colour (const base::point3f& p)
+void multi_mesh::colour(const base::point3f& p)
 {
-    check_state (true);
-    m_mesh.back ().colour (p);
+    check_state(true);
+    m_mesh.back().colour(p);
 }
 
-void multi_mesh::draw ()
+void multi_mesh::draw()
 {
-    check_state (false);
-    for (vector<mesh>::iterator it = m_mesh.begin (); it != m_mesh.end (); ++it)
-	it->draw ();
+    check_state(false);
+    for (vector<mesh>::iterator it = m_mesh.begin(); it != m_mesh.end(); ++it)
+        it->draw();
 }
 
-void multi_mesh::draw_raw ()
+void multi_mesh::draw_raw()
 {
-    check_state (false);
-    for (vector<mesh>::iterator it = m_mesh.begin (); it != m_mesh.end (); ++it)
-	it->draw_raw ();
+    check_state(false);
+    for (vector<mesh>::iterator it = m_mesh.begin(); it != m_mesh.end(); ++it)
+        it->draw_raw();
 }
 
 } /* namespace geo */

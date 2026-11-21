@@ -29,33 +29,31 @@
 
 #include <yage/base/observer.hpp>
 
-namespace yage
-{
+#include <string>
 
-namespace base
-{
+namespace yage {
+
+namespace base {
 class conf_node;
 }
 
-namespace app
-{
+namespace app {
 
 class graphic_controller : public sigc::trackable
 {
 public:
-    graphic_controller (base::conf_node& config)
-	: m_conf (config)
-    {};
+    graphic_controller(base::conf_node& config)
+        : m_conf(config) {};
 
-    void init (const std::string& wname);
+    void init(const std::string& wname);
 
 private:
-    void setup_defaults ();
-    void setup_resources ();
-    void install_signals ();
+    void setup_defaults();
+    void setup_resources();
+    void install_signals();
 
-    void handle_fps_change (base::conf_node& conf);
-    void handle_window_nudge (base::conf_node& conf);
+    void handle_fps_change(base::conf_node& conf);
+    void handle_window_nudge(base::conf_node& conf);
 
     base::conf_node& m_conf;
 };

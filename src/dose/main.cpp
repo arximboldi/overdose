@@ -26,8 +26,8 @@
 
 #include "overdose.hpp"
 
-int main (int argc, const char* argv[])
+int main(int argc, const char* argv[])
 {
     dose::overdose app;
-    return app.run (argc, argv);
+    return app.run(argc, argv);
 }

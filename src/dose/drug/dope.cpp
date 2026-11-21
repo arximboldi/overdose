@@ -24,38 +24,36 @@
  *
  */
 
+#include "dope.hpp"
 #include <algorithm>
 #include <yage/core/system.hpp>
-#include "dope.hpp"
 
 using namespace yage;
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
-dope::dope (const std::string& name,
-	    const std::string& tex,
-	    float psychodelia,
-	    float ecstasy,
-	    float euphoria,
-	    float progress,
-	    float speed)
-    : m_name (name)
-    , m_texture (yage::core::system::self ().graphic ().textures ().find (tex))
-    , m_psychodelia (psychodelia)
-    , m_ecstasy (ecstasy)
-    , m_euphoria (euphoria)
-    , m_progress (progress)
-    , m_speed (speed)
+dope::dope(const std::string& name,
+           const std::string& tex,
+           float psychodelia,
+           float ecstasy,
+           float euphoria,
+           float progress,
+           float speed)
+    : m_name(name)
+    , m_texture(yage::core::system::self().graphic().textures().find(tex))
+    , m_psychodelia(psychodelia)
+    , m_ecstasy(ecstasy)
+    , m_euphoria(euphoria)
+    , m_progress(progress)
+    , m_speed(speed)
 {
-    m_texture->set_blending (true);
+    m_texture->set_blending(true);
 }
 
-void dope::update (int delta)
+void dope::update(int delta)
 {
-    m_progress = std::max (m_progress - m_speed * delta, 0.0f);
+    m_progress = std::max(m_progress - m_speed * delta, 0.0f);
 }
 
 } /* namespace drug */

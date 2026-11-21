@@ -27,73 +27,63 @@
 #ifndef DOSE_FOLLOW_CAMERA_CONTROLLER_H_
 #define DOSE_FOLLOW_CAMERA_CONTROLLER_H_
 
-#include <cmath>
 #include <boost/shared_ptr.hpp>
+#include <cmath>
 
 #include <yage/core/mouse_observer.hpp>
-#include <yage/gra/camera.hpp>
-#include <yage/game/entity_observer.hpp>
 #include <yage/game/entity.hpp>
+#include <yage/game/entity_observer.hpp>
+#include <yage/gra/camera.hpp>
 
-namespace dose
-{
-namespace tool
-{
+namespace dose {
+namespace tool {
 
-class follow_camera_controller : public yage::game::entity_listener
-			       , public yage::core::mouse_listener
+class follow_camera_controller
+    : public yage::game::entity_listener
+    , public yage::core::mouse_listener
 {
 public:
     static constexpr float DEFAULT_DISTANCE = 80.0;
     static constexpr float DEFAULT_ANGLE    = M_PI / 16;
     static constexpr float DEFAULT_SPEED    = 0.01;
 
-    follow_camera_controller (yage::gra::camera_ptr cam,
-			      yage::game::entity_ptr ent,
-			      float distance = 75.0,
-			      float angle  = M_PI/16,
-			      float speed = 0.01);
+    follow_camera_controller(yage::gra::camera_ptr cam,
+                             yage::game::entity_ptr ent,
+                             float distance = 75.0,
+                             float angle    = M_PI / 16,
+                             float speed    = 0.01);
 
-    void handle_entity_move (yage::game::entity& p);
-    void handle_entity_rotate (yage::game::entity& p);
+    void handle_entity_move(yage::game::entity& p);
+    void handle_entity_rotate(yage::game::entity& p);
 
-    bool handle_mouse_move (SDL_Event& ev);
-    bool handle_mouse_button_press (SDL_Event& ev);
-    bool handle_mouse_button_release (SDL_Event& ev);
+    bool handle_mouse_move(SDL_Event& ev);
+    bool handle_mouse_button_press(SDL_Event& ev);
+    bool handle_mouse_button_release(SDL_Event& ev);
 
-    void recalculate ();
+    void recalculate();
 
-    float get_vangle ()
+    float get_vangle() { return m_angle; }
+
+    void set_vangle(float angle)
     {
-	return m_angle;
+        m_angle = angle;
+        recalculate();
     }
 
-    void set_vangle (float angle)
+    float get_hangle() { return m_hangle; }
+
+    void set_hangle(float angle)
     {
-	m_angle = angle;
-	recalculate ();
+        m_hangle = angle;
+        recalculate();
     }
 
-    float get_hangle ()
-    {
-	return m_hangle;
-    }
+    float get_distance() const { return m_distance; }
 
-    void set_hangle (float angle)
+    void set_distance(float distance)
     {
-	m_hangle = angle;
-	recalculate ();
-    }
-
-    float get_distance () const
-    {
-	return m_distance;
-    }
-
-    void set_distance (float distance)
-    {
-	m_distance = distance;
-	recalculate ();
+        m_distance = distance;
+        recalculate();
     }
 
 private:

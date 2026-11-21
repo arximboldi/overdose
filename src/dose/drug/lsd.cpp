@@ -27,134 +27,124 @@
 #include <boost/bind.hpp>
 
 #include <yage/base/misc.hpp>
+#include <yage/game/entity_manager.hpp>
 #include <yage/gra/fog.hpp>
 #include <yage/gra/scene.hpp>
-#include <yage/game/entity_manager.hpp>
 
-#include "dose/st/level.hpp"
 #include "dose/ent/person.hpp"
+#include "dose/st/level.hpp"
 #include "lsd.hpp"
 
 using namespace yage;
 using namespace boost;
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
-namespace
-{
+namespace {
 
 const float FX_DURATION = 2000.0f;
 
-const base::point4f& random_color ()
+const base::point4f& random_color()
 {
-    const int NUM_COLOR = 3;
-    static const base::point4f colors[] =
-    {
-	base::point4f (0.1, 1, 0.1, 1),
-	base::point4f (1, 0.3, 0.1, 1),
-	base::point4f (0.4, 0.1, 1, 1)
-    };
+    const int NUM_COLOR                 = 3;
+    static const base::point4f colors[] = {base::point4f(0.1, 1, 0.1, 1),
+                                           base::point4f(1, 0.3, 0.1, 1),
+                                           base::point4f(0.4, 0.1, 1, 1)};
 
-    return colors [base::ranged_random (0, NUM_COLOR)];
+    return colors[base::ranged_random(0, NUM_COLOR)];
 }
 
-} /* anonymous ns */
+} // namespace
 
-lsd::lsd ()
-    : dope ("LSD", "lsd.png", 3, 1, 0)
+lsd::lsd()
+    : dope("LSD", "lsd.png", 3, 1, 0)
 {
 }
 
-void lsd::take ()
+void lsd::take()
 {
-    randomize_models ();
+    randomize_models();
 
-    gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
-    m_orig_fog_color = fog->get_color ();
+    gra::fog_ptr fog = get_level()->get_scene()->get_fog();
+    m_orig_fog_color = fog->get_color();
 
     base::point4f min = m_orig_fog_color;
-    base::point4f max = random_color ();
+    base::point4f max = random_color();
 
-    get_level ()->get_tasks ().add (
-	gra::create_function_task<float> (
-	    bind (&gra::fog::set_color, fog,
-		  bind (gra::linear_function<base::point4f, float>, min, max, _1)),
-	    FX_DURATION
-	    ));
+    get_level()->get_tasks().add(gra::create_function_task<float>(
+        bind(&gra::fog::set_color,
+             fog,
+             bind(gra::linear_function<base::point4f, float>, min, max, _1)),
+        FX_DURATION));
 }
 
-void lsd::accumulate (dope_ptr d)
+void lsd::accumulate(dope_ptr d)
 {
-    set_progress (get_progress () + 0.8);
-    randomize_models ();
+    set_progress(get_progress() + 0.8);
+    randomize_models();
 
-    gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
+    gra::fog_ptr fog = get_level()->get_scene()->get_fog();
 
-    base::point4f min = fog->get_color ();
-    base::point4f max = random_color ();
+    base::point4f min = fog->get_color();
+    base::point4f max = random_color();
 
-    get_level ()->get_tasks ().add (
-	gra::create_function_task<float> (
-	    bind (&gra::fog::set_color, fog,
-		  bind (gra::linear_function<base::point4f, float>, min, max, _1)),
-	    FX_DURATION
-	    ));
+    get_level()->get_tasks().add(gra::create_function_task<float>(
+        bind(&gra::fog::set_color,
+             fog,
+             bind(gra::linear_function<base::point4f, float>, min, max, _1)),
+        FX_DURATION));
 }
 
-void lsd::handle_finish ()
+void lsd::handle_finish()
 {
-    restore_models ();
+    restore_models();
 
-    gra::fog_ptr fog = get_level ()->get_scene ()->get_fog ();
+    gra::fog_ptr fog = get_level()->get_scene()->get_fog();
 
-    base::point4f min = fog->get_color ();
+    base::point4f min = fog->get_color();
     base::point4f max = m_orig_fog_color;
 
-    get_level ()->get_tasks ().add (
-	gra::create_function_task<float> (
-	    bind (&gra::fog::set_color, fog,
-		  bind (gra::linear_function<base::point4f, float>, min, max, _1)),
-	    FX_DURATION
-	    ));
+    get_level()->get_tasks().add(gra::create_function_task<float>(
+        bind(&gra::fog::set_color,
+             fog,
+             bind(gra::linear_function<base::point4f, float>, min, max, _1)),
+        FX_DURATION));
 }
 
-void lsd::randomize_models ()
+void lsd::randomize_models()
 {
-    const int num_models = 4;
-    const char* models [num_models][3] = {
-	{"lala.md2", "lala.pcx", (const char*) 1},
-	{"lala.md2", "lala_po.pcx", (const char*) 1},
-	{"lala.md2", "lala_tinkywinky.pcx", (const char*) 1},
-	{"lala.md2", "lala_dipsy.pcx", (const char*) 1}
-    };
+    const int num_models              = 4;
+    const char* models[num_models][3] = {
+        {"lala.md2", "lala.png", (const char*) 1},
+        {"lala.md2", "lala_po.png", (const char*) 1},
+        {"lala.md2", "lala_tinkywinky.png", (const char*) 1},
+        {"lala.md2", "lala_dipsy.png", (const char*) 1}};
 
-    game::entity_manager_ptr ents = get_level ()->entities ();
-    int m = base::ranged_random (0, num_models);
+    game::entity_manager_ptr ents = get_level()->entities();
+    int m                         = base::ranged_random(0, num_models);
 
-    for (game::entity_manager::iterator it = ents->dynamic_begin ();
-	 it != ents->dynamic_end (); ++it)
-    {
-	ent::person_ptr p = dynamic_pointer_cast<ent::person> (*it);
-	if (p)
-	    p->alternate_model (ent::person::load_model (
-				    models [m][0], models [m][1], models [m][2]));
-	m = (m + 1) % num_models;
+    for (game::entity_manager::iterator it = ents->dynamic_begin();
+         it != ents->dynamic_end();
+         ++it) {
+        ent::person_ptr p = dynamic_pointer_cast<ent::person>(*it);
+        if (p)
+            p->alternate_model(ent::person::load_model(
+                models[m][0], models[m][1], models[m][2]));
+        m = (m + 1) % num_models;
     }
 }
 
-void lsd::restore_models ()
+void lsd::restore_models()
 {
-    game::entity_manager_ptr ents = get_level ()->entities ();
+    game::entity_manager_ptr ents = get_level()->entities();
 
-    for (game::entity_manager::iterator it = ents->dynamic_begin ();
-	 it != ents->dynamic_end (); ++it)
-    {
-	ent::person_ptr p = dynamic_pointer_cast<ent::person> (*it);
-	if (p)
-	    p->restore_model ();
+    for (game::entity_manager::iterator it = ents->dynamic_begin();
+         it != ents->dynamic_end();
+         ++it) {
+        ent::person_ptr p = dynamic_pointer_cast<ent::person>(*it);
+        if (p)
+            p->restore_model();
     }
 }
 

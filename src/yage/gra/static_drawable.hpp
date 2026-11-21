@@ -27,28 +27,26 @@
 #ifndef YAGE_STATIC_DRAWABLE_H_
 #define YAGE_STATIC_DRAWABLE_H_
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
-#include <yage/base/singleton.hpp>
 #include <yage/base/handle_allocator.hpp>
+#include <yage/base/singleton.hpp>
 
 #include <yage/gra/drawable.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-typedef
-base::singleton_holder<base::handle_allocator<GLuint, base::count_creator_policy> >
-display_list_handle_allocator;
+typedef base::singleton_holder<
+    base::handle_allocator<GLuint, base::count_creator_policy>>
+    display_list_handle_allocator;
 
 class static_drawable : public drawable
 {
 public:
-    static_drawable (drawable& d);
-    ~static_drawable ();
-    void draw ();
+    static_drawable(drawable& d);
+    ~static_drawable();
+    void draw();
 
 private:
     GLuint m_handle;

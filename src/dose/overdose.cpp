@@ -24,17 +24,16 @@
  *
  */
 
-#include "st/tester.hpp"
-#include "st/level_one.hpp"
 #include "st/hell.hpp"
+#include "st/level_one.hpp"
+#include "st/tester.hpp"
 
-#include "overdose.hpp"
 #include "config.h"
+#include "overdose.hpp"
 
 using namespace yage;
 
-namespace dose
-{
+namespace dose {
 
 float overdose::s_dope_level = 0.0f;
 
@@ -43,48 +42,44 @@ static const char* OVERDOSE_VERSION = VERSION;
 static const char* OVERDOSE_DESCRIPTION =
     "Overdose is a to safely explore drug abuse and self-destriction.";
 static const char* OVERDOSE_COPYRIGHT_DATE = "2009";
-static const char* OVERDOSE_AUTHOR = "Juan Pedro Bolívar Puente";
+static const char* OVERDOSE_AUTHOR         = "Juan Pedro Bolívar Puente";
 
-overdose::overdose ()
-    : yage::app::game_app (
-	OVERDOSE_PROGRAM,
-	OVERDOSE_VERSION,
-	OVERDOSE_DESCRIPTION,
-	OVERDOSE_COPYRIGHT_DATE,
-	OVERDOSE_AUTHOR)
-    , m_initial_state ("level_one")
+overdose::overdose()
+    : yage::app::game_app(OVERDOSE_PROGRAM,
+                          OVERDOSE_VERSION,
+                          OVERDOSE_DESCRIPTION,
+                          OVERDOSE_COPYRIGHT_DATE,
+                          OVERDOSE_AUTHOR)
+    , m_initial_state("level_one")
 {
 }
 
-void overdose::print_help (std::ostream& out)
+void overdose::print_help(std::ostream& out)
 {
-    yage::app::game_app::print_help (out);
+    yage::app::game_app::print_help(out);
 
     out << "\n"
-	<< "Advanced options:\n"
-	<< "  -i, --init-state <value>   Set the starting state.\n"
-	<< "  -l, --dope-level <value>   Set the starting dope level.\n";
+        << "Advanced options:\n"
+        << "  -i, --init-state <value>   Set the starting state.\n"
+        << "  -l, --dope-level <value>   Set the starting dope level.\n";
 }
 
-void overdose::prepare (yage::base::arg_parser& args)
+void overdose::prepare(yage::base::arg_parser& args)
 {
-    std::srand (std::time (0));
+    std::srand(std::time(0));
 
-    args.add ('i', "--init-state", &m_initial_state);
-    args.add ('l', "--dope-level", &s_dope_level);
+    args.add('i', "--init-state", &m_initial_state);
+    args.add('l', "--dope-level", &s_dope_level);
 }
 
-void overdose::register_states (boost::shared_ptr<yage::game::state_manager> mgr)
+void overdose::register_states(boost::shared_ptr<yage::game::state_manager> mgr)
 {
-    mgr->add<st::tester> ("tester");
+    mgr->add<st::tester>("tester");
 
-    mgr->add<st::level_one> ("level_one");
-    mgr->add<st::hell> ("hell");
+    mgr->add<st::level_one>("level_one");
+    mgr->add<st::hell>("hell");
 }
 
-std::string overdose::initial_state ()
-{
-    return m_initial_state;
-}
+std::string overdose::initial_state() { return m_initial_state; }
 
 } /* namespace dose */

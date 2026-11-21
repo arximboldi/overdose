@@ -24,64 +24,62 @@
  *
  */
 
-#include <iostream>
+#include <SDL_opengl.h>
 #include <cassert>
-#include <SDL/SDL_opengl.h>
+#include <iostream>
 
 #include "cylinder.hpp"
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-cylinder::cylinder (size_t division)
+cylinder::cylinder(size_t division)
 {
     /* Tapa inferior */
-    begin (mesh::TRIANGLES);
-    for (size_t i = 0; i <=  division; ++i) {
-	point (point3f (0, 0, 0));
-	point (point3f (cos (2 * M_PI * (float)i / division),
-			0.0f,
-			sin (2 * M_PI * (float)i / division)));
-	point (point3f (cos (2 * M_PI * (float)(i+1) / division),
-			0.0f,
-			sin (2 * M_PI * (float)(i+1) / division)));
+    begin(mesh::TRIANGLES);
+    for (size_t i = 0; i <= division; ++i) {
+        point(point3f(0, 0, 0));
+        point(point3f(cos(2 * M_PI * (float) i / division),
+                      0.0f,
+                      sin(2 * M_PI * (float) i / division)));
+        point(point3f(cos(2 * M_PI * (float) (i + 1) / division),
+                      0.0f,
+                      sin(2 * M_PI * (float) (i + 1) / division)));
     }
-    end ();
+    end();
 
     /* Ladas */
-    begin (mesh::QUADS);
+    begin(mesh::QUADS);
     for (size_t i = 0; i <= division; ++i) {
-	point (point3f (cos(2 * M_PI * (float)i / division),
-			0,
-			sin (2 * M_PI * (float)i / division)));
-	point (point3f (cos (2 * M_PI * (float)i / division),
-			2,
-			sin (2 * M_PI * (float)i / division)));
-	point (point3f (cos (2 * M_PI * (float)(i+1) / division),
-			2,
-			sin (2 * M_PI * (float)(i+1) / division)));
-	point (point3f (cos (2 * M_PI * (float)(i+1) / division),
-			0,
-			sin (2 * M_PI * (float)(i+1) / division)));
+        point(point3f(cos(2 * M_PI * (float) i / division),
+                      0,
+                      sin(2 * M_PI * (float) i / division)));
+        point(point3f(cos(2 * M_PI * (float) i / division),
+                      2,
+                      sin(2 * M_PI * (float) i / division)));
+        point(point3f(cos(2 * M_PI * (float) (i + 1) / division),
+                      2,
+                      sin(2 * M_PI * (float) (i + 1) / division)));
+        point(point3f(cos(2 * M_PI * (float) (i + 1) / division),
+                      0,
+                      sin(2 * M_PI * (float) (i + 1) / division)));
     }
-    end ();
+    end();
 
     /* Tapa superior */
     begin(mesh::TRIANGLES);
-    for (size_t i = 0; i <=  division; ++i) {
-	point (point3f (cos (2 * M_PI * (float)(i+1) / division),
-			2,
-			sin (2 * M_PI * (float)(i+1) / division)));
-	point (point3f (cos (2 * M_PI * (float)i / division),
-			2,
-			sin (2 * M_PI * (float)i / division)));
-	point (point3f (0, 2, 0));
+    for (size_t i = 0; i <= division; ++i) {
+        point(point3f(cos(2 * M_PI * (float) (i + 1) / division),
+                      2,
+                      sin(2 * M_PI * (float) (i + 1) / division)));
+        point(point3f(cos(2 * M_PI * (float) i / division),
+                      2,
+                      sin(2 * M_PI * (float) i / division)));
+        point(point3f(0, 2, 0));
     }
-    end ();
+    end();
 }
 
 } /* namespace geo */

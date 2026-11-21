@@ -30,75 +30,45 @@
 #include <boost/shared_ptr.hpp>
 #include <yage/base/point3.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class camera
 {
 public:
     static constexpr float DEFAULT_RATIO = 1.0f;
-    static constexpr float DEFAULT_FOV = 45.0f;
+    static constexpr float DEFAULT_FOV   = 45.0f;
 
-    camera (const base::point3f& pos = base::point3f (0, 0, 0));
+    camera(const base::point3f& pos = base::point3f(0, 0, 0));
 
-    void apply_projection (size_t viewport_width,
-			   size_t viewport_height);
+    void apply_projection(size_t viewport_width, size_t viewport_height);
 
-    void apply_model_rotation ();
-    void apply_model_translation ();
+    void apply_model_rotation();
+    void apply_model_translation();
 
-    float get_fov () const
-    {
-	return m_fov;
-    }
+    float get_fov() const { return m_fov; }
 
-    float get_ratio () const
-    {
-	return m_ratio;
-    }
+    float get_ratio() const { return m_ratio; }
 
-    void set_fov (float angle)
-    {
-	m_fov = angle;
-    }
+    void set_fov(float angle) { m_fov = angle; }
 
-    void set_ratio (float ratio)
-    {
-	m_ratio = ratio;
-    }
+    void set_ratio(float ratio) { m_ratio = ratio; }
 
-    void set_near_plane (float val)
-    {
-	m_near = val;
-    }
+    void set_near_plane(float val) { m_near = val; }
 
-    void set_far_plane (float val)
-    {
-	m_far = val;
-    }
+    void set_far_plane(float val) { m_far = val; }
 
-    void set_position (const base::point3f& pos);
-    void set_plane_normal (const base::point3f& pos);
-    void set_up_vector (const base::point3f& pos);
+    void set_position(const base::point3f& pos);
+    void set_plane_normal(const base::point3f& pos);
+    void set_up_vector(const base::point3f& pos);
 
-    void look_at (const base::point3f& pos);
+    void look_at(const base::point3f& pos);
 
-    const base::point3f& get_position () const
-    {
-	return m_vrp;
-    }
+    const base::point3f& get_position() const { return m_vrp; }
 
-    const base::point3f& get_plane_normal () const
-    {
-	return m_vpn;
-    }
+    const base::point3f& get_plane_normal() const { return m_vpn; }
 
-    const base::point3f& get_up_vector () const
-    {
-	return m_vup;
-    }
+    const base::point3f& get_up_vector() const { return m_vup; }
 
 private:
     float m_fov;

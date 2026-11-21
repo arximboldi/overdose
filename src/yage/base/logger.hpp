@@ -30,18 +30,16 @@
 #ifndef YAGE_LOGGER_H
 #define YAGE_LOGGER_H
 
-#include <map>
-#include <list>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <list>
+#include <map>
 
 #include <yage/base/singleton.hpp>
 #include <yage/base/tree.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 class log;
 
@@ -60,7 +58,7 @@ public:
      * @param level The relevance of the message.
      * @param msg The message.
      */
-    virtual void dump (log& log, int level, const std::string& msg) = 0;
+    virtual void dump(log& log, int level, const std::string& msg) = 0;
 };
 
 /**
@@ -75,8 +73,9 @@ public:
  *       new thread safe classes. Please, take a deep look at it and consider
  *       using recursive_mutex as a default.
  */
-class log : public tree_node <log>,
-	    public YAGE_DEFAULT_THREADING <log>
+class log
+    : public tree_node<log>
+    , public YAGE_DEFAULT_THREADING<log>
 {
 public:
     /**
@@ -84,56 +83,56 @@ public:
      */
     enum level
     {
-	info,    /**< Usefull info to the user. */
-	warning, /**< A problem that may cause inconvenience. */
-	error,   /**< A problem that definetly causes inconvenience. */
-	fatal    /**< A problem that from which we cannot recover. */
+        info,    /**< Usefull info to the user. */
+        warning, /**< A problem that may cause inconvenience. */
+        error,   /**< A problem that definetly causes inconvenience. */
+        fatal    /**< A problem that from which we cannot recover. */
     };
 
     /**
      * Returns a string version of each level name.
      * @param level The level of which we want to now its string name.
      */
-    static const char* level_name (int level)
+    static const char* level_name(int level)
     {
-	switch(level) {
-	case info:
-	    return "INFO";
-	case warning:
-	    return "WARNING";
-	case error:
-	    return "ERROR";
-	case fatal:
-	    return "FATAL";
-	default:
-	    return "UNKNOWN";
-	};
+        switch (level) {
+        case info:
+            return "INFO";
+        case warning:
+            return "WARNING";
+        case error:
+            return "ERROR";
+        case fatal:
+            return "FATAL";
+        default:
+            return "UNKNOWN";
+        };
     };
 
     /** Constructor. */
-    log () {}
+    log() {}
 
     /** Destructor. */
-    virtual ~log ();
+    virtual ~log();
 
     /**
      * Attachs a sink to this node.
      * @param d The sink that we want to dump this log's messages.
      */
-    void attach_sink (log_sink* d)
+    void attach_sink(log_sink* d)
     {
-	lock lock (this);
-	m_dumpers.push_back(d);
+        lock lock(this);
+        m_dumpers.push_back(d);
     }
 
     /**
      * Dettachs a sink from this node.
      * @param d The sink we don't want to dump massages of this log anymore.
      */
-    void dattach_sink (log_sink* d)
+    void dattach_sink(log_sink* d)
     {
-	lock lock (this);
-	m_dumpers.remove(d);
+        lock lock(this);
+        m_dumpers.remove(d);
     }
 
     /**
@@ -142,10 +141,10 @@ public:
      * @param level The relevance of this message.
      * @param msg The message to log.
      */
-    void operator () (const std::string& child, int level, const std::string& msg)
+    void operator()(const std::string& child, int level, const std::string& msg)
     {
-	lock lock (this);
-	get_path (child) (level, msg);
+        lock lock(this);
+        get_path(child)(level, msg);
     }
 
     /**
@@ -153,10 +152,10 @@ public:
      * @param level The relevance of this message.
      * @param msg The message to log.
      */
-    void operator () (int level, const std::string& msg)
+    void operator()(int level, const std::string& msg)
     {
-	lock lock (this);
-	operator () (*this, level, msg);
+        lock lock(this);
+        operator()(*this, level, msg);
     };
 
 private:
@@ -167,7 +166,7 @@ private:
      * @param level The relevance of this message.
      * @param msg The message to log.
      */
-    void operator () (log& log, int level, const std::string& msg);
+    void operator()(log& log, int level, const std::string& msg);
 
     std::list<log_sink*> m_dumpers;
 };
@@ -195,16 +194,11 @@ public:
      * @param level The relevance of the message.
      * @param msg The message to dump.
      */
-    void dump (log& l, int level, const std::string& msg)
+    void dump(log& l, int level, const std::string& msg)
     {
-	(level > log::info ? std::cerr : std::cout)
-	    << '['
-	    << l.get_path_name ()
-	    << "] "
-	    << log::level_name (level)
-	    << ": "
-	    << msg
-	    << std::endl;
+        (level > log::info ? std::cerr : std::cout)
+            << '[' << l.get_path_name() << "] " << log::level_name(level)
+            << ": " << msg << std::endl;
     }
 };
 
@@ -220,19 +214,22 @@ class log_stream_sink : public log_sink
 {
 public:
     /** Constructor */
-    log_stream_sink ()
-	: _output (0)
-    {}
+    log_stream_sink()
+        : _output(0)
+    {
+    }
 
     /** Copy constructor */
-    log_stream_sink (const log_stream_sink& s)
-	: _output (s._output)
-    {}
+    log_stream_sink(const log_stream_sink& s)
+        : _output(s._output)
+    {
+    }
 
     /** Constructor with a stream */
-    log_stream_sink (std::ostream& os)
-	: _output (&os)
-    {}
+    log_stream_sink(std::ostream& os)
+        : _output(&os)
+    {
+    }
 
     /**
      * Dums a message to a stream.
@@ -240,24 +237,15 @@ public:
      * @param level The relevance of the message.
      * @param msg The message to dump.
      */
-    void dump (log& l, int level, const std::string& msg)
+    void dump(log& l, int level, const std::string& msg)
     {
-	if (_output)
-	    *(_output)
-		<< '['
-		<< l.get_path_name ()
-		<< "] "
-		<< log::level_name (level)
-		<< ": "
-		<< msg
-		<< std::endl;
+        if (_output)
+            *(_output) << '[' << l.get_path_name() << "] "
+                       << log::level_name(level) << ": " << msg << std::endl;
     }
 
 protected:
-    void set_stream (std::ostream& os)
-    {
-	_output = &os;
-    }
+    void set_stream(std::ostream& os) { _output = &os; }
 
 private:
     std::ostream* _output;
@@ -269,12 +257,12 @@ private:
 class log_file_sink : public log_stream_sink
 {
 public:
-    log_file_sink (const char* file,
-		   std::ios_base::openmode mode =
-		   std::ios_base::out | std::ios_base::app)
-	: _file (file, mode)
+    log_file_sink(const char* file,
+                  std::ios_base::openmode mode = std::ios_base::out |
+                                                 std::ios_base::app)
+        : _file(file, mode)
     {
-	set_stream (_file);
+        set_stream(_file);
     }
 
 private:

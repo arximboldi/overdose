@@ -30,15 +30,13 @@
 #include <yage/base/point3.hpp>
 #include <yage/geo/mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
 class cube : public mesh
 {
 public:
-    cube ();
+    cube();
 };
 
 } /* namespace geo */

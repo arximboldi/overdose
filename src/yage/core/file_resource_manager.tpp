@@ -27,117 +27,115 @@
 #ifndef YAGE_FILE_RESOURCE_MANAGER_T_
 #define YAGE_FILE_RESOURCE_MANAGER_T_
 
-#include <boost/filesystem.hpp>
-#include <yage/base/misc.hpp>
+#include <filesystem>
 #include <yage/base/iterator.hpp>
+#include <yage/base/misc.hpp>
 #include <yage/core/file_resource_manager.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 template <class K, class R>
-std::string default_file_resource_policy<K, R>::file_name (const K& k)
+std::string default_file_resource_policy<K, R>::file_name(const K& k)
 {
     return k;
 }
 
 template <class K, class R>
 boost::shared_ptr<R>
-default_file_resource_policy<K, R>::load_resource (const std::string& path,
-						   const K& key)
+default_file_resource_policy<K, R>::load_resource(const std::string& path,
+                                                  const K& key)
 {
-    return boost::shared_ptr<R> (new R (path));
+    return boost::shared_ptr<R>(new R(path));
 }
 
 template <class K, class R, class P>
-file_resource_manager<K, R, P>::file_resource_manager (base::file_mgr_node* mgr)
-    : m_file_mgr (mgr)
+file_resource_manager<K, R, P>::file_resource_manager(base::file_mgr_node* mgr)
+    : m_file_mgr(mgr)
 {
 }
 
 template <class K, class R, class P>
-void file_resource_manager<K, R, P>::set_file_manager (base::file_mgr_node* mgr)
+void file_resource_manager<K, R, P>::set_file_manager(base::file_mgr_node* mgr)
 {
     m_file_mgr = mgr;
 }
 
 template <class K, class R, class P>
-base::file_mgr_node* file_resource_manager<K, R, P>::get_file_manager ()
+base::file_mgr_node* file_resource_manager<K, R, P>::get_file_manager()
 {
     return m_file_mgr;
 }
 
 template <class K, class R, class P>
 typename boost::shared_ptr<R>
-file_resource_manager<K, R, P>::handle_not_found (const K& key)
+file_resource_manager<K, R, P>::handle_not_found(const K& key)
 {
     if (!m_file_mgr)
-	throw file_resource_manager_error ("No file manager associated.");
+        throw file_resource_manager_error("No file manager associated.");
 
-    std::string fname            = m_policy.file_name (key);
-    boost::filesystem::path file = m_file_mgr->find_all (fname);
+    std::string fname          = m_policy.file_name(key);
+    std::filesystem::path file = m_file_mgr->find_all(fname);
 
-    if (file.empty ())
-	throw file_resource_manager_error ("Resource not found. " + fname);
+    if (file.empty())
+        throw file_resource_manager_error("Resource not found. " + fname);
 
-    boost::shared_ptr<R> res = m_policy.load_resource (file.string (), key);
-    super::add (key, res);
+    boost::shared_ptr<R> res = m_policy.load_resource(file.string(), key);
+    super::add(key, res);
 
     return res;
 }
 
 template <class R>
 boost::shared_ptr<R>
-factory_file_resource_policy<R>::load_resource (const std::string& path,
-						const std::string& key)
+factory_file_resource_policy<R>::load_resource(const std::string& path,
+                                               const std::string& key)
 {
-    std::string ext (base::get_extension (key.c_str ()));
+    std::string ext(base::get_extension(key.c_str()));
 
-    typename factory_map::iterator it = m_factory.find (ext);
+    typename factory_map::iterator it = m_factory.find(ext);
 
-    if (it == m_factory.end ())
-	throw file_resource_manager_error (
-	    std::string ("Unknown loader for extension: ") + ext);
+    if (it == m_factory.end())
+        throw file_resource_manager_error(
+            std::string("Unknown loader for extension: ") + ext);
 
     file_resource_factory<R>* factory = it->second;
-    return boost::shared_ptr<R> (factory->create (path));
+    return boost::shared_ptr<R>(factory->create(path));
 }
 
 template <class R>
-factory_file_resource_policy<R>::~factory_file_resource_policy ()
+factory_file_resource_policy<R>::~factory_file_resource_policy()
 {
-    base::map_iterator <std::string, file_resource_factory<R>*> iter;
+    base::map_iterator<std::string, file_resource_factory<R>*> iter;
 
-    for (iter = m_factory.begin (); iter != m_factory.end (); ++iter)
-	delete *iter;
+    for (iter = m_factory.begin(); iter != m_factory.end(); ++iter)
+        delete *iter;
 }
 
 template <class R>
-void factory_file_resource_policy<R>::attach_resource_factory (
-    const std::string& ext,
-    file_resource_factory<R>* factory)
+void factory_file_resource_policy<R>::attach_resource_factory(
+    const std::string& ext, file_resource_factory<R>* factory)
 {
-    base::map_iterator <std::string, file_resource_factory<R>*> iter;
+    base::map_iterator<std::string, file_resource_factory<R>*> iter;
 
-    iter = m_factory.find (ext);
-    if (iter != m_factory.end ())
-	delete *iter;
-    m_factory [ext] = factory;
+    iter = m_factory.find(ext);
+    if (iter != m_factory.end())
+        delete *iter;
+    m_factory[ext] = factory;
 }
 
 template <class R>
 template <class C>
-void factory_file_resource_policy<R>::attach_default_factory (const std::string& ext)
+void factory_file_resource_policy<R>::attach_default_factory(
+    const std::string& ext)
 {
-    attach_resource_factory (ext, new concrete_file_resource_factory<C, R>);
+    attach_resource_factory(ext, new concrete_file_resource_factory<C, R>);
 }
 
 template <class C, class R>
-C* concrete_file_resource_factory<C, R>::create (const std::string& path)
+C* concrete_file_resource_factory<C, R>::create(const std::string& path)
 {
-    return new C (path);
+    return new C(path);
 }
 
 } /* namespace core */

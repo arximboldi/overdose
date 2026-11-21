@@ -27,21 +27,20 @@
 #ifndef YAGE_FONT_H_
 #define YAGE_FONT_H_
 
-#include <SDL/SDL_ttf.h>
-#include <string>
+#include <SDL_ttf.h>
 #include <boost/shared_ptr.hpp>
+#include <map>
+#include <string>
 
 #include <yage/base/exception.hpp>
 #include <yage/base/point3.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class texture;
 
-YAGE_DECLARE_ERROR (base::yage_error, font_error);
+YAGE_DECLARE_ERROR(base::yage_error, font_error);
 
 class font
 {
@@ -50,33 +49,45 @@ public:
 
     enum render_mode
     {
-	SOLID,
-	SHADED,
-	BLENDED
+        SOLID,
+        SHADED,
+        BLENDED
     };
 
-    font (const std::string& fname, int ptsize = 12);
-    ~font ();
+    font(const std::string& fname, int ptsize = 12);
+    ~font();
 
-    int get_height () const;
-    void get_size (const std::string& text,
-		   int& w, int& h) const;
+    int get_point_size() const { return m_ptsize; }
 
-    int get_style () const;
-    void set_style (int st);
-    bool is_fixed_width () const;
+    int get_height() const;
+    void get_size(const std::string& text, int& w, int& h) const;
 
-    texture_ptr render (const std::string& str,
-			const base::point3f& color,
-			render_mode mode);
+    int get_style() const;
+    void set_style(int st);
+    bool is_fixed_width() const;
 
-    SDL_Surface*
-    render_surface (const std::string& str,
-		    const base::point3f& color,
-		    render_mode mode);
+    texture_ptr render(const std::string& str,
+                       const base::point3f& color,
+                       render_mode mode);
+
+    /*
+     * Renders at the given size instead of the font's own, e.g. to
+     * match the resolution the text is shown at. Zero means the
+     * font's own size.
+     */
+    SDL_Surface* render_surface(const std::string& str,
+                                const base::point3f& color,
+                                render_mode mode,
+                                int ptsize = 0);
 
 private:
-    mutable TTF_Font* m_font;
+    TTF_Font* at_size(int ptsize);
+
+    std::string m_fname;
+    int m_ptsize;
+    int m_style;
+    TTF_Font* m_font;
+    std::map<int, TTF_Font*> m_sizes;
 };
 
 typedef boost::shared_ptr<font> font_ptr;

@@ -24,80 +24,69 @@
  *
  */
 
-#include <boost/bind.hpp>
-#include "dose/st/level.hpp"
 #include "dealer.hpp"
+#include "dose/st/level.hpp"
 #include "player.hpp"
+#include <boost/bind.hpp>
 
 using namespace yage;
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
-dealer::dealer (const std::string& model,
-		const std::string& texture,
-		bool inverse_normals,
-		float walk_speed,
-		float rotate_speed)
-    : pedestrian (model, texture, inverse_normals, walk_speed, rotate_speed)
+dealer::dealer(const std::string& model,
+               const std::string& texture,
+               bool inverse_normals,
+               float walk_speed,
+               float rotate_speed)
+    : pedestrian(model, texture, inverse_normals, walk_speed, rotate_speed)
 {
-    states ().add_state ("salute", bind (&dealer::salute_state, this, _1));
+    states().add_state("salute", bind(&dealer::salute_state, this, _1));
 }
 
-void dealer::add_drug (dope_ptr d)
-{
-    m_drugs.push_back (d);
-}
+void dealer::add_drug(dope_ptr d) { m_drugs.push_back(d); }
 
-dealer::dope_ptr dealer::current_offer ()
-{
-    return m_drugs.front ();
-}
+dealer::dope_ptr dealer::current_offer() { return m_drugs.front(); }
 
-dealer::dope_ptr dealer::take_shit ()
+dealer::dope_ptr dealer::take_shit()
 {
-    dope_ptr ret = m_drugs.front ();
-    m_drugs.pop_front ();
+    dope_ptr ret = m_drugs.front();
+    m_drugs.pop_front();
     return ret;
 }
 
-bool dealer::has_shit () const
+bool dealer::has_shit() const { return !m_drugs.empty(); }
+
+void dealer::update(int delta)
 {
-    return !m_drugs.empty ();
+    pedestrian::update(delta);
+
+    if (states().current() != "salute" && player_near())
+        states().push_state("salute");
 }
 
-void dealer::update (int delta)
+bool dealer::player_near()
 {
-    pedestrian::update (delta);
+    base::point3f d =
+        get_level()->get_player()->get_node().get_world_position();
+    base::point3f t = get_node().get_world_position();
 
-    if (states ().current () != "salute" && player_near ())
-	states ().push_state ("salute");
+    return (d - t).sq_length() < PLAYER_DISTANCE * PLAYER_DISTANCE;
 }
 
-bool dealer::player_near ()
-{
-    base::point3f d = get_level ()->get_player ()->get_node ().get_world_position ();
-    base::point3f t = get_node ().get_world_position ();
-
-    return (d - t).sq_length () < PLAYER_DISTANCE * PLAYER_DISTANCE;
-}
-
-void dealer::salute_state (int delta)
+void dealer::salute_state(int delta)
 {
     try {
-	set_animation ("salute");
+        set_animation("salute");
     } catch (geo::md2_model_error& err) {
-	set_animation ("stand", 1.5);
+        set_animation("stand", 1.5);
     }
 
-    if (!player_near ()) {
-	states ().pop_state ();
-	finish_animation ();
-    }
-    else
-	set_look_angle (angle_to_player ());
+    if (!player_near()) {
+        states().pop_state();
+        finish_animation();
+    } else
+        set_look_angle(angle_to_player());
 }
 
 } /* namespace ent */

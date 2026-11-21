@@ -28,24 +28,19 @@
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-textured_plane::textured_plane (float htiles,
-				float vtiles,
-                                int hdiv,
-                                int vdiv)
+textured_plane::textured_plane(float htiles, float vtiles, int hdiv, int vdiv)
 {
     hdiv = std::max(1, hdiv);
     vdiv = std::max(1, vdiv);
 
     const float hl = 1.0 / hdiv;
     const float vl = 1.0 / vdiv;
-    const float x = -.5;
-    const float y = -.5;
-    begin (QUADS);
+    const float x  = -.5;
+    const float y  = -.5;
+    begin(QUADS);
 
     for (auto i = 0; i < hdiv; ++i) {
         for (auto j = 0; j < vdiv; ++j) {
@@ -53,20 +48,19 @@ textured_plane::textured_plane (float htiles,
             auto x1 = (i + 1) * hl;
             auto y0 = j * vl;
             auto y1 = (j + 1) * vl;
-            tex_coord (point2f (x0 * htiles, y0 * vtiles));
-            point (point3f (0, y + y0, x + x0));
-            tex_coord (point2f (x1 * htiles, y0 * vtiles));
-            point (point3f (0, y + y0, x + x1));
-            tex_coord (point2f (x1 * htiles, y1 * vtiles));
-            point (point3f (0, y + y1, x + x1));
-            tex_coord (point2f (x0 * htiles, y1 * vtiles));
-            point (point3f (0, y + y1, x + x0));
+            tex_coord(point2f(x0 * htiles, y0 * vtiles));
+            point(point3f(0, y + y0, x + x0));
+            tex_coord(point2f(x1 * htiles, y0 * vtiles));
+            point(point3f(0, y + y0, x + x1));
+            tex_coord(point2f(x1 * htiles, y1 * vtiles));
+            point(point3f(0, y + y1, x + x1));
+            tex_coord(point2f(x0 * htiles, y1 * vtiles));
+            point(point3f(0, y + y1, x + x0));
         }
     }
 
-    end ();
+    end();
 }
-
 
 } /* namespace geo */
 } /* namespace yage */

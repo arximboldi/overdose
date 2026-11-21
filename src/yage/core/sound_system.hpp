@@ -29,16 +29,12 @@
 
 #include <boost/utility.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 class sound_system : public boost::noncopyable
 {
 public:
-
-
 private:
     friend class system_impl;
 };

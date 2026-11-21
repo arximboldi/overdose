@@ -30,65 +30,36 @@
 #include <yage/core/task.hpp>
 #include <yage/gra/camera.hpp>
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
 class bubbly_camera : public yage::core::task
 {
 public:
-    bubbly_camera (yage::gra::camera_ptr cam,
-		   float depth = 0.5,
-		   float ratio_speed = 0.01,
-		   float fov_speed = 0.01);
+    bubbly_camera(yage::gra::camera_ptr cam,
+                  float depth       = 0.5,
+                  float ratio_speed = 0.01,
+                  float fov_speed   = 0.01);
 
-    void update (int delta);
+    void update(int delta);
 
-    yage::gra::camera_ptr get_camera ()
-    {
-	return m_camera;
-    }
+    yage::gra::camera_ptr get_camera() { return m_camera; }
 
-    void set_depth (float depth)
-    {
-	m_depth = depth;
-    }
+    void set_depth(float depth) { m_depth = depth; }
 
-    void set_ratio_speed (float speed)
-    {
-	m_ratio_speed = speed;
-    }
+    void set_ratio_speed(float speed) { m_ratio_speed = speed; }
 
-    void set_fov_speed (float speed)
-    {
-	m_fov_speed = speed;
-    }
+    void set_fov_speed(float speed) { m_fov_speed = speed; }
 
-    float get_depth () const
-    {
-	return m_depth;
-    }
+    float get_depth() const { return m_depth; }
 
-    float get_ratio_speed () const
-    {
-	return m_ratio_speed;
-    }
+    float get_ratio_speed() const { return m_ratio_speed; }
 
-    float get_fov_speed () const
-    {
-	return m_fov_speed;
-    }
+    float get_fov_speed() const { return m_fov_speed; }
 
-    float get_original_ratio ()
-    {
-	return m_orig_ratio;
-    }
+    float get_original_ratio() { return m_orig_ratio; }
 
-    float get_original_fov ()
-    {
-	return m_orig_fov;
-    }
+    float get_original_fov() { return m_orig_fov; }
 
 private:
     yage::gra::camera_ptr m_camera;

@@ -28,27 +28,25 @@
 #ifndef YAGE_CONFIG_H
 #define YAGE_CONFIG_H
 
+#include <iostream>
 #include <list>
 #include <map>
-#include <iostream>
 #include <typeinfo>
 
 #include <boost/any.hpp>
 
-#include <yage/base/tree.hpp>
-#include <yage/base/misc.hpp>
-#include <yage/base/singleton.hpp>
 #include <yage/base/exception.hpp>
+#include <yage/base/misc.hpp>
 #include <yage/base/observer.hpp>
+#include <yage/base/singleton.hpp>
+#include <yage/base/tree.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DECLARE_ERROR (yage_error, config_error);
-YAGE_DECLARE_ERROR (config_error, config_type_error);
-YAGE_DECLARE_ERROR (config_error, config_backend_error);
+YAGE_DECLARE_ERROR(yage_error, config_error);
+YAGE_DECLARE_ERROR(config_error, config_type_error);
+YAGE_DECLARE_ERROR(config_error, config_backend_error);
 
 class conf_node;
 
@@ -63,34 +61,34 @@ public:
      * Invoked on a change event.
      * @param c The source config.
      */
-    virtual void handle_conf_change (conf_node& c)    = 0;
+    virtual void handle_conf_change(conf_node& c) = 0;
 
     /**
      * Invoked on a nudge event.
      * @param c The source config.
      */
-    virtual void handle_conf_nudge (conf_node& c)     = 0;
+    virtual void handle_conf_nudge(conf_node& c) = 0;
 
     /**
      * Invoked on a new child event.
      * @param c The source config.
      */
-    virtual void handle_conf_add_child (conf_node& c) = 0;
+    virtual void handle_conf_add_child(conf_node& c) = 0;
 
     /**
      * Invoked on a delete child event.
      * @param c The source config.
      */
-    virtual void handle_conf_del_child (conf_node& c) = 0;
+    virtual void handle_conf_del_child(conf_node& c) = 0;
 };
 
 /**
  * The yage class of an observable configuration node.
  */
-class conf_subject : public subject_base <conf_listener>
+class conf_subject : public subject_base<conf_listener>
 {
 public:
-    typedef sigc::signal <void, conf_node&> signal;
+    typedef sigc::signal<void, conf_node&> signal;
 
     /** Event emitted whenever the node value is changed. */
     signal on_change;
@@ -110,12 +108,12 @@ public:
     /**
      * Register a new listener in the subject connecting all the signals.
      */
-    void add_listener (conf_listener& l);
+    void add_listener(conf_listener& l);
 
     /**
      * Unregister a new listener on this object disconnectin all the signals.
      */
-    void del_listener (conf_listener& l);
+    void del_listener(conf_listener& l);
 };
 
 /**
@@ -134,7 +132,7 @@ public:
      * provides live update.
      * @param node The node to which it has been attached.
      */
-    virtual void attach (conf_node& node) = 0;
+    virtual void attach(conf_node& node) = 0;
 
     /**
      * This is called when the backend has been detached from a node.
@@ -142,26 +140,26 @@ public:
      * provides live update.
      * @param node The node to which it has been attached.
      */
-    virtual void datach (conf_node& node) = 0;
+    virtual void datach(conf_node& node) = 0;
 
     /**
      * Permanently store the data of the config.
      * @param node The config to store.
      */
-    virtual void save (conf_node& node) = 0;
+    virtual void save(conf_node& node) = 0;
 
     /**
      * Load the data -and the hierarchy- in the phisical medium.
      * @param node Where to load the data.
      */
-    virtual void load (conf_node& node) = 0;
+    virtual void load(conf_node& node) = 0;
 
     /**
      * Load the data -and the hierarchy- in the phisical medim, but using
      * @c def functions instead of @set so the old values al preserved
      * if the user has already set them.
      */
-    virtual void def_load (conf_node& node) = 0;
+    virtual void def_load(conf_node& node) = 0;
 };
 
 /**
@@ -173,61 +171,59 @@ public:
  * @todo Rethink the backend system.
  * @todo Template threading model.
  */
-class conf_node : public conf_subject,
-		  public tree_node <conf_node>,
-		  public YAGE_DEFAULT_THREADING <conf_node>
+class conf_node
+    : public conf_subject
+    , public tree_node<conf_node>
+    , public YAGE_DEFAULT_THREADING<conf_node>
 {
 public:
     /** Constructor */
-    conf_node ()
-	: m_backend (0)
-    {}
+    conf_node()
+        : m_backend(0)
+    {
+    }
 
     /** Destructor. */
-    ~conf_node ()
+    ~conf_node()
     {
-	if (!get_parent () ||
-	    get_parent ()->m_backend != m_backend)
-	    delete m_backend;
+        if (!get_parent() || get_parent()->m_backend != m_backend)
+            delete m_backend;
     }
 
     /**
      * Returns the type of the node.
      */
-    const std::type_info& type () const
+    const std::type_info& type() const
     {
-	lock lock (this);
-	return m_element.type ();
+        lock lock(this);
+        return m_element.type();
     }
 
     /**
      * Returns wether the node is empty or not.
      */
-    bool empty () const
+    bool empty() const
     {
-	lock lock (this);
-	return m_element.empty ();
+        lock lock(this);
+        return m_element.empty();
     }
 
     /**
      * Nudges the node. It just raises a nudge event.
      */
-    void nudge ()
-    {
-	on_nudge (*this);
-    }
+    void nudge() { on_nudge(*this); }
 
     /**
      * Sets the value of the node. The node type is set to @a T, unless
      * @a T is not a valid type in which case nothing happends.
      * @param val The new value of the node.
      */
-    template<class T>
-    void set (const T& val)
+    template <class T>
+    void set(const T& val)
     {
-	lock lock (this);
-	m_element = val;
-	on_change (*this);
+        lock lock(this);
+        m_element = val;
+        on_change(*this);
     }
 
     /**
@@ -235,8 +231,8 @@ public:
      * node is already set.
      * @param val The new value of the node.
      */
-    template<class T>
-    void set (const T& val, bool overwrite);
+    template <class T>
+    void set(const T& val, bool overwrite);
 
     /**
      * Sets the value of the node if no previous value has been give to
@@ -244,119 +240,115 @@ public:
      * in which case nothing happends.
      * @param val The new value of the node.
      */
-    template<class T>
-    void def (const T& val);
+    template <class T>
+    void def(const T& val);
 
     /**
      * Gets the value of the node. Make sure that @a T matches the node type.
      * @param data Somewhere to store the node value.
      */
-    template<class T>
-    void get (T& data) const;
+    template <class T>
+    void get(T& data) const;
 
     /**
      * Gets the value of the node. Make sure that @a T matches the node type.
      */
-    template<class T>
-    T get () const;
+    template <class T>
+    T get() const;
 
     /**
      * Permanently stores this node hierarchy using the attached backend.
      */
-    void save ();
+    void save();
 
     /**
      * Loads this node hierarchy from the permanent media.
      */
-    void load ();
+    void load();
 
     /**
      * Loads this node hierarchy from the permanent media but leaving already
      * set values with their old value.
      */
-    void def_load ();
+    void def_load();
 
     /**
      * Attaches a backend to the node. If another backend has already been
      * attached it is datached.
      * @param backend The backend to attach.
      */
-    void attach_backend (conf_backend* backend);
+    void attach_backend(conf_backend* backend);
 
     /**
      * Dataches the currently attached backend to the node.
      */
-    void datach_backend ();
+    void datach_backend();
 
 private:
     boost::any m_element;
     conf_backend* m_backend;
 
-    void on_init ()
+    void on_init()
     {
-	m_backend = 0;
-	if (get_parent ())
-	    m_backend = get_parent ()->m_backend;
+        m_backend = 0;
+        if (get_parent())
+            m_backend = get_parent()->m_backend;
     }
 
-    void on_uninit ()
-    {
-	m_backend = 0;
-    }
+    void on_uninit() { m_backend = 0; }
 };
 
 /**
  * Singleton @c conf_node to store the global config.
  */
-typedef singleton_holder <conf_node> config;
+typedef singleton_holder<conf_node> config;
 
-template<class T>
-void conf_node::get (T& data) const
+template <class T>
+void conf_node::get(T& data) const
 {
-    lock lock (this);
+    lock lock(this);
 
     try {
-	data = boost::any_cast<T> (m_element);
+        data = boost::any_cast<T>(m_element);
     } catch (boost::bad_any_cast&) {
-	throw config_type_error ();
+        throw config_type_error();
     }
 }
 
-template<class T>
-T conf_node::get () const
+template <class T>
+T conf_node::get() const
 {
-    lock lock (this);
+    lock lock(this);
     T ret;
 
     try {
-	ret = boost::any_cast<T> (m_element);
+        ret = boost::any_cast<T>(m_element);
     } catch (boost::bad_any_cast&) {
-	throw config_type_error ();
+        throw config_type_error();
     }
 
     return ret;
 }
 
-
-template<class T>
-void conf_node::def (const T& val)
+template <class T>
+void conf_node::def(const T& val)
 {
-    lock lock (this);
+    lock lock(this);
 
-    if (m_element.empty ()) {
-	m_element = val;
-	on_change (*this);
+    if (m_element.empty()) {
+        m_element = val;
+        on_change(*this);
     }
 }
 
-template<class T>
-void conf_node::set (const T& val, bool overwrite)
+template <class T>
+void conf_node::set(const T& val, bool overwrite)
 {
-    lock lock (this);
+    lock lock(this);
 
-    if (overwrite || m_element.empty ()) {
-	m_element = val;
-	on_change (*this);
+    if (overwrite || m_element.empty()) {
+        m_element = val;
+        on_change(*this);
     }
 }
 

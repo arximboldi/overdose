@@ -29,15 +29,13 @@
 
 #include <yage/geo/mesh.hpp>
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
 class textured_hemisphere : public mesh
 {
 public:
-    textured_hemisphere (size_t divisions = 20);
+    textured_hemisphere(size_t divisions = 20);
 };
 
 } /* namespace geo */

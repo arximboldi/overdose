@@ -25,94 +25,107 @@
  *
  */
 
-#include "yage/core/sdl_wrapper.hpp"
-#include "texture.hpp"
 #include "font.hpp"
+#include "texture.hpp"
+#include "yage/core/sdl_wrapper.hpp"
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
-YAGE_DEFINE_ERROR_WHERE (font_error, "font");
+YAGE_DEFINE_ERROR_WHERE(font_error, "font");
 
-font::font (const std::string& fname, int ptsize)
+font::font(const std::string& fname, int ptsize)
+    : m_fname(fname)
+    , m_ptsize(ptsize)
+    , m_style(TTF_STYLE_NORMAL)
 {
-    m_font = TTF_OpenFont (fname.c_str (), ptsize);
+    m_font = TTF_OpenFont(fname.c_str(), ptsize);
     if (!m_font)
-	throw font_error (std::string ("Could not load font: ") + fname);
+        throw font_error(std::string("Could not load font: ") + fname);
+    m_sizes[ptsize] = m_font;
 }
 
-font::~font ()
+font::~font()
 {
-    TTF_CloseFont (m_font);
+    for (auto& size : m_sizes)
+        TTF_CloseFont(size.second);
 }
 
-int font::get_height () const
+TTF_Font* font::at_size(int ptsize)
 {
-    return TTF_FontHeight (m_font);
+    if (ptsize <= 0)
+        return m_font;
+
+    auto it = m_sizes.find(ptsize);
+    if (it != m_sizes.end())
+        return it->second;
+
+    TTF_Font* sized = TTF_OpenFont(m_fname.c_str(), ptsize);
+    if (!sized)
+        return m_font;
+    TTF_SetFontStyle(sized, m_style);
+    m_sizes[ptsize] = sized;
+    return sized;
 }
 
-void font::get_size (const std::string& text,
-		     int& w, int& h) const
+int font::get_height() const { return TTF_FontHeight(m_font); }
+
+void font::get_size(const std::string& text, int& w, int& h) const
 {
-    TTF_SizeUTF8 (m_font, text.c_str (), &w, &h);
+    TTF_SizeUTF8(m_font, text.c_str(), &w, &h);
 }
 
-int font::get_style () const
+int font::get_style() const { return TTF_GetFontStyle(m_font); }
+
+void font::set_style(int st)
 {
-    return TTF_GetFontStyle (m_font);
+    m_style = st;
+    for (auto& size : m_sizes)
+        TTF_SetFontStyle(size.second, st);
 }
 
-void font::set_style (int st)
-{
-    TTF_SetFontStyle (m_font, st);
-}
+bool font::is_fixed_width() const { return TTF_FontFaceIsFixedWidth(m_font); }
 
-bool font::is_fixed_width () const
+boost::shared_ptr<texture> font::render(const std::string& str,
+                                        const base::point3f& color,
+                                        render_mode mode)
 {
-    return TTF_FontFaceIsFixedWidth (m_font);
-}
+    core::sdl_surface_ptr surf(render_surface(str, color, mode));
 
-boost::shared_ptr<texture>
-font::render (const std::string& str,
-	      const base::point3f& color,
-	      render_mode mode)
-{
-    core::sdl_surface_ptr surf (render_surface (str, color, mode));
-
-    boost::shared_ptr<texture> result (new texture (surf.get ()));
+    boost::shared_ptr<texture> result(new texture(surf.get()));
     return result;
 }
 
-SDL_Surface*
-font::render_surface (const std::string& str,
-		      const base::point3f& color,
-		      render_mode mode)
+SDL_Surface* font::render_surface(const std::string& str,
+                                  const base::point3f& color,
+                                  render_mode mode,
+                                  int ptsize)
 {
-    SDL_Color sdl_color = { color[0] * 255, color[1] * 255, color[2] * 255 };
+    TTF_Font* sized     = at_size(ptsize);
+    SDL_Color sdl_color = {static_cast<Uint8>(color[0] * 255),
+                           static_cast<Uint8>(color[1] * 255),
+                           static_cast<Uint8>(color[2] * 255)};
     SDL_Surface* surf   = 0;
 
-    switch (mode)
-    {
+    switch (mode) {
     case SOLID:
-	surf = TTF_RenderUTF8_Solid (m_font, str.c_str (), sdl_color);
-	break;
-    case SHADED:
-    {
-	SDL_Color bgcolor = {0, 0, 0};
-	surf = TTF_RenderUTF8_Shaded (m_font, str.c_str (), sdl_color, bgcolor);
-	break;
+        surf = TTF_RenderUTF8_Solid(sized, str.c_str(), sdl_color);
+        break;
+    case SHADED: {
+        SDL_Color bgcolor = {0, 0, 0};
+        surf = TTF_RenderUTF8_Shaded(sized, str.c_str(), sdl_color, bgcolor);
+        break;
     }
     case BLENDED:
-	surf = TTF_RenderUTF8_Blended (m_font, str.c_str (), sdl_color);
-	break;
+        surf = TTF_RenderUTF8_Blended(sized, str.c_str(), sdl_color);
+        break;
     default:
-	break;
+        break;
     }
 
     if (surf == 0)
-	throw font_error (std::string ("Could not render text: ") + TTF_GetError ());
+        throw font_error(std::string("Could not render text: ") +
+                         TTF_GetError());
 
     return surf;
 }

@@ -31,29 +31,36 @@
 #ifndef YAGE_TYPE_TRAITS_H_
 #define YAGE_TYPE_TRAITS_H_
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-template<typename T>
+template <typename T>
 struct take_pointer
 {
-    enum { result = false };
+    enum
+    {
+        result = false
+    };
     typedef T type;
 };
 
-template<typename T>
+template <typename T>
 struct take_pointer<T*>
 {
-    enum { result = true };
+    enum
+    {
+        result = true
+    };
     typedef T type;
 };
 
-template<typename T>
+template <typename T>
 struct type_traits
 {
-    enum { is_pointer = take_pointer<T>::result };
+    enum
+    {
+        is_pointer = take_pointer<T>::result
+    };
     typedef typename take_pointer<T>::type pointee_type;
     typedef volatile T volatile_type;
 };

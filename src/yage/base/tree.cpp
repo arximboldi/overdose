@@ -28,12 +28,10 @@
 
 #include "tree.hpp"
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DEFINE_ERROR_WHERE (tree_node_error, "tree_node");
+YAGE_DEFINE_ERROR_WHERE(tree_node_error, "tree_node");
 
 } /* namespace base */
 } /* namespace yage */

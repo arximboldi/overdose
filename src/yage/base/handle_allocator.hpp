@@ -32,49 +32,42 @@
 
 #include <yage/base/exception.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
-YAGE_DECLARE_ERROR (yage_error, handle_allocator_error);
+YAGE_DECLARE_ERROR(yage_error, handle_allocator_error);
 
 template <typename T>
 class throw_creator_policy
 {
 public:
-    T create ()
-    {
-	throw handle_allocator_error ();
-    }
+    T create() { throw handle_allocator_error(); }
 };
 
 template <typename T>
 class count_creator_policy
 {
 public:
-    count_creator_policy ()
-	: m_count (0)
-    {}
-
-    T create ()
+    count_creator_policy()
+        : m_count(0)
     {
-	return ++ m_count;
     }
+
+    T create() { return ++m_count; }
 
 private:
     T m_count;
 };
 
-template <typename T, template<typename> class CreatorPolicy = count_creator_policy>
+template <typename T,
+          template <typename> class CreatorPolicy = count_creator_policy>
 class handle_allocator
 {
 public:
-    handle_allocator ()
-    {}
+    handle_allocator() {}
 
-    T allocate ();
-    void release (T id);
+    T allocate();
+    void release(T id);
 
 private:
     CreatorPolicy<T> m_creator;
@@ -88,58 +81,57 @@ template <typename T, T Min, T Max>
 class fixed_handle_allocator
 {
 public:
-    fixed_handle_allocator ();
-    T allocate ();
-    void release (T id);
+    fixed_handle_allocator();
+    T allocate();
+    void release(T id);
 
 private:
     std::deque<T> m_free;
 };
 
-
-template <typename T, template<typename> class C>
-T handle_allocator<T, C>::allocate ()
+template <typename T, template <typename> class C>
+T handle_allocator<T, C>::allocate()
 {
     T ret;
 
-    if (m_free.empty ())
-	ret = m_creator.create ();
+    if (m_free.empty())
+        ret = m_creator.create();
     else {
-	ret = m_free.front ();
-	m_free.pop_front ();
+        ret = m_free.front();
+        m_free.pop_front();
     }
 
     return ret;
 }
 
-template <typename T, template<typename> class C>
-void handle_allocator<T, C>::release (T id)
+template <typename T, template <typename> class C>
+void handle_allocator<T, C>::release(T id)
 {
-    m_free.push_back (id);
+    m_free.push_back(id);
 }
 
 template <typename T, T Min, T Max>
-fixed_handle_allocator<T, Min, Max>::fixed_handle_allocator ()
+fixed_handle_allocator<T, Min, Max>::fixed_handle_allocator()
 {
     for (T curr = Min; curr <= Max; ++curr)
-	m_free.push_back (curr);
+        m_free.push_back(curr);
 }
 
 template <typename T, T Min, T Max>
-T fixed_handle_allocator<T, Min, Max>::allocate ()
+T fixed_handle_allocator<T, Min, Max>::allocate()
 {
-    if (m_free.empty ())
-	throw handle_allocator_error ();
+    if (m_free.empty())
+        throw handle_allocator_error();
 
-    T ret = m_free.front ();
-    m_free.pop_front ();
+    T ret = m_free.front();
+    m_free.pop_front();
     return ret;
 }
 
 template <typename T, T Min, T Max>
-void fixed_handle_allocator<T, Min, Max>::release (T id)
+void fixed_handle_allocator<T, Min, Max>::release(T id)
 {
-    m_free.push_back (id);
+    m_free.push_back(id);
 }
 
 } /* namespace base */

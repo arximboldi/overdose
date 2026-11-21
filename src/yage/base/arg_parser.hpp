@@ -29,37 +29,35 @@
 #ifndef YAGE_ARG_PARSER_H
 #define YAGE_ARG_PARSER_H
 
-#include <sstream>
 #include <cstring>
-#include <string>
 #include <limits>
 #include <list>
 #include <map>
+#include <sstream>
+#include <string>
 
 #include <yage/base/exception.hpp>
 #include <yage/base/iterator.hpp>
 #include <yage/base/util.hpp>
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 /**
  * A parsing error.
  */
-YAGE_DECLARE_ERROR (yage_error, arg_parser_error)
-YAGE_DECLARE_ERROR (arg_parser_error, unknown_option_error)
-YAGE_DECLARE_ERROR (arg_parser_error, parse_option_error)
+YAGE_DECLARE_ERROR(yage_error, arg_parser_error)
+YAGE_DECLARE_ERROR(arg_parser_error, unknown_option_error)
+YAGE_DECLARE_ERROR(arg_parser_error, parse_option_error)
 
 /**
  * Utility exception. Parsers (options) must throw this in order to get
  * arg_parser to correctly wrap the message.
  */
-class parse_error : public std::exception {};
+class parse_error : public std::exception
+{};
 
-namespace detail
-{
+namespace detail {
 
 /**
  * Less-than functor for @c cstrings.
@@ -72,9 +70,9 @@ struct ltstr
      * @param s2 Second string.
      * @return Whether @a is less than @a s2.
      */
-    bool operator  () (const char *s1, const char *s2) const
+    bool operator()(const char* s1, const char* s2) const
     {
-	return strcmp (s1, s2) < 0;
+        return strcmp(s1, s2) < 0;
     }
 };
 
@@ -83,13 +81,13 @@ struct ltstr
  */
 struct atoi_func
 {
-    int operator () (const char *str)
+    int operator()(const char* str)
     {
-	char* end = 0;
-	int res = strtol (str, &end, 10);
-	if (end <= str)
-	    throw parse_error ();
-	return res;
+        char* end = 0;
+        int res   = strtol(str, &end, 10);
+        if (end <= str)
+            throw parse_error();
+        return res;
     }
 };
 
@@ -98,14 +96,14 @@ struct atoi_func
  */
 struct atof_func
 {
-    float operator () (const char *str)
+    float operator()(const char* str)
     {
-	char* end = 0;
-	float res = strtof (str, &end);
+        char* end = 0;
+        float res = strtof(str, &end);
 
-	if (end <= str)
-	    throw parse_error ();
-	return res;
+        if (end <= str)
+            throw parse_error();
+        return res;
     }
 };
 
@@ -116,10 +114,7 @@ struct atof_func
 template <class T>
 struct atoany_func
 {
-    T operator () (const char *str)
-    {
-	return T (str);
-    }
+    T operator()(const char* str) { return T(str); }
 };
 
 } /* namespace detail */
@@ -133,9 +128,7 @@ public:
     /**
      * Virtual destructor.
      */
-    virtual ~option ()
-    {
-    }
+    virtual ~option() {}
 
     /**
      * Define this function to make this option receive an argument.
@@ -143,20 +136,14 @@ public:
      * @return @c true if you where able to parse the argument or @c false
      *  if you could not or the option does not receive arguments.
      */
-    virtual bool parse (const char *arg)
-    {
-	return false;
-    };
+    virtual bool parse(const char* arg) { return false; };
 
     /**
      * Define this function to make the option be a toggle.
      * @return @c true if you where able to toggle or @c false if the option
      *  must receive an argument.
      */
-    virtual bool parse ()
-    {
-	return false;
-    };
+    virtual bool parse() { return false; };
 };
 
 /**
@@ -165,7 +152,7 @@ public:
  * Template argument @a T defines the desired type and @a ConvFunc
  * must be the proper converter function, which defaults to @c atoany_func.
  */
-template <class T, class ConvFunc = detail::atoany_func <T> >
+template <class T, class ConvFunc = detail::atoany_func<T>>
 class option_generic : public option
 {
 public:
@@ -173,23 +160,24 @@ public:
      * Constructor.
      * @param data Pointer to where you want to store the argument value.
      */
-    option_generic (T * data)
-	: m_data (data)
-    {}
+    option_generic(T* data)
+        : m_data(data)
+    {
+    }
 
     /**
      * Parses an argument.
      * @param arg The argument.
      * @return @c true.
      */
-    bool parse (const char *arg)
+    bool parse(const char* arg)
     {
-	*m_data = ConvFunc ()(arg);
-	return true;
+        *m_data = ConvFunc()(arg);
+        return true;
     }
 
 private:
-    T *m_data;
+    T* m_data;
 };
 
 /**
@@ -204,18 +192,19 @@ public:
      * Constructor.
      * @param f Where to notify if it was found.
      */
-    option_flag (bool* f)
-	: m_flag (f)
-    {}
+    option_flag(bool* f)
+        : m_flag(f)
+    {
+    }
 
     /**
      * Sets to true.
      * @return @c true.
      */
-    bool parse ()
+    bool parse()
     {
-	*m_flag = true;
-	return true;
+        *m_flag = true;
+        return true;
     }
 };
 
@@ -231,18 +220,19 @@ public:
      * Constructor.
      * @param f Where to notify if it was found.
      */
-    option_not_flag (bool* f)
-	: m_flag (f)
-    {}
+    option_not_flag(bool* f)
+        : m_flag(f)
+    {
+    }
 
     /**
      * Sets to false.
      * @return @c true.
      */
-    bool parse ()
+    bool parse()
     {
-	*m_flag = false;
-	return true;
+        *m_flag = false;
+        return true;
     }
 };
 
@@ -253,46 +243,47 @@ public:
 template <class T>
 class option_stream : public option
 {
-    T *m_data;
+    T* m_data;
 
 public:
     /**
      * Constructor.
      * @param T A pointer where to store the read value.
      */
-    option_stream (T * data):
-	m_data (data)
-    {}
+    option_stream(T* data)
+        : m_data(data)
+    {
+    }
 
     /**
      * Receives a string.
      * @param arg The string to receive.
      * @return @c true.
      */
-    bool parse (const char *arg)
+    bool parse(const char* arg)
     {
-	std::stringstream stream (std::string (arg), std::ios_base::in);
-	stream.exceptions (std::stringstream::eofbit |
-			   std::stringstream::failbit |
-			   std::stringstream::badbit);
-	try {
-	    stream >> *m_data;
-	} catch (...) {
-	    throw parse_error ();
-	}
+        std::stringstream stream(std::string(arg), std::ios_base::in);
+        stream.exceptions(std::stringstream::eofbit |
+                          std::stringstream::failbit |
+                          std::stringstream::badbit);
+        try {
+            stream >> *m_data;
+        } catch (...) {
+            throw parse_error();
+        }
 
-	return true;
+        return true;
     }
 };
 
 /** An @c int option. */
-typedef option_generic <int, detail::atoi_func> option_int;
+typedef option_generic<int, detail::atoi_func> option_int;
 /** A @c float option. */
-typedef option_generic <float, detail::atof_func> option_float;
+typedef option_generic<float, detail::atof_func> option_float;
 /** A @c std::string option. */
-typedef option_generic <std::string> option_string;
+typedef option_generic<std::string> option_string;
 /** A @c cstring option. */
-typedef option_generic <const char*> option_cstring;
+typedef option_generic<const char*> option_cstring;
 
 /**
  * Class for parsing program arguments. You register options that
@@ -307,25 +298,25 @@ public:
     /**
      * Iterator for the arguments that where not parsed.
      */
-    typedef std::list <const char*>::iterator iterator;
+    typedef std::list<const char*>::iterator iterator;
 
     /**
      * ConstIterator for the arguments that where not parse.
      */
-    typedef std::list <const char*>::const_iterator const_iterator;
+    typedef std::list<const char*>::const_iterator const_iterator;
 
-    arg_parser () {}
+    arg_parser() {}
 
-    ~arg_parser ();
+    ~arg_parser();
 
     /**
      * Adds an @c int option.
      * @param flag Short version of the option.
      * @param str Long version of the option.
      */
-    void add (unsigned char flag, const char* str, int* data)
+    void add(unsigned char flag, const char* str, int* data)
     {
-	add (flag, str, data ? new option_int (data) : 0);
+        add(flag, str, data ? new option_int(data) : 0);
     }
 
     /**
@@ -334,9 +325,9 @@ public:
      * @param str Long version of the option.
      * @param data Where to store the passed value.
      */
-    void add (unsigned char flag, const char* str, float* data)
+    void add(unsigned char flag, const char* str, float* data)
     {
-	add (flag, str, data ? new option_float (data) : 0);
+        add(flag, str, data ? new option_float(data) : 0);
     }
 
     /**
@@ -345,9 +336,9 @@ public:
      * @param str Long version of the option.
      * @param data Where to store the passed value.
      */
-    void add (unsigned char flag, const char* str, bool* data)
+    void add(unsigned char flag, const char* str, bool* data)
     {
-	add (flag, str, data ? new option_flag (data) : 0);
+        add(flag, str, data ? new option_flag(data) : 0);
     }
 
     /**
@@ -356,9 +347,9 @@ public:
      * @param str Long version of the option.
      * @param data Where to store the passed value.
      */
-    void add (unsigned char flag, const char* str, std::string* data)
+    void add(unsigned char flag, const char* str, std::string* data)
     {
-	add (flag, str, data ? new option_string (data) : 0);
+        add(flag, str, data ? new option_string(data) : 0);
     }
 
     /**
@@ -367,9 +358,9 @@ public:
      * @param str Long version of the option.
      * @param data Where to store the passed value.
      */
-    void add (unsigned char flag, const char* str, const char** data)
+    void add(unsigned char flag, const char* str, const char** data)
     {
-	add (flag, str, data ? new option_cstring (data) : 0);
+        add(flag, str, data ? new option_cstring(data) : 0);
     }
 
     /**
@@ -380,7 +371,7 @@ public:
      * @param op The option to associate to @a and @str.
      * @see Option
      */
-    void add (unsigned char flag, const char *str, option* op = 0);
+    void add(unsigned char flag, const char* str, option* op = 0);
 
     /**
      * Parse the command line arguments using the defined options. Any
@@ -393,91 +384,70 @@ public:
      * @throw A arg_parser_error if there was an option threw an exception,
      * containing the problematic option in the what ().
      */
-    void parse (int argc, const char* argv[]);
+    void parse(int argc, const char* argv[]);
 
     /**
      * Returns an @c iterator to the first free argument.
      */
-    iterator begin ()
-    {
-	return m_free.begin ();
-    }
+    iterator begin() { return m_free.begin(); }
 
     /**
      * Returns a @c const_iterator to the first free argument.
      */
-    const_iterator begin () const
-    {
-	return m_free.begin ();
-    }
+    const_iterator begin() const { return m_free.begin(); }
 
     /**
      * Returns an @c Iterator to the end of free arguments list.
      */
-    iterator end ()
-    {
-	return m_free.end ();
-    }
+    iterator end() { return m_free.end(); }
 
     /**
      * Returns a @c ConstIterator to the end of free arguments list.
      */
-    const_iterator end () const
-    {
-	return m_free.end ();
-    }
+    const_iterator end() const { return m_free.end(); }
 
     /**
      * Return the number of free arguments.
      */
-    size_t free_args () const
-    {
-	return m_free.size ();
-    }
+    size_t free_args() const { return m_free.size(); }
 
     /**
      * Returns whether there are any free arguments.
      */
-    bool has_free_args () const
-    {
-	return !m_free.empty ();
-    }
+    bool has_free_args() const { return !m_free.empty(); }
 
 private:
-    typedef ptr_iterator<std::list <option*>::iterator> option_iterator;
+    typedef ptr_iterator<std::list<option*>::iterator> option_iterator;
 
     static const unsigned char NULL_FLAG = '\0';
-    std::list <option*> m_short[256];
-    std::map <const char*, std::list <option*>, detail::ltstr> m_long;
-    std::list <option*> m_all;
-    std::list <const char *> m_free;
+    std::list<option*> m_short[256];
+    std::map<const char*, std::list<option*>, detail::ltstr> m_long;
+    std::list<option*> m_all;
+    std::list<const char*> m_free;
 
     enum arg_type
     {
-	arg_short,
-	arg_long,
-	arg_free
+        arg_short,
+        arg_long,
+        arg_free
     };
 
-    const char** parse_short (const char** argv, const char** argv_end);
-    const char** parse_long (const char** argv, const char** argv_end);
+    const char** parse_short(const char** argv, const char** argv_end);
+    const char** parse_long(const char** argv, const char** argv_end);
 
-    arg_type get_type (const char *arg)
+    arg_type get_type(const char* arg)
     {
-	if (arg[0] == '-') {
-	    if (arg[1] == '-')
-		return arg_long;
-	    else
-		return arg_short;
-	}
+        if (arg[0] == '-') {
+            if (arg[1] == '-')
+                return arg_long;
+            else
+                return arg_short;
+        }
 
-	return arg_free;
+        return arg_free;
     }
 
-    bool is_free (const char *arg)
-    {
-	return arg [0] != '-';
-    }
+    bool is_free(const char* arg) { return arg[0] != '-'; }
 };
 
 } /* namespace base */

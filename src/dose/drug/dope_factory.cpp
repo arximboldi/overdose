@@ -26,42 +26,41 @@
 
 #include <yage/base/misc.hpp>
 
-#include "marihuana.hpp"
+#include "adrenaline.hpp"
+#include "alcohol.hpp"
 #include "cocaine.hpp"
 #include "lsd.hpp"
-#include "alcohol.hpp"
-#include "adrenaline.hpp"
+#include "marihuana.hpp"
 
 #include "dope_factory.hpp"
 
 using namespace yage;
 
-namespace dose
-{
-namespace drug
-{
+namespace dose {
+namespace drug {
 
-dope_factory_impl::dope_factory_impl ()
+dope_factory_impl::dope_factory_impl()
 {
-    add<cocaine> ("cocaine");
-    add<marihuana> ("marihuana");
-    add<lsd> ("lsd");
-    add<alcohol> ("alcohol");
-    add<adrenaline> ("adrenaline");
+    add<cocaine>("cocaine");
+    add<marihuana>("marihuana");
+    add<lsd>("lsd");
+    add<alcohol>("alcohol");
+    add<adrenaline>("adrenaline");
 }
 
-dope_factory_impl::ptr_type
-dope_factory_impl::create_random ()
+dope_factory_impl::ptr_type dope_factory_impl::create_random()
 {
-    int index = base::ranged_random<int> (0, size ());
+    int index = base::ranged_random<int>(0, size());
 
     iterator it;
-    for (it = begin (); it != end () && index > 0; ++it, --index);
+    for (it = begin(); it != end() && index > 0; ++it, --index)
+        ;
 
-    if (it == end ())
-	throw base::factory_error ("Error in dope_factory_impl::create_random ()");
+    if (it == end())
+        throw base::factory_error(
+            "Error in dope_factory_impl::create_random ()");
 
-    return create (*it);
+    return create(*it);
 }
 
 } /* namespace drug */

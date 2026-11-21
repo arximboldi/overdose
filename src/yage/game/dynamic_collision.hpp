@@ -29,47 +29,36 @@
 
 #include <yage/game/collidable.hpp>
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
 class dynamic_collision : public boost::static_visitor<bool>
 {
 public:
-    bool test (const collidable& a, const collidable& b,
-	       const base::point3f& delta);
+    bool
+    test(const collidable& a, const collidable& b, const base::point3f& delta);
 
-    bool operator () (const sphere& a, const sphere& b);
-    bool operator () (const capsule& a, const capsule& b);
-    bool operator () (const aabb& a, const aabb& b);
-    bool operator () (const sphere& a, const capsule& b);
-    bool operator () (const sphere& a, const aabb& b);
-    bool operator () (const capsule& a, const aabb& b);
+    bool operator()(const sphere& a, const sphere& b);
+    bool operator()(const capsule& a, const capsule& b);
+    bool operator()(const aabb& a, const aabb& b);
+    bool operator()(const sphere& a, const capsule& b);
+    bool operator()(const sphere& a, const aabb& b);
+    bool operator()(const capsule& a, const aabb& b);
 
-    bool operator () (const capsule& a, const sphere& b) { return (*this) (b, a); }
-    bool operator () (const aabb& a, const sphere& b) { return (*this) (b, a); }
-    bool operator () (const aabb& a, const capsule& b) { return (*this) (b, a); }
+    bool operator()(const capsule& a, const sphere& b) { return (*this)(b, a); }
+    bool operator()(const aabb& a, const sphere& b) { return (*this)(b, a); }
+    bool operator()(const aabb& a, const capsule& b) { return (*this)(b, a); }
 
-    float get_time () const
-    {
-	return m_time;
-    }
+    float get_time() const { return m_time; }
 
-    const base::point3f& get_delta () const
-    {
-	return m_delta;
-    }
+    const base::point3f& get_delta() const { return m_delta; }
 
-    const base::point3f& get_normal () const
-    {
-	return m_normal;
-    }
+    const base::point3f& get_normal() const { return m_normal; }
 
 private:
     base::point3f m_normal;
     base::point3f m_delta;
-    float         m_time;
+    float m_time;
 };
 
 } /* namespace game */

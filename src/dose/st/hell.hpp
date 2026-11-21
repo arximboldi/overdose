@@ -29,22 +29,20 @@
 
 #include <dose/st/level.hpp>
 
-namespace dose
-{
-namespace st
-{
+namespace dose {
+namespace st {
 
 class hell : public st::level
 {
 public:
-    void init ();
-    std::string loading ();
+    void init();
+    std::string loading();
 
 private:
-    void setup_floor ();
-    void setup_buildings ();
-    void setup_lights ();
-    void setup_people ();
+    void setup_floor();
+    void setup_buildings();
+    void setup_lights();
+    void setup_people();
 };
 
 } /* namespace st */

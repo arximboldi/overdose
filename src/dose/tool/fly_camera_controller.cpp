@@ -24,120 +24,114 @@
  *
  */
 
+#include "fly_camera_controller.hpp"
 #include <cmath>
 #include <lib/matrix.h>
 #include <lib/vertex.h>
-#include "fly_camera_controller.hpp"
 
 using namespace yage;
 
-namespace dose
-{
-namespace tool
-{
+namespace dose {
+namespace tool {
 
-fly_camera_controller::fly_camera_controller (yage::gra::camera_ptr cam,
-					      float move_speed,
-					      float rotate_speed)
-    : m_camera (cam)
-    , m_move_speed (move_speed)
-    , m_rotate_speed (rotate_speed)
-    , m_move (0)
+fly_camera_controller::fly_camera_controller(yage::gra::camera_ptr cam,
+                                             float move_speed,
+                                             float rotate_speed)
+    : m_camera(cam)
+    , m_move_speed(move_speed)
+    , m_rotate_speed(rotate_speed)
+    , m_move(0)
 {
 }
 
-void fly_camera_controller::update (int delta)
+void fly_camera_controller::update(int delta)
 {
     if (m_move & STRAFE_LEFT) {
-	base::point3f dir =
-	    m_camera->get_up_vector ()
-	    .cross (m_camera->get_plane_normal ())
-	    .normalize ();
+        base::point3f dir = m_camera->get_up_vector()
+                                .cross(m_camera->get_plane_normal())
+                                .normalize();
 
-	m_camera->set_position (
-	    m_camera->get_position () - dir * m_move_speed * delta);
+        m_camera->set_position(m_camera->get_position() -
+                               dir * m_move_speed * delta);
     }
 
     if (m_move & STRAFE_RIGHT) {
-	base::point3f dir =
-	    m_camera->get_up_vector ()
-	    .cross (m_camera->get_plane_normal ())
-	    .normalize ();
+        base::point3f dir = m_camera->get_up_vector()
+                                .cross(m_camera->get_plane_normal())
+                                .normalize();
 
-	m_camera->set_position (
-	    m_camera->get_position () + dir * m_move_speed * delta);
+        m_camera->set_position(m_camera->get_position() +
+                               dir * m_move_speed * delta);
     }
 
     if (m_move & MOVE_FORWARD) {
-	m_camera->set_position (
-	    m_camera->get_position () -
-	    m_camera->get_plane_normal ().normalize () * m_move_speed * delta);
+        m_camera->set_position(m_camera->get_position() -
+                               m_camera->get_plane_normal().normalize() *
+                                   m_move_speed * delta);
     }
 
     if (m_move & MOVE_BACKWARD) {
-	m_camera->set_position (
-	    m_camera->get_position () +
-	    m_camera->get_plane_normal ().normalize () * m_move_speed * delta);
+        m_camera->set_position(m_camera->get_position() +
+                               m_camera->get_plane_normal().normalize() *
+                                   m_move_speed * delta);
     }
 }
 
-bool fly_camera_controller::handle_key_press (SDL_Event& ev)
+bool fly_camera_controller::handle_key_press(SDL_Event& ev)
 {
-    switch (ev.key.keysym.sym)
-    {
+    switch (ev.key.keysym.sym) {
     case SDLK_a:
-	m_move |= STRAFE_LEFT;
-	break;
+        m_move |= STRAFE_LEFT;
+        break;
     case SDLK_d:
-	m_move |= STRAFE_RIGHT;
-	break;
+        m_move |= STRAFE_RIGHT;
+        break;
     case SDLK_w:
-	m_move |= MOVE_FORWARD;
-	break;
+        m_move |= MOVE_FORWARD;
+        break;
     case SDLK_s:
-	m_move |= MOVE_BACKWARD;
+        m_move |= MOVE_BACKWARD;
     default:
-	break;
+        break;
     }
 
     return true;
 }
 
-bool fly_camera_controller::handle_key_release (SDL_Event& ev)
+bool fly_camera_controller::handle_key_release(SDL_Event& ev)
 {
-    switch (ev.key.keysym.sym)
-    {
+    switch (ev.key.keysym.sym) {
     case SDLK_a:
-	m_move ^= STRAFE_LEFT;
-	break;
+        m_move ^= STRAFE_LEFT;
+        break;
     case SDLK_d:
-	m_move ^= STRAFE_RIGHT;
-	break;
+        m_move ^= STRAFE_RIGHT;
+        break;
     case SDLK_w:
-	m_move ^= MOVE_FORWARD;
-	break;
+        m_move ^= MOVE_FORWARD;
+        break;
     case SDLK_s:
-	m_move ^= MOVE_BACKWARD;
+        m_move ^= MOVE_BACKWARD;
     default:
-	break;
+        break;
     }
 
     return true;
 }
 
-bool fly_camera_controller::handle_mouse_move (SDL_Event& ev)
+bool fly_camera_controller::handle_mouse_move(SDL_Event& ev)
 {
     float horiz = ev.motion.xrel * m_rotate_speed;
-    float vert = ev.motion.yrel * m_rotate_speed;
+    float vert  = ev.motion.yrel * m_rotate_speed;
 
-    base::point3f n = m_camera->get_plane_normal ();
-    base::point3f u = m_camera->get_up_vector ();
-    base::point3f v = n.normal (u);
+    base::point3f n = m_camera->get_plane_normal();
+    base::point3f u = m_camera->get_up_vector();
+    base::point3f v = n.normal(u);
 
-    n = n.rotate (- horiz, u);
-    n = n.rotate (vert, v);
+    n = n.rotate(-horiz, u);
+    n = n.rotate(vert, v);
 
-    m_camera->set_plane_normal (n);
+    m_camera->set_plane_normal(n);
 
     return true;
 }

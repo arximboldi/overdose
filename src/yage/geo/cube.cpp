@@ -24,74 +24,72 @@
  *
  */
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 #include "cube.hpp"
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-cube::cube ()
+cube::cube()
 {
     float l = 1.0f;
 
-    begin (mesh::TRIANGLES);
+    begin(mesh::TRIANGLES);
 
-    point (point3f (l/2,l/2,l/2));
-    point (point3f (-l/2,l/2,l/2));
-    point (point3f (-l/2,-l/2,l/2));
+    point(point3f(l / 2, l / 2, l / 2));
+    point(point3f(-l / 2, l / 2, l / 2));
+    point(point3f(-l / 2, -l / 2, l / 2));
 
-    point (point3f (l/2,l/2,l/2));
-    point (point3f (-l/2,-l/2,l/2));
-    point (point3f (l/2,-l/2,l/2));
+    point(point3f(l / 2, l / 2, l / 2));
+    point(point3f(-l / 2, -l / 2, l / 2));
+    point(point3f(l / 2, -l / 2, l / 2));
 
-    point (point3f (l/2,l/2,l/2));
-    point (point3f (l/2,-l/2,l/2));
-    point (point3f (l/2,l/2,-l/2));
+    point(point3f(l / 2, l / 2, l / 2));
+    point(point3f(l / 2, -l / 2, l / 2));
+    point(point3f(l / 2, l / 2, -l / 2));
 
-    point (point3f (l/2,-l/2,-l/2));
-    point (point3f (l/2,l/2,-l/2));
-    point (point3f (l/2,-l/2,l/2));
+    point(point3f(l / 2, -l / 2, -l / 2));
+    point(point3f(l / 2, l / 2, -l / 2));
+    point(point3f(l / 2, -l / 2, l / 2));
 
-    point (point3f (-l/2,l/2,-l/2));
-    point (point3f (l/2,l/2,-l/2));
-    point (point3f (l/2,-l/2,-l/2));
+    point(point3f(-l / 2, l / 2, -l / 2));
+    point(point3f(l / 2, l / 2, -l / 2));
+    point(point3f(l / 2, -l / 2, -l / 2));
 
-    point (point3f (-l/2,l/2,-l/2));
-    point (point3f (l/2,-l/2,-l/2));
-    point (point3f (-l/2,-l/2,-l/2));
+    point(point3f(-l / 2, l / 2, -l / 2));
+    point(point3f(l / 2, -l / 2, -l / 2));
+    point(point3f(-l / 2, -l / 2, -l / 2));
 
-    point (point3f (-l/2,l/2,l/2));
-    point (point3f (-l/2,l/2,-l/2));
-    point (point3f (-l/2,-l/2,l/2));
+    point(point3f(-l / 2, l / 2, l / 2));
+    point(point3f(-l / 2, l / 2, -l / 2));
+    point(point3f(-l / 2, -l / 2, l / 2));
 
-    point (point3f (-l/2,l/2,-l/2));
-    point (point3f (-l/2,-l/2,-l/2));
-    point (point3f (-l/2,-l/2,l/2));
+    point(point3f(-l / 2, l / 2, -l / 2));
+    point(point3f(-l / 2, -l / 2, -l / 2));
+    point(point3f(-l / 2, -l / 2, l / 2));
 
-    point (point3f (l/2,l/2,l/2));
-    point (point3f (l/2,l/2,-l/2));
-    point (point3f (-l/2,l/2,-l/2));
+    point(point3f(l / 2, l / 2, l / 2));
+    point(point3f(l / 2, l / 2, -l / 2));
+    point(point3f(-l / 2, l / 2, -l / 2));
 
-    point (point3f (l/2,l/2,l/2));
-    point (point3f (-l/2,l/2,-l/2));
-    point (point3f (-l/2,l/2,l/2));
+    point(point3f(l / 2, l / 2, l / 2));
+    point(point3f(-l / 2, l / 2, -l / 2));
+    point(point3f(-l / 2, l / 2, l / 2));
 
-    point (point3f (l/2,-l/2,-l/2));
-    point (point3f (l/2,-l/2,l/2));
-    point (point3f (-l/2,-l/2,-l/2));
+    point(point3f(l / 2, -l / 2, -l / 2));
+    point(point3f(l / 2, -l / 2, l / 2));
+    point(point3f(-l / 2, -l / 2, -l / 2));
 
-    point (point3f (l/2,-l/2,l/2));
-    point (point3f (-l/2,-l/2,l/2));
-    point (point3f (-l/2,-l/2,-l/2));
-    end ();
+    point(point3f(l / 2, -l / 2, l / 2));
+    point(point3f(-l / 2, -l / 2, l / 2));
+    point(point3f(-l / 2, -l / 2, -l / 2));
+    end();
 }
 
 } /* namespace geo */

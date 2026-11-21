@@ -29,68 +29,57 @@
 
 #include <yage/geo/md2_model_impl.hpp>
 
-#include <yage/gra/geometry.hpp>
 #include <yage/gra/animation.hpp>
+#include <yage/gra/geometry.hpp>
 
-namespace yage
-{
+namespace yage {
 
-namespace gra
-{
+namespace gra {
 class material;
 }
 
-namespace geo
-{
+namespace geo {
 
-YAGE_DECLARE_ERROR (base::yage_error, md2_model_error);
+YAGE_DECLARE_ERROR(base::yage_error, md2_model_error);
 
-class md2_model : public gra::geometry
-		, public gra::animation
+class md2_model
+    : public gra::geometry
+    , public gra::animation
 {
 public:
     static constexpr float FRAME_TICKS = 100;
 
     enum render_mode
     {
-	TRIANGLES,
-	COMMANDS
+        TRIANGLES,
+        COMMANDS
     };
 
-    md2_model (boost::shared_ptr<md2_model_impl> impl,
-	       render_mode mode = COMMANDS);
+    md2_model(boost::shared_ptr<md2_model_impl> impl,
+              render_mode mode = COMMANDS);
 
-    void draw ();
-    void draw_raw ();
+    void draw();
+    void draw_raw();
 
-    void animate (float percent);
-    void set_animation (const std::string& name);
-    float get_loop_offset ();
+    void animate(float percent);
+    void set_animation(const std::string& name);
+    float get_loop_offset();
 
-    const std::string& get_animation () const
+    const std::string& get_animation() const { return m_anim; }
+
+    void set_material(boost::shared_ptr<gra::material> material)
     {
-	return m_anim;
+        m_material = material;
     }
 
-    void set_material (boost::shared_ptr<gra::material> material)
+    void set_texture(boost::shared_ptr<gra::texture> texture)
     {
-	m_material = material;
+        m_texture = texture;
     }
 
-    void set_texture (boost::shared_ptr<gra::texture> texture)
-    {
-	m_texture = texture;
-    }
+    float get_duration() { return (m_anim_end - m_anim_start) * FRAME_TICKS; }
 
-    float get_duration ()
-    {
-	return (m_anim_end - m_anim_start) * FRAME_TICKS;
-    }
-
-    boost::shared_ptr<md2_model_impl> get_impl ()
-    {
-	return m_impl;
-    }
+    boost::shared_ptr<md2_model_impl> get_impl() { return m_impl; }
 
 private:
     boost::shared_ptr<md2_model_impl> m_impl;

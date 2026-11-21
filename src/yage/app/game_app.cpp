@@ -24,45 +24,39 @@
  *
  */
 
-#include "yage/core/task_manager.hpp"
-#include "yage/core/system.hpp"
 #include "game_app.hpp"
+#include "yage/core/system.hpp"
+#include "yage/core/task_manager.hpp"
 
-namespace yage
-{
-namespace app
-{
+namespace yage {
+namespace app {
 
-game_app::game_app (const std::string& name,
-		    const std::string& version,
-		    const std::string& description,
-		    const std::string& copyright_date,
-		    const std::string& author)
-    : yage_app (name,
-		version,
-		description,
-		copyright_date,
-		author)
-    , m_game_states (new game::state_manager)
+game_app::game_app(const std::string& name,
+                   const std::string& version,
+                   const std::string& description,
+                   const std::string& copyright_date,
+                   const std::string& author)
+    : yage_app(name, version, description, copyright_date, author)
+    , m_game_states(new game::state_manager)
 {
-    m_game_states->on_finish.connect (
-	sigc::mem_fun (*this, &game_app::handle_state_manager_finish));
+    m_game_states->on_finish.connect(
+        sigc::mem_fun(*this, &game_app::handle_state_manager_finish));
 }
 
-int game_app::execute ()
+int game_app::execute()
 {
-    register_states (m_game_states);
-    m_game_states->enter_state (initial_state ());
+    register_states(m_game_states);
+    m_game_states->enter_state(initial_state());
 
-    core::system::self ().tasks ().add (m_game_states);
-    core::system::self ().main_loop ();
+    core::system::self().tasks().add(m_game_states);
+    core::system::self().main_loop();
 
     return 0;
 }
 
-void game_app::handle_state_manager_finish (game::state_manager&)
+void game_app::handle_state_manager_finish(game::state_manager&)
 {
-    core::system::self ().quit_loop ();
+    core::system::self().quit_loop();
 }
 
 } /* namespace app */

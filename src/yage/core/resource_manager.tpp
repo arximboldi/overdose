@@ -29,47 +29,44 @@
 
 #include <yage/core/resource_manager.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 template <class K, class R>
 typename resource_manager<K, R>::resource_ptr
-resource_manager<K, R>::find (const K& name)
+resource_manager<K, R>::find(const K& name)
 {
-    typename resource_map::iterator it = m_resources.find (name);
+    typename resource_map::iterator it = m_resources.find(name);
 
-    if (it != m_resources.end ())
-	return it->second;
+    if (it != m_resources.end())
+        return it->second;
 
-    return handle_not_found (name);
+    return handle_not_found(name);
 }
 
 template <class K, class R>
-void resource_manager<K, R>::add (const K& name, resource_ptr res)
+void resource_manager<K, R>::add(const K& name, resource_ptr res)
 {
-    m_resources [name] = res;
+    m_resources[name] = res;
 }
 
 template <class K, class R>
-void resource_manager<K, R>::del (const K& name)
+void resource_manager<K, R>::del(const K& name)
 {
-    m_resources.erase (name);
+    m_resources.erase(name);
 }
 
 template <class K, class R>
-void resource_manager<K, R>::clear ()
+void resource_manager<K, R>::clear()
 {
-    m_resources.clear ();
+    m_resources.clear();
 }
 
 template <class K, class R>
 typename resource_manager<K, R>::resource_ptr
-resource_manager<K, R>::handle_not_found (const K& name)
+resource_manager<K, R>::handle_not_found(const K& name)
 {
-    throw resource_manager_error (
-	std::string ("Could not find resource."));
+    throw resource_manager_error(std::string("Could not find resource."));
 }
 
 } /* namespace core */

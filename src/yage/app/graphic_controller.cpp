@@ -24,75 +24,75 @@
  *
  */
 
-#include "yage/core/system.hpp"
-#include "yage/base/config.hpp"
 #include "graphic_controller.hpp"
+#include "yage/base/config.hpp"
+#include "yage/core/system.hpp"
 
-namespace yage
+namespace yage {
+namespace app {
+
+void graphic_controller::init(const std::string& wname)
 {
-namespace app
-{
+    setup_defaults();
+    install_signals();
 
-void graphic_controller::init (const std::string& wname)
-{
-    setup_defaults ();
-    install_signals ();
+    int sc_width  = m_conf.get_path("window.width").get<int>();
+    int sc_height = m_conf.get_path("window.height").get<int>();
+    int sc_fullsc = m_conf.get_path("window.fullscreen").get<int>();
+    int sc_grab   = m_conf.get_path("window.grab").get<int>();
+    int fps       = m_conf.get_path("fps").get<int>();
 
-    int sc_width  = m_conf.get_path ("window.width").get<int> ();
-    int sc_height = m_conf.get_path ("window.height").get<int> ();
-    int sc_fullsc = m_conf.get_path ("window.fullscreen").get<int> ();
-    int sc_grab   = m_conf.get_path ("window.grab").get<int> ();
-    int fps       = m_conf.get_path ("fps").get<int> ();
+    core::system::self().graphic().init(
+        wname, sc_width, sc_height, sc_fullsc, sc_grab);
+    core::system::self().force_fps(fps);
 
-    core::system::self ().graphic (). init (
-	wname, sc_width, sc_height, sc_fullsc, sc_grab);
-    core::system::self ().force_fps (fps);
-
-    setup_resources ();
+    setup_resources();
 }
 
-void graphic_controller::setup_resources ()
+void graphic_controller::setup_resources()
 {
-    core::graphic_system& graphic = core::system::self ().graphic ();
-    base::file_mgr_node* file_mgr = &base::file_manager::self ().get_child ("yage");
+    core::graphic_system& graphic = core::system::self().graphic();
+    base::file_mgr_node* file_mgr =
+        &base::file_manager::self().get_child("yage");
 
-    graphic.textures ().set_file_manager (file_mgr);
-    graphic.geometries ().set_file_manager (file_mgr);
-    graphic.fonts ().set_file_manager (file_mgr);
+    graphic.textures().set_file_manager(file_mgr);
+    graphic.geometries().set_file_manager(file_mgr);
+    graphic.fonts().set_file_manager(file_mgr);
 }
 
-void graphic_controller::setup_defaults ()
+void graphic_controller::setup_defaults()
 {
-    m_conf.get_path ("window.width").def (int (800));
-    m_conf.get_path ("window.height").def (int (600));
-    m_conf.get_path ("window.fullscreen").def (int (0));
-    m_conf.get_path ("window.grab").def (int (0));
-    m_conf.get_path ("fps").def (int (60));
+    m_conf.get_path("window.width").def(int(800));
+    m_conf.get_path("window.height").def(int(600));
+    m_conf.get_path("window.fullscreen").def(int(0));
+    m_conf.get_path("window.grab").def(int(0));
+    m_conf.get_path("fps").def(int(60));
 }
 
-void graphic_controller::install_signals ()
+void graphic_controller::install_signals()
 {
-    m_conf.get_child ("window").on_nudge.connect (
-	sigc::mem_fun (this, &graphic_controller::handle_window_nudge));
-    m_conf.get_child ("fps").on_change.connect (
-	sigc::mem_fun (this, &graphic_controller::handle_fps_change));
+    m_conf.get_child("window").on_nudge.connect(
+        sigc::mem_fun(this, &graphic_controller::handle_window_nudge));
+    m_conf.get_child("fps").on_change.connect(
+        sigc::mem_fun(this, &graphic_controller::handle_fps_change));
 }
 
-void graphic_controller::handle_fps_change (base::conf_node& conf)
+void graphic_controller::handle_fps_change(base::conf_node& conf)
 {
-    int fps = conf.get<int> ();
+    int fps = conf.get<int>();
 
-    core::system::self ().force_fps (fps);
+    core::system::self().force_fps(fps);
 }
 
-void graphic_controller::handle_window_nudge (base::conf_node& conf)
+void graphic_controller::handle_window_nudge(base::conf_node& conf)
 {
-    int sc_width  = conf.get_child ("width").get<int> ();
-    int sc_height = conf.get_child ("height").get<int> ();
-    int sc_fullsc = conf.get_child ("fullscreen").get<int> ();
-    int sc_grab   = conf.get_child ("grab").get<int> ();
+    int sc_width  = conf.get_child("width").get<int>();
+    int sc_height = conf.get_child("height").get<int>();
+    int sc_fullsc = conf.get_child("fullscreen").get<int>();
+    int sc_grab   = conf.get_child("grab").get<int>();
 
-    core::system::self ().graphic ().resize_window (sc_width, sc_height, sc_fullsc, sc_grab);
+    core::system::self().graphic().resize_window(
+        sc_width, sc_height, sc_fullsc, sc_grab);
 }
 
 } /* namespace app */

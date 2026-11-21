@@ -24,44 +24,40 @@
  *
  */
 
-#include "yage/gra/texture.hpp"
 #include "textured_plane_2d.hpp"
+#include "yage/gra/texture.hpp"
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-textured_plane_2d::textured_plane_2d (texture_ptr ptr)
-    : m_tex (ptr)
+textured_plane_2d::textured_plane_2d(texture_ptr ptr)
+    : m_tex(ptr)
 {
 }
 
-void textured_plane_2d::draw ()
+void textured_plane_2d::draw()
 {
-    if (m_tex)
-    {
-	float width = m_tex->get_real_width ();
-	float height = m_tex->get_real_height ();
+    if (m_tex) {
+        float width  = m_tex->get_real_width();
+        float height = m_tex->get_real_height();
 
-	m_tex->enable ();
+        m_tex->enable();
 
-	glBegin (GL_QUADS);
-	{
-	    glTexCoord2f (0, 0);
-	    glVertex2f (0, 0);
-	    glTexCoord2f (1, 0);
-	    glVertex2f (width, 0);
-	    glTexCoord2f (1, 1);
-	    glVertex2f (width, height);
-	    glTexCoord2f (0, 1);
-	    glVertex2f (0, height);
-	}
-	glEnd ();
+        glBegin(GL_QUADS);
+        {
+            glTexCoord2f(0, 0);
+            glVertex2f(0, 0);
+            glTexCoord2f(1, 0);
+            glVertex2f(width, 0);
+            glTexCoord2f(1, 1);
+            glVertex2f(width, height);
+            glTexCoord2f(0, 1);
+            glVertex2f(0, height);
+        }
+        glEnd();
 
-	m_tex->disable ();
+        m_tex->disable();
     }
-
 }
 
 } /* namespace geo */

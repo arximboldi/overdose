@@ -29,17 +29,14 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 class drawable
 {
-
 public:
-    virtual ~drawable () {}
-    virtual void draw () = 0;
+    virtual ~drawable() {}
+    virtual void draw() = 0;
 };
 
 typedef boost::shared_ptr<drawable> drawable_ptr;

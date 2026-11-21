@@ -31,21 +31,19 @@
 #include <boost/function.hpp>
 #include <yage/gra/animation.hpp>
 
-namespace yage
-{
-namespace gra
-{
+namespace yage {
+namespace gra {
 
 template <typename T, typename U>
-T linear_function (T min, T max, U x)
+T linear_function(T min, T max, U x)
 {
     return min + (max - min) * x;
 }
 
 template <typename U>
-U sinusoid (U x)
+U sinusoid(U x)
 {
-    return std::sin (x * M_PI / 2);
+    return std::sin(x * M_PI / 2);
 }
 
 template <typename T>
@@ -54,22 +52,15 @@ class function_animation : public animation
 public:
     typedef boost::function1<void, T> function_type;
 
-    function_animation (function_type func,
-			float duration = 1.0f)
-	: m_func (func)
-	, m_duration (duration)
+    function_animation(function_type func, float duration = 1.0f)
+        : m_func(func)
+        , m_duration(duration)
     {
     }
 
-    void animate (float percent)
-    {
-	m_func (percent);
-    }
+    void animate(float percent) { m_func(percent); }
 
-    float get_duration ()
-    {
-	return m_duration;
-    }
+    float get_duration() { return m_duration; }
 
 private:
     function_type m_func;
@@ -77,12 +68,12 @@ private:
 };
 
 template <typename T>
-boost::shared_ptr<function_animation<T> >
-create_function_animation (typename function_animation<T>::function_type func,
-			   float duration = 1.0f)
+boost::shared_ptr<function_animation<T>>
+create_function_animation(typename function_animation<T>::function_type func,
+                          float duration = 1.0f)
 {
-    return boost::shared_ptr<function_animation<T> > (
-	new function_animation<T> (func, duration));
+    return boost::shared_ptr<function_animation<T>>(
+        new function_animation<T>(func, duration));
 }
 
 } /* namespace gra */

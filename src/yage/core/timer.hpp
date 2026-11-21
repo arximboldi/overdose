@@ -33,12 +33,10 @@
 #ifndef YAGE_TIMER_H
 #define YAGE_TIMER_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
 /**
  * A class for counting time and forcing update rates.
@@ -47,10 +45,10 @@ class timer
 {
 public:
     /** Constructor. */
-    timer ();
+    timer();
 
     /** Destructor. */
-    ~timer ();
+    ~timer();
 
     /**
      * Makes the timer force a frames per second update rate. This means
@@ -59,34 +57,28 @@ public:
      * @param fpsrate The desired fpsrate. Set it to -1 if you no longer want
      * to have a fixed fpsrate.
      */
-    void force_fps (int fpsrate);
+    void force_fps(int fpsrate);
 
     /**
      * Resets the timer counts.
      */
-    void reset ();
+    void reset();
 
     /**
      * Updates the timer.
      */
-    void update ();
+    void update();
 
     /**
      * Returns the milliseconds elapsed between the last call to
      * @c update() and the creation of the Timer or the last @c rest call.
      */
-    int ticks ()
-    {
-	return mscount;
-    }
+    int ticks() { return mscount; }
 
     /**
      * Returns the milliseconds elapsed between the last two @c update() calls.
      */
-    int delta_ticks ()
-    {
-	return ms;
-    }
+    int delta_ticks() { return ms; }
 
 private:
     Uint32 framecount;
@@ -95,7 +87,7 @@ private:
     Uint32 rate;
     Uint32 mscount;
     Uint32 totalms;
-    float  rateticks;
+    float rateticks;
 };
 
 } /* namespace core */

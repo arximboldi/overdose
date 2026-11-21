@@ -20,40 +20,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yage/base/iterator.hpp"
 #include "task_manager.hpp"
+#include "yage/base/iterator.hpp"
 
-namespace yage
-{
+namespace yage {
 
-namespace core
-{
+namespace core {
 
-void task_manager::add (boost::shared_ptr<task> t)
+void task_manager::add(boost::shared_ptr<task> t)
 {
-    m_tasks.push_back (t);
-    t->set_task_parent (shared_from_this ());
+    m_tasks.push_back(t);
+    t->set_task_parent(shared_from_this());
 }
 
-void task_manager::del (boost::shared_ptr<task> t)
+void task_manager::del(boost::shared_ptr<task> t)
 {
-    m_tasks.remove (t);
-    t->set_task_parent (boost::shared_ptr<task_manager> ());
+    m_tasks.remove(t);
+    t->set_task_parent(boost::shared_ptr<task_manager>());
 }
 
-void task_manager::update (int ms)
+void task_manager::update(int ms)
 {
     base::ptr_iterator<task_list::iterator> i = m_tasks.begin();
 
-    while (i != m_tasks.end ())
-    {
-	if (i->is_finished ()) {
-	    i = m_tasks.erase (i);
-	} else {
-	    if (!i->is_paused ())
-		i->update (ms);
-	    i++;
-	}
+    while (i != m_tasks.end()) {
+        if (i->is_finished()) {
+            i = m_tasks.erase(i);
+        } else {
+            if (!i->is_paused())
+                i->update(ms);
+            i++;
+        }
     }
 }
 

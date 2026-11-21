@@ -29,26 +29,24 @@
 
 #include <yage/game/collidable.hpp>
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
 class static_collision : public boost::static_visitor<bool>
 {
 public:
-    bool test (const collidable& a, const collidable& b);
+    bool test(const collidable& a, const collidable& b);
 
-    bool operator () (const sphere& a, const sphere& b);
-    bool operator () (const capsule& a, const capsule& b);
-    bool operator () (const aabb& a, const aabb& b);
-    bool operator () (const sphere& a, const capsule& b);
-    bool operator () (const sphere& a, const aabb& b);
-    bool operator () (const capsule& a, const aabb& b);
+    bool operator()(const sphere& a, const sphere& b);
+    bool operator()(const capsule& a, const capsule& b);
+    bool operator()(const aabb& a, const aabb& b);
+    bool operator()(const sphere& a, const capsule& b);
+    bool operator()(const sphere& a, const aabb& b);
+    bool operator()(const capsule& a, const aabb& b);
 
-    bool operator () (const capsule& a, const sphere& b) { return (*this) (b, a); }
-    bool operator () (const aabb& a, const sphere& b) { return (*this) (b, a); }
-    bool operator () (const aabb& a, const capsule& b) { return (*this) (b, a); }
+    bool operator()(const capsule& a, const sphere& b) { return (*this)(b, a); }
+    bool operator()(const aabb& a, const sphere& b) { return (*this)(b, a); }
+    bool operator()(const aabb& a, const capsule& b) { return (*this)(b, a); }
 };
 
 } /* namespace game */

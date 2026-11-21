@@ -33,55 +33,56 @@
 #include <yage/base/point3.hpp>
 #include <yage/game/collidable.hpp>
 
-namespace yage
-{
-namespace game
-{
+namespace yage {
+namespace game {
 
 /* Valor de error usado para definir la igualdad de flotantes. */
 static const float EPSILON = 0.000001;
 
+bool intersect_segment_sphere(const base::point3f& p,
+                              const base::point3f& q,
+                              const base::point3f& sc,
+                              float sr,
+                              float& t);
 
-bool intersect_segment_sphere (const base::point3f& p,
-			       const base::point3f& q,
-			       const base::point3f& sc,
-			       float sr, float& t);
+bool intersect_segment_capsule(const base::point3f& sa,
+                               const base::point3f& sb,
+                               const base::point3f& p,
+                               const base::point3f& q,
+                               float r,
+                               float& t);
 
-bool intersect_segment_capsule (const base::point3f& sa,
-				const base::point3f& sb,
-				const base::point3f& p,
-				const base::point3f& q,
-				float r, float& t);
+bool intersect_segment_cylinder(const base::point3f& sa,
+                                const base::point3f& sb,
+                                const base::point3f& p,
+                                const base::point3f& q,
+                                float r,
+                                float& t);
 
-bool intersect_segment_cylinder (const base::point3f& sa,
-				 const base::point3f& sb,
-				 const base::point3f& p,
-				 const base::point3f& q,
-				 float r, float& t);
+bool intersect_ray_aabb(const base::point3f& p,
+                        const base::point3f& d,
+                        aabb a,
+                        float& tmin,
+                        base::point3f& q);
 
-bool intersect_ray_aabb (const base::point3f& p,
-			 const base::point3f& d,
-			 aabb a, float &tmin,
-			 base::point3f& q);
+float sq_dist_point_segment(const base::point3f& a,
+                            const base::point3f& b,
+                            const base::point3f& c);
 
-float sq_dist_point_segment (const base::point3f& a,
-			     const base::point3f& b,
-			     const base::point3f& c);
+float sq_dist_point_line(const base::point3f& a,
+                         const base::point3f& b,
+                         const base::point3f& c);
 
-float sq_dist_point_line (const base::point3f& a,
-			  const base::point3f& b,
-			  const base::point3f& c);
+float closest_pt_segment_segment(const base::point3f& p1,
+                                 const base::point3f& q1,
+                                 const base::point3f& p2,
+                                 const base::point3f& q2,
+                                 float& s,
+                                 float& t,
+                                 base::point3f& c1,
+                                 base::point3f& c2);
 
-float closest_pt_segment_segment (const base::point3f& p1,
-				  const base::point3f& q1,
-				  const base::point3f& p2,
-				  const base::point3f& q2,
-				  float &s, float &t,
-				  base::point3f& c1,
-				  base::point3f& c2);
-
-float sq_dist_point_aabb (const base::point3f& p,
-			  const aabb& b);
+float sq_dist_point_aabb(const base::point3f& p, const aabb& b);
 
 } /* namespace game */
 } /* namespace yage */

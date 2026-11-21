@@ -29,10 +29,8 @@
 
 #include <yage/core/key_observer.hpp>
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
 class player;
 
@@ -41,16 +39,16 @@ class player_controller : public yage::core::key_listener
 public:
     typedef boost::shared_ptr<player> player_ptr;
 
-    player_controller (player_ptr person);
+    player_controller(player_ptr person);
 
-    bool handle_key_press (SDL_Event& ev);
-    bool handle_key_release (SDL_Event& ev);
-    void randomize_keys ();
-    void restore_keys ();
+    bool handle_key_press(SDL_Event& ev);
+    bool handle_key_release(SDL_Event& ev);
+    void randomize_keys();
+    void restore_keys();
 
 private:
     player_ptr m_person;
-    SDLKey m_move_keys [4];
+    SDLKey m_move_keys[4];
 };
 
 } /* namespace ent */

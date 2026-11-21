@@ -28,45 +28,37 @@
 #ifndef YAGE_FACTORY_H_
 #define YAGE_FACTORY_H_
 
-namespace yage
-{
-namespace base
-{
+namespace yage {
+namespace base {
 
 template <class Base>
 class factory_functor_base
 {
 public:
-    virtual ~factory_functor_base () {};
-    virtual Base* operator () () = 0;
+    virtual ~factory_functor_base() {};
+    virtual Base* operator()() = 0;
 };
 
 template <class Base, class Concrete>
-class factory_functor : public factory_functor_base <Base>
+class factory_functor : public factory_functor_base<Base>
 {
 public:
-    Concrete* operator () ()
-    {
-	return new Concrete;
-    }
+    Concrete* operator()() { return new Concrete; }
 };
 
 template <class Base>
 class factory_base
 {
 public:
-    virtual ~factory_base () {};
-    virtual Base* create () = 0;
+    virtual ~factory_base() {};
+    virtual Base* create() = 0;
 };
 
 template <class Base, class Concrete>
-class factory : public factory_base <Base>
+class factory : public factory_base<Base>
 {
 public:
-    Concrete* create ()
-    {
-	return new Concrete;
-    }
+    Concrete* create() { return new Concrete; }
 };
 
 } /* namespace base */

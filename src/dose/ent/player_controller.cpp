@@ -31,96 +31,86 @@
 
 using namespace yage;
 
-namespace dose
-{
-namespace ent
-{
+namespace dose {
+namespace ent {
 
-const SDLKey DEFAULT_MOVE_KEYS [] =
-{
-    SDLK_UP,
-    SDLK_DOWN,
-    SDLK_LEFT,
-    SDLK_RIGHT
-};
+const SDLKey DEFAULT_MOVE_KEYS[] = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT};
 
-player_controller::player_controller (player_ptr person)
-    : m_person (person)
+player_controller::player_controller(player_ptr person)
+    : m_person(person)
 {
     for (int i = 0; i < 4; ++i)
-	m_move_keys [i] = DEFAULT_MOVE_KEYS [i];
+        m_move_keys[i] = DEFAULT_MOVE_KEYS[i];
 }
 
-void player_controller::randomize_keys ()
+void player_controller::randomize_keys()
 {
     for (int i = 0; i < 8; ++i) {
-	int a = base::ranged_random (0, 4);
-	int b = base::ranged_random (0, 4);
-	std::swap (m_move_keys [a], m_move_keys [b]);
+        int a = base::ranged_random(0, 4);
+        int b = base::ranged_random(0, 4);
+        std::swap(m_move_keys[a], m_move_keys[b]);
     }
-    m_person->set_action (0);
+    m_person->set_action(0);
 }
 
-void player_controller::restore_keys ()
+void player_controller::restore_keys()
 {
     for (int i = 0; i < 4; ++i)
-	m_move_keys [i] = DEFAULT_MOVE_KEYS [i];
-    m_person->set_action (0);
+        m_move_keys[i] = DEFAULT_MOVE_KEYS[i];
+    m_person->set_action(0);
 }
 
-bool player_controller::handle_key_press (SDL_Event& ev)
+bool player_controller::handle_key_press(SDL_Event& ev)
 {
     SDLKey k = ev.key.keysym.sym;
 
-    switch (k)
-    {
+    switch (k) {
     case SDLK_b:
-	m_person->buy_some_shit ();
-	break;
+        m_person->buy_some_shit();
+        break;
 
     case SDLK_n:
-	m_person->get_hud ().select_prev ();
-	break;
+        m_person->get_hud().select_prev();
+        break;
 
     case SDLK_m:
-	m_person->get_hud ().select_next ();
-	break;
+        m_person->get_hud().select_next();
+        break;
 
     case SDLK_SPACE:
-	m_person->take_some_shit ();
-	break;
+        m_person->take_some_shit();
+        break;
 
     default:
-	if (k == m_move_keys [0])
-	    m_person->activate_action (person::RUN_FW);
-	else if (k == m_move_keys [1])
-	    m_person->activate_action (person::RUN_BW);
-	else if (k == m_move_keys [2])
-	    m_person->activate_action (person::ROTATE_L);
-	else if (k == m_move_keys [3])
-	    m_person->activate_action (person::ROTATE_R);
-	break;
+        if (k == m_move_keys[0])
+            m_person->activate_action(person::RUN_FW);
+        else if (k == m_move_keys[1])
+            m_person->activate_action(person::RUN_BW);
+        else if (k == m_move_keys[2])
+            m_person->activate_action(person::ROTATE_L);
+        else if (k == m_move_keys[3])
+            m_person->activate_action(person::ROTATE_R);
+        break;
     };
 
     return false;
 }
 
-bool player_controller::handle_key_release (SDL_Event& ev)
+bool player_controller::handle_key_release(SDL_Event& ev)
 {
     SDLKey k = ev.key.keysym.sym;
 
-    switch (k)
-    {
+    switch (k) {
     default:
-	if (k == m_move_keys [0])
-	    m_person->deactivate_action (person::RUN_FW);
-	else if (k == m_move_keys [1])
-	    m_person->deactivate_action (person::RUN_BW);
-	else if (k == m_move_keys [2])
-	    m_person->deactivate_action (person::ROTATE_L);
-	else if (k == m_move_keys [3])
-	    m_person->deactivate_action (person::ROTATE_R);
-	break;
+        if (k == m_move_keys[0])
+            m_person->deactivate_action(person::RUN_FW);
+        else if (k == m_move_keys[1])
+            m_person->deactivate_action(person::RUN_BW);
+        else if (k == m_move_keys[2])
+            m_person->deactivate_action(person::ROTATE_L);
+        else if (k == m_move_keys[3])
+            m_person->deactivate_action(person::ROTATE_R);
+        break;
     };
 
     return false;

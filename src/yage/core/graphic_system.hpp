@@ -5,11 +5,12 @@
  *
  *  Interfaz de la clase graphic_system.
  *
- *  @todo Sería lo suyo conseguir crear una interfaz común entre ply_model, md2_model
- *        y potencialmente otros tipos de modelos para evitar necesitar un
+ *  @todo Sería lo suyo conseguir crear una interfaz común entre ply_model,
+ * md2_model y potencialmente otros tipos de modelos para evitar necesitar un
  *        manager diferente para cada uno. Habría que modificar también
  *        file_resource_manager pero sería trivial, bastaría añadir un
- *        registro de factorías por extensiones (file_mgr_node ya soporta busqueda por extensión).
+ *        registro de factorías por extensiones (file_mgr_node ya soporta
+ * busqueda por extensión).
  *
  *  @todo También estaría bien aplicar Pimpl para evitar incluir los tipos
  *        de todos los recursos.
@@ -38,7 +39,8 @@
 #ifndef YAGE_GRAPHIC_SYSTEM_H_
 #define YAGE_GRAPHIC_SYSTEM_H_
 
-#include <SDL/SDL_opengl.h>
+#include <SDL_opengl.h>
+#include <algorithm>
 #include <boost/utility.hpp>
 
 #include <yage/base/exception.hpp>
@@ -47,133 +49,140 @@
 #include <yage/core/file_resource_manager.hpp>
 #include <yage/core/font_manager.hpp>
 
-#include <yage/gra/texture.hpp>
-#include <yage/gra/material.hpp>
 #include <yage/gra/geometry.hpp>
+#include <yage/gra/material.hpp>
+#include <yage/gra/texture.hpp>
 
-namespace yage
-{
+namespace yage {
 
-namespace gra
-{
+namespace gra {
 class scene;
 }
 
-namespace core
-{
+namespace core {
 
-typedef resource_manager <std::string, gra::material> material_manager;
-typedef file_resource_manager <std::string, gra::texture> texture_manager;
-typedef file_resource_manager <std::string, gra::geometry,
-			       factory_file_resource_policy<gra::geometry> >
-geometry_manager;
+typedef resource_manager<std::string, gra::material> material_manager;
+typedef file_resource_manager<std::string, gra::texture> texture_manager;
+typedef file_resource_manager<std::string,
+                              gra::geometry,
+                              factory_file_resource_policy<gra::geometry>>
+    geometry_manager;
 
+YAGE_DECLARE_ERROR(base::yage_error, graphic_system_error);
 
-YAGE_DECLARE_ERROR (base::yage_error, graphic_system_error);
-
-class graphic_system : public boost::noncopyable
-		     , public video_listener
+class graphic_system
+    : public boost::noncopyable
+    , public video_listener
 {
 public:
     enum polygon_mode
     {
-	FILL  = GL_FILL,
-	LINE  = GL_LINE,
-	POINT = GL_POINT,
+        FILL  = GL_FILL,
+        LINE  = GL_LINE,
+        POINT = GL_POINT,
     };
 
     enum shading_mode
     {
-	FLAT   = GL_FLAT,
-	SMOOTH = GL_SMOOTH
+        FLAT   = GL_FLAT,
+        SMOOTH = GL_SMOOTH
     };
 
-    static const int  DEFAULT_SCREEN_WIDTH  = 640;
-    static const int  DEFAULT_SCREEN_HEIGHT = 480;
-    static const bool DEFAULT_FULLSCREEN    = false;
+    static const int DEFAULT_SCREEN_WIDTH  = 640;
+    static const int DEFAULT_SCREEN_HEIGHT = 480;
+    static const bool DEFAULT_FULLSCREEN   = false;
 
-    ~graphic_system ();
+    /*
+     * The 2D overlay is scaled so that an 800x600 area fits in the
+     * window. When the window has another aspect ratio, the overlay
+     * extends further along one axis: see get_hud_width ().
+     */
+    static const int HUD_WIDTH  = 800;
+    static const int HUD_HEIGHT = 600;
 
-    void init (int sc_w = DEFAULT_SCREEN_WIDTH,
-	       int sc_h = DEFAULT_SCREEN_HEIGHT,
-	       bool fs  = DEFAULT_FULLSCREEN,
-	       bool grab = false);
+    ~graphic_system();
 
-    void init (const std::string& title,
-	       int sc_w = DEFAULT_SCREEN_WIDTH,
-	       int sc_h = DEFAULT_SCREEN_HEIGHT,
-	       bool fs  = DEFAULT_FULLSCREEN,
-	       bool grab = false);
+    void init(int sc_w  = DEFAULT_SCREEN_WIDTH,
+              int sc_h  = DEFAULT_SCREEN_HEIGHT,
+              bool fs   = DEFAULT_FULLSCREEN,
+              bool grab = false);
 
-    void close ();
+    void init(const std::string& title,
+              int sc_w  = DEFAULT_SCREEN_WIDTH,
+              int sc_h  = DEFAULT_SCREEN_HEIGHT,
+              bool fs   = DEFAULT_FULLSCREEN,
+              bool grab = false);
 
-    void set_polygon_mode (polygon_mode mode = FILL);
-    void set_shading_mode (shading_mode mode = SMOOTH);
-    void set_clear_color (const base::point4f& col);
+    void close();
 
-    void update ();
+    void set_polygon_mode(polygon_mode mode = FILL);
+    void set_shading_mode(shading_mode mode = SMOOTH);
+    void set_clear_color(const base::point4f& col);
 
-    bool handle_video_resize (SDL_Event& ev);
-    bool handle_video_update (SDL_Event& ev);
+    void update();
 
-    void resize_window (int sc_w  = DEFAULT_SCREEN_WIDTH,
-			int sc_h  = DEFAULT_SCREEN_HEIGHT,
-			bool fs   = DEFAULT_FULLSCREEN,
-			bool grab = false);
+    bool handle_video_resize(SDL_Event& ev);
+    bool handle_video_update(SDL_Event& ev);
 
-    bool is_init ()
-    {
-	return m_isinit;
-    }
+    void resize_window(int sc_w  = DEFAULT_SCREEN_WIDTH,
+                       int sc_h  = DEFAULT_SCREEN_HEIGHT,
+                       bool fs   = DEFAULT_FULLSCREEN,
+                       bool grab = false);
 
-    boost::shared_ptr<gra::scene> get_scene ()
-    {
-	return m_scene;
-    }
+    /*
+     * Switches between the window and a fullscreen mode at the
+     * resolution of the screen. In a browser, the page decides how
+     * the game is shown, and this asks it to toggle fullscreen.
+     */
+    void toggle_fullscreen();
 
-    int get_width ()
-    {
-	return m_sc_width;
-    }
+    bool is_init() { return m_isinit; }
 
-    int get_height ()
-    {
-	return m_sc_height;
-    }
+    boost::shared_ptr<gra::scene> get_scene() { return m_scene; }
 
-    void set_scene (boost::shared_ptr<gra::scene> scene)
-    {
-	m_scene = scene;
-    }
+    /*
+     * The size of the 2D overlay, which covers the whole window: at
+     * least HUD_WIDTH x HUD_HEIGHT, larger along one axis when the
+     * window is wider or taller than 4:3. Its origin is the top left
+     * corner of the window.
+     */
+    float get_hud_width() { return m_sc_width / hud_scale(); }
 
-    texture_manager& textures ()
-    {
-	return m_textures;
-    }
+    float get_hud_height() { return m_sc_height / hud_scale(); }
 
-    material_manager& materials ()
-    {
-	return m_materials;
-    }
+    void set_scene(boost::shared_ptr<gra::scene> scene) { m_scene = scene; }
 
-    geometry_manager& geometries ()
-    {
-	return m_geometries;
-    }
+    texture_manager& textures() { return m_textures; }
 
-    font_manager& fonts ()
-    {
-	return m_fonts;
-    }
+    material_manager& materials() { return m_materials; }
+
+    geometry_manager& geometries() { return m_geometries; }
+
+    font_manager& fonts() { return m_fonts; }
 
 private:
     friend class system_impl;
 
-    graphic_system ();
-    void do_init ();
+    graphic_system();
+    void do_init();
+    void set_video_mode();
+#ifdef __EMSCRIPTEN__
+    void fit_canvas();
+#endif
+
+    /* Window pixels per unit of the 2D overlay. */
+    float hud_scale()
+    {
+        return std::min(float(m_sc_width) / HUD_WIDTH,
+                        float(m_sc_height) / HUD_HEIGHT);
+    }
 
     int m_sc_width;
     int m_sc_height;
+    int m_win_width;
+    int m_win_height;
+    int m_desktop_width;
+    int m_desktop_height;
     bool m_fullsc;
     bool m_grab;
     std::string m_title;
@@ -181,10 +190,10 @@ private:
 
     boost::shared_ptr<gra::scene> m_scene;
 
-    texture_manager  m_textures;
+    texture_manager m_textures;
     material_manager m_materials;
     geometry_manager m_geometries;
-    font_manager     m_fonts;
+    font_manager m_fonts;
 };
 
 } /* namespace core */

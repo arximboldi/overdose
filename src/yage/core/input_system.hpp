@@ -33,47 +33,40 @@
 #include <yage/core/mouse_observer.hpp>
 #include <yage/core/video_observer.hpp>
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-class input_system : public key_subject,
-		     public mouse_subject,
-		     public video_subject
+class input_system
+    : public key_subject
+    , public mouse_subject
+    , public video_subject
 {
 public:
-    bool update ();
+    bool update();
 
-    void add_video_listener (video_listener& l)
+    void add_video_listener(video_listener& l)
     {
-	video_subject::add_listener (l);
+        video_subject::add_listener(l);
     }
 
-    void del_video_listener (video_listener& l)
+    void del_video_listener(video_listener& l)
     {
-	video_subject::del_listener (l);
+        video_subject::del_listener(l);
     }
 
-    void add_mouse_listener (mouse_listener& l)
+    void add_mouse_listener(mouse_listener& l)
     {
-	mouse_subject::add_listener (l);
+        mouse_subject::add_listener(l);
     }
 
-    void del_mouse_listener (mouse_listener& l)
+    void del_mouse_listener(mouse_listener& l)
     {
-	mouse_subject::del_listener (l);
+        mouse_subject::del_listener(l);
     }
 
-    void add_key_listener (key_listener& l)
-    {
-	key_subject::add_listener (l);
-    }
+    void add_key_listener(key_listener& l) { key_subject::add_listener(l); }
 
-    void del_key_listener (key_listener& l)
-    {
-	key_subject::del_listener (l);
-    }
+    void del_key_listener(key_listener& l) { key_subject::del_listener(l); }
 };
 
 } /* namespace core */

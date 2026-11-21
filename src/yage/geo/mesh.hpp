@@ -33,93 +33,86 @@
 #ifndef YAGE_MESH_H
 #define YAGE_MESH_H
 
-#include <vector>
-#include <SDL/SDL_opengl.h>
-#include <SDL/SDL.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
 #include <boost/shared_ptr.hpp>
+#include <vector>
 
+#include <yage/base/exception.hpp>
 #include <yage/base/point2.hpp>
 #include <yage/base/point3.hpp>
 #include <yage/base/point4.hpp>
-#include <yage/base/exception.hpp>
 
 #include <yage/gra/geometry.hpp>
 
-namespace yage
-{
+namespace yage {
 
-namespace gra
-{
+namespace gra {
 class texture;
 class material;
-}
+} // namespace gra
 
-namespace geo
-{
+namespace geo {
 
-YAGE_DECLARE_ERROR (base::yage_error, mesh_error);
+YAGE_DECLARE_ERROR(base::yage_error, mesh_error);
 
 class mesh : public gra::geometry
 {
 public:
     enum polygon_type
     {
-	TRIANGLES = GL_TRIANGLES,
-	QUADS     = GL_QUADS
+        TRIANGLES = GL_TRIANGLES,
+        QUADS     = GL_QUADS
     };
 
     enum normal_type
     {
-	NONE = 0,
-	FACE,
-	VERTEX
+        NONE = 0,
+        FACE,
+        VERTEX
     };
 
-    mesh ();
+    mesh();
 
-    void begin (polygon_type mode,
-		int n_vertex_est = 0,
-		normal_type normal = VERTEX);
-    void end ();
+    void
+    begin(polygon_type mode, int n_vertex_est = 0, normal_type normal = VERTEX);
+    void end();
 
-    void point (const base::point3f& p);
-    void tex_coord (const base::point2f& t);
-    void colour (const base::point3f& p);
+    void point(const base::point3f& p);
+    void tex_coord(const base::point2f& t);
+    void colour(const base::point3f& p);
 
-    void set_material (boost::shared_ptr<gra::material> material)
+    void set_material(boost::shared_ptr<gra::material> material)
     {
-	m_material = material;
+        m_material = material;
     }
 
-    void set_texture (boost::shared_ptr<gra::texture> texture)
+    void set_texture(boost::shared_ptr<gra::texture> texture)
     {
-	m_texture = texture;
+        m_texture = texture;
     }
 
-    bool get_state () const
-    {
-	return m_working;
-    }
+    bool get_state() const { return m_working; }
 
-    void draw ();
+    void draw();
 
-    void draw_raw ();
+    void draw_raw();
 
 private:
     struct mesh_point
     {
-	base::point2f tex;
-	base::point3f point;
-	base::point3f colour;
-	base::point3f norm;
-	bool has_colour;
-	bool has_tex;
+        base::point2f tex;
+        base::point3f point;
+        base::point3f colour;
+        base::point3f norm;
+        bool has_colour;
+        bool has_tex;
     };
 
     struct mesh_face
     {
-	base::point3f tri [3];
-	base::point3f norm;
+        base::point3f tri[3];
+        base::point3f norm;
     };
 
     std::vector<mesh_point> m_vertex;
@@ -134,16 +127,16 @@ private:
     bool m_faces_normal;
     bool m_vertex_normal;
 
-    boost::shared_ptr<gra::texture>  m_texture;
+    boost::shared_ptr<gra::texture> m_texture;
     boost::shared_ptr<gra::material> m_material;
 
-    void normalize_faces ();
-    void normalize_vertex ();
+    void normalize_faces();
+    void normalize_vertex();
 
-    void check_state (bool expected)
+    void check_state(bool expected)
     {
-	if (m_working != expected)
-	    throw mesh_error ();
+        if (m_working != expected)
+            throw mesh_error();
     }
 };
 

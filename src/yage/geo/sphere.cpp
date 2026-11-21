@@ -24,48 +24,46 @@
  *
  */
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 #include "sphere.hpp"
 
 using namespace yage::base;
 
-namespace yage
-{
-namespace geo
-{
+namespace yage {
+namespace geo {
 
-sphere::sphere (size_t division)
+sphere::sphere(size_t division)
 {
     size_t i, j;
 
-    begin (mesh::QUADS);
+    begin(mesh::QUADS);
     for (i = 0; i < division; ++i) {
-	for (j = 0; j < division/2; j++) {
-	    point (point3f (sin (2 * M_PI * (float) j / division) *
-			    cos (2 * M_PI * (float) i / division),
-			    cos (2 * M_PI * (float) j / division),
-			    sin (2 * M_PI * (float) j / division) *
-			    sin (2 * M_PI * (float) i / division)));
-	    point (point3f (sin (2 * M_PI * (float) j / division) *
-			    cos (2 * M_PI * (float) (i+1) / division),
-			    cos (2 * M_PI * (float) j / division),
-			    sin (2 * M_PI * (float) j / division) *
-			    sin (2 * M_PI * (float) (i+1) / division)));
-	    point (point3f (sin (2 * M_PI * (float) (j+1) / division) *
-			    cos (2 * M_PI * (float) (i+1) / division),
-			    cos (2 * M_PI * (float) (j+1) / division),
-			    sin (2 * M_PI * (float) (j+1) / division) *
-			    sin (2 * M_PI * (float) (i+1) / division)));
-	    point (point3f (sin (2 * M_PI * (float) (j+1) / division) *
-			    cos (2 * M_PI * (float) i / division),
-			    cos (2 * M_PI * (float) (j+1) / division),
-			    sin (2 * M_PI * (float) (j+1) / division) *
-			    sin (2 * M_PI * (float) i / division)));
-	}
+        for (j = 0; j < division / 2; j++) {
+            point(point3f(sin(2 * M_PI * (float) j / division) *
+                              cos(2 * M_PI * (float) i / division),
+                          cos(2 * M_PI * (float) j / division),
+                          sin(2 * M_PI * (float) j / division) *
+                              sin(2 * M_PI * (float) i / division)));
+            point(point3f(sin(2 * M_PI * (float) j / division) *
+                              cos(2 * M_PI * (float) (i + 1) / division),
+                          cos(2 * M_PI * (float) j / division),
+                          sin(2 * M_PI * (float) j / division) *
+                              sin(2 * M_PI * (float) (i + 1) / division)));
+            point(point3f(sin(2 * M_PI * (float) (j + 1) / division) *
+                              cos(2 * M_PI * (float) (i + 1) / division),
+                          cos(2 * M_PI * (float) (j + 1) / division),
+                          sin(2 * M_PI * (float) (j + 1) / division) *
+                              sin(2 * M_PI * (float) (i + 1) / division)));
+            point(point3f(sin(2 * M_PI * (float) (j + 1) / division) *
+                              cos(2 * M_PI * (float) i / division),
+                          cos(2 * M_PI * (float) (j + 1) / division),
+                          sin(2 * M_PI * (float) (j + 1) / division) *
+                              sin(2 * M_PI * (float) i / division)));
+        }
     }
-    end ();
+    end();
 }
 
 } /* namespace geo */

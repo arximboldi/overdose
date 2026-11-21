@@ -26,22 +26,20 @@
 
 #include "video_observer.hpp"
 
-namespace yage
-{
-namespace core
-{
+namespace yage {
+namespace core {
 
-void video_subject::add_listener (video_listener& l)
+void video_subject::add_listener(video_listener& l)
 {
-    on_video_update.connect (sigc::mem_fun (l, &video_listener::handle_video_update));
-    on_video_resize.connect (sigc::mem_fun (l, &video_listener::handle_video_resize));
+    connect_slot(l,
+                 on_video_update,
+                 sigc::mem_fun(l, &video_listener::handle_video_update));
+    connect_slot(l,
+                 on_video_resize,
+                 sigc::mem_fun(l, &video_listener::handle_video_resize));
 }
 
-void video_subject::del_listener (video_listener& l)
-{
-    remove_slot (on_video_resize, sigc::mem_fun (l, &video_listener::handle_video_resize));
-    remove_slot (on_video_update, sigc::mem_fun (l, &video_listener::handle_video_update));
-}
+void video_subject::del_listener(video_listener& l) { disconnect_listener(l); }
 
 } /* namespace core */
 } /* namespace yage */

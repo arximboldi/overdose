@@ -32,51 +32,41 @@
 #include <yage/core/task.hpp>
 #include <yage/gra/camera.hpp>
 
-namespace dose
-{
-namespace tool
-{
+namespace dose {
+namespace tool {
 
-class fly_camera_controller : public yage::core::key_listener
-			    , public yage::core::mouse_listener
-			    , public yage::core::task
+class fly_camera_controller
+    : public yage::core::key_listener
+    , public yage::core::mouse_listener
+    , public yage::core::task
 {
 public:
-    static constexpr float DEFAULT_MOVE_SPEED = 0.5;
+    static constexpr float DEFAULT_MOVE_SPEED   = 0.5;
     static constexpr float DEFAULT_ROTATE_SPEED = 0.005;
 
-    fly_camera_controller (yage::gra::camera_ptr cam = yage::gra::camera_ptr (),
-			   float move_speed   = DEFAULT_MOVE_SPEED,
-			   float rotate_speed = DEFAULT_ROTATE_SPEED);
+    fly_camera_controller(yage::gra::camera_ptr cam = yage::gra::camera_ptr(),
+                          float move_speed          = DEFAULT_MOVE_SPEED,
+                          float rotate_speed        = DEFAULT_ROTATE_SPEED);
 
-    void update (int delta);
+    void update(int delta);
 
-    bool handle_key_press (SDL_Event& ev);
-    bool handle_key_release (SDL_Event& ev);
-    bool handle_mouse_move (SDL_Event& ev);
+    bool handle_key_press(SDL_Event& ev);
+    bool handle_key_release(SDL_Event& ev);
+    bool handle_mouse_move(SDL_Event& ev);
 
-    bool handle_mouse_button_press (SDL_Event& ev)
-    {
-	return false;
-    }
+    bool handle_mouse_button_press(SDL_Event& ev) { return false; }
 
-    bool handle_mouse_button_release (SDL_Event& ev)
-    {
-	return false;
-    }
+    bool handle_mouse_button_release(SDL_Event& ev) { return false; }
 
-    void set_camera (yage::gra::camera_ptr cam)
-    {
-	m_camera = cam;
-    }
+    void set_camera(yage::gra::camera_ptr cam) { m_camera = cam; }
 
 private:
     enum movement
     {
-	STRAFE_LEFT   = 1,
-	STRAFE_RIGHT  = 1 << 2,
-	MOVE_FORWARD  = 1 << 3,
-	MOVE_BACKWARD = 1 << 4
+        STRAFE_LEFT   = 1,
+        STRAFE_RIGHT  = 1 << 2,
+        MOVE_FORWARD  = 1 << 3,
+        MOVE_BACKWARD = 1 << 4
     };
 
     yage::gra::camera_ptr m_camera;
